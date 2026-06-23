@@ -68,9 +68,10 @@ done.
 
 Frontmatter schemas, folders, enums, and conventions live in `docs/vault-design.md`
 (in the hq plugin; the SessionStart hook gives its absolute path). Read it before
-creating or editing any frontmatter. Ready-to-copy templates are at
-`${CLAUDE_PLUGIN_ROOT}/templates/` (read from the plugin, never copied into the
-vault). Status fields use the documented enums, never free text; `company:` /
+creating or editing any frontmatter. Ready-to-copy templates live in the plugin's
+`templates/` directory — the SessionStart hook surfaces its absolute path
+(`${CLAUDE_PLUGIN_ROOT}/templates/` when running inside a command). They are read
+from the plugin, never copied into the vault. Status fields use the documented enums, never free text; `company:` /
 `owner:` values come from `hq.config.yml`, and a vault may *extend* (never replace)
 the default enum sets via `vault.enums`.
 
@@ -89,7 +90,7 @@ Run `/validate-vault` to check all of this.
 ## Creating a file
 
 1. Frontmatter matching the type's schema in `docs/vault-design.md` (copy from the
-   matching `${CLAUDE_PLUGIN_ROOT}/templates/` file).
+   matching file in the plugin's `templates/` — the hook surfaces its absolute path).
 2. Update the relevant `index.md`.
 3. If it's an initiative, add it to README "What's Active" when active.
 
