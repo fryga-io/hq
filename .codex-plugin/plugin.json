@@ -1,0 +1,38 @@
+{
+  "name": "hq",
+  "description": "An AI-operated company brain — a structured markdown vault plus the skills and session rules that operate it",
+  "version": "0.1.0",
+  "author": {
+    "name": "Marcin Ostrowski",
+    "email": "marcin@fryga.io"
+  },
+  "homepage": "https://github.com/fryga-io/hq",
+  "repository": "https://github.com/fryga-io/hq",
+  "license": "MIT",
+  "keywords": [
+    "vault",
+    "knowledge-management",
+    "obsidian",
+    "company-brain",
+    "ai-ops",
+    "markdown"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "hq",
+    "shortDescription": "Operate an AI-managed company-brain vault",
+    "longDescription": "hq turns a markdown vault into an AI-operated company brain. Inside a vault it loads the operating rules, schema, and conventions so the agent maintains initiatives, tasks, knowledge, a decision log, and a CRM as structured, self-consistent markdown.",
+    "developerName": "Marcin Ostrowski",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me operate my hq vault.",
+      "Log this decision in the vault."
+    ],
+    "websiteURL": "https://github.com/fryga-io/hq"
+  }
+}

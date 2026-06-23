@@ -112,3 +112,7 @@ first, then the README, then existing files.
 - `/add-to-library` — capture an external signal (URL, video, pasted text).
 - `/weekly` — structured weekly rollup.
 - `/hq-init` — scaffold a fresh vault (once, in an empty directory).
+
+> On harnesses other than Claude Code, the tool and command names in these rules
+> may differ or be unavailable — see [`references/codex-tools.md`](references/codex-tools.md)
+> for the Codex equivalents (these slash commands are Claude-only).

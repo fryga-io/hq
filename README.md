@@ -13,7 +13,7 @@ agent are two interfaces over them. Your content stays private; only the
 creates and operates — a directory of markdown you might call "Acme HQ". One
 plugin, many vaults: install `hq` once, scaffold a vault per company.
 
-## Install
+## Install in Claude Code
 
 `hq` is distributed through the **fryga** plugin marketplace. From inside Claude
 Code:
@@ -27,6 +27,26 @@ then restart Claude Code.
 
 (Hacking on the plugin itself? The repo ships a dev marketplace — add your local
 checkout with `/plugin marketplace add ./` and install `hq@hq-dev`.)
+
+## Install in Codex
+
+hq also runs under OpenAI **Codex** (CLI v0.117+). Codex's plugin system is
+Claude-Code-compatible, so the same skills and the SessionStart hook work there.
+From a checkout of this repo:
+
+```
+codex plugin marketplace add ./
+```
+
+Then open the plugin directory in Codex, install **hq**, and **trust its hook**:
+run `/hooks` and trust the `SessionStart` hook so the vault rules load. Codex keys
+trust to the hook's hash, so a release that changes the hook re-prompts `/hooks`.
+
+With the plugin enabled and the hook trusted, starting Codex inside a vault loads
+the `using-hq` rules automatically — the same self-scoped injection as Claude Code
+(outside a vault, nothing loads). hq's slash commands are **Claude-only** for now;
+in Codex, follow `skills/using-hq/references/codex-tools.md` for the equivalents.
+The hook is verified on macOS/Linux; Windows under Codex is untested.
 
 ## Quick start
 
