@@ -1,0 +1,21 @@
+{
+  "name": "hq",
+  "description": "An AI-operated company brain — a structured markdown vault plus the Claude Code commands that maintain it",
+  "version": "0.1.0",
+  "author": {
+    "name": "Marcin Ostrowski",
+    "email": "marcin@fryga.io"
+  },
+  "homepage": "https://github.com/fryga-io/hq",
+  "repository": "https://github.com/fryga-io/hq",
+  "license": "MIT",
+  "keywords": [
+    "vault",
+    "knowledge-management",
+    "obsidian",
+    "company-brain",
+    "ai-ops",
+    "markdown",
+    "commands"
+  ]
+}

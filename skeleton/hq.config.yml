@@ -1,0 +1,45 @@
+# hq.config.yml — the seam that makes this vault generic.
+#
+# Every command reads this file. Tools find it by walking up from the working
+# directory until they hit a directory containing hq.config.yml (the way `git`
+# finds `.git`). That directory is the vault root.
+#
+# Replace these values with your own. Nothing in the OS hardcodes a company,
+# team member, or filename — it all comes from here.
+
+# PLACEHOLDER STARTER — replace every value below via onboarding (`/hq-init`).
+# These are obvious stubs, not a real company. They exist only so the skeleton
+# validates out of the box.
+
+# Companies this vault operates for. `company:` frontmatter must be one of these
+# handles (or a list of them). The first entry is the default.
+companies:
+  - example-co      # replace with your company handle
+
+# Team roster. Frontmatter `owner:` must be one of these handles.
+# `initials` sign dated entries in file bodies (e.g. "2026-06-22 (YN): ...").
+team:
+  - handle: you
+    name: Your Name
+    initials: YN
+
+vault:
+  # Canon files: load-bearing source-of-truth documents this vault treats as
+  # authoritative. validate-vault confirms each declared canon file exists.
+  # Empty until you add one (e.g. knowledge/company-canon.md).
+  canon: []
+  # link_whitelist: []   # optional: folders whose external/site-relative links
+                         # are intentional published-site URLs (e.g. a verbatim
+                         # copy of the live site). dream's link-integrity check
+                         # skips these folders entirely. Default: absent/empty.
+
+  # enums:               # optional: EXTEND (never replace) the OS-default enum sets.
+  #   pipeline: []       #   extra CRM pipeline stages (e.g. [scored, nurturing])
+  #   content_status: [] #   extra distillery content statuses (e.g. [scheduled, planned])
+  #   log_type: []       #   extra log types (e.g. [retro])
+                         # validate-vault accepts OS_defaults ∪ your list per enum.
+
+  # crm:                 # optional: extra tags that mark a CRM file's type, so a
+  #   company_tags: []   #   per-motion vault can tag companies by motion
+  #   contact_tags: []   #   (e.g. company_tags: [company, outbound-lead]).
+                         # Effective set is {company}/{contact} ∪ your list.

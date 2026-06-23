@@ -1,0 +1,23 @@
+filters:
+  and:
+    - file.hasTag("crm")
+    - 'file.ext == "md"'
+    - '!file.inFolder("templates")'
+
+properties:
+  pipeline:
+    displayName: Stage
+  grade:
+    displayName: Grade
+
+views:
+  - type: table
+    name: "Pipeline"
+    order:
+      - file.name
+      - pipeline
+      - grade
+      - created
+    groupBy:
+      property: pipeline
+      direction: ASC

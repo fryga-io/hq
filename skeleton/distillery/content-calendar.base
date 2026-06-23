@@ -1,0 +1,23 @@
+filters:
+  and:
+    - file.hasTag("content")
+    - 'file.ext == "md"'
+    - '!file.inFolder("templates")'
+
+properties:
+  status:
+    displayName: Status
+  channel:
+    displayName: Channel
+
+views:
+  - type: table
+    name: "Content Calendar"
+    order:
+      - file.name
+      - channel
+      - status
+      - published_date
+    groupBy:
+      property: status
+      direction: ASC
