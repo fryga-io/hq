@@ -445,10 +445,10 @@ Required body sections: `## Summary`, `## Details`, `## Outcome`. Filename
 tags:
   - log
   - weekly
-title: "Weekly — Week {{week_number}} ({{date_range}})"
-week: {{iso_week}}         # e.g. "2026-W26"
-date_start: {{monday}}    # YYYY-MM-DD
-date_end: {{sunday}}      # YYYY-MM-DD
+title: "Weekly — Week 26 (June 22–28)"
+week: 2026-W26
+date_start: 2026-06-22
+date_end: 2026-06-28
 ---
 ```
 
