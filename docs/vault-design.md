@@ -1,6 +1,6 @@
 # Vault Design
 
-The single source of design for an Agent-OS vault. What each scope is, how it
+The single source of design for an hq vault. What each scope is, how it
 works, and the schema and conventions that hold it together. If a folder, file
 type, or workflow is not described here, it does not belong in the vault until
 it is.

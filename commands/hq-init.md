@@ -1,8 +1,8 @@
 ---
-description: "Interactive onboarding for a fresh Agent-OS vault. Interviews the operator for identity (companies, team roster, a one-line description), copies the content-free seed skeleton into the current directory (its empty index.md/wiki.md stubs and dashboards), and writes a personalized hq.config.yml, CLAUDE.md, and README.md. Produces a clean, empty, personalized vault that passes /validate-vault with zero errors. No example content, no vault-local templates (those live at the plugin root)."
+description: "Interactive onboarding for a fresh hq vault. Interviews the operator for identity (companies, team roster, a one-line description), copies the content-free seed skeleton into the current directory (its empty index.md/wiki.md stubs and dashboards), and writes a personalized hq.config.yml, CLAUDE.md, and README.md. Produces a clean, empty, personalized vault that passes /validate-vault with zero errors. No example content, no vault-local templates (those live at the plugin root)."
 ---
 
-Onboard a new Agent-OS vault in the **current working directory**. This is an
+Onboard a new hq vault in the **current working directory**. This is an
 interactive command: it interviews the operator for the vault's *identity*
 (companies, team, a one-line description), then scaffolds a clean, **empty,
 personalized** vault by copying the content-free skeleton at
@@ -236,9 +236,9 @@ company-specific policy. For reference, the result is:
 ```markdown
 # <Company Name> HQ — Agent Rules
 
-This vault runs on the **hq** Agent OS (a Claude Code plugin). Its operating
-rules, schema, and conventions load automatically each session via the plugin's
-`using-hq` skill, injected by hq's SessionStart hook. If they did not load (for
+This is **<Company Name> HQ**, an hq vault. It runs on the **hq** plugin, which
+supplies its operating rules, schema, and conventions each session via the
+`using-hq` skill (injected by hq's SessionStart hook). If they did not load (for
 example the plugin is not installed), invoke the `using-hq` skill manually.
 
 Identity — companies, team roster, canon files, enum/CRM extensions — lives in
@@ -247,7 +247,8 @@ Identity — companies, team roster, canon files, enum/CRM extensions — lives 
 ## Company-specific instructions
 
 (None yet — add policy here that is specific to this company and is not part of
-the hq OS.)
+hq itself. The generic rules stay in the plugin so they update centrally and
+never go stale.)
 ```
 
 ## Step 7: Verify and report
