@@ -113,6 +113,7 @@ first, then the README, then existing files.
 - `/weekly` — structured weekly rollup.
 - `/hq-init` — scaffold a fresh vault (once, in an empty directory).
 
-> On harnesses other than Claude Code, the tool and command names in these rules
-> may differ or be unavailable — see [`references/codex-tools.md`](references/codex-tools.md)
-> for the Codex equivalents (these slash commands are Claude-only).
+> On harnesses other than Claude Code, the slash commands above are unavailable and
+> some tool names differ. For the Codex equivalents, read
+> `skills/using-hq/references/codex-tools.md` in the hq plugin — same plugin root as
+> the `docs/vault-design.md` path your session was given.

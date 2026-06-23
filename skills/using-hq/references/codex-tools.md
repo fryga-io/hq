@@ -20,7 +20,7 @@ mechanism. When the injected rules tell you to run one, do this instead:
 
 | Command | In Codex |
 |---|---|
-| `/validate-vault` | No command exists. Run the **"Before every commit"** checklist from `using-hq` by hand: indexes current, README "What's Active" current, frontmatter matches `docs/vault-design.md`, all wikilinks resolve, every `.base` carries its guard. |
+| `/validate-vault` | No command exists in Codex. The **"Before every commit"** checklist in `using-hq` is only a quick subset — the full check (`commands/validate-vault.md`, Claude-only) runs 7 tests, including README two-hop reachability and library `index.md` ↔ `wiki.md` sync, which the checklist omits. Verify those by hand too, or run `/validate-vault` from a Claude Code session before publishing. |
 | `/dream` | Claude-only in v1 — not available in Codex. |
 | `/weekly` | Claude-only in v1 — not available in Codex. |
 | `/add-to-library` | Claude-only in v1 — not available in Codex. |

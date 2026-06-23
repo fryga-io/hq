@@ -30,9 +30,10 @@ checkout with `/plugin marketplace add ./` and install `hq@hq-dev`.)
 
 ## Install in Codex
 
-hq also runs under OpenAI **Codex** (CLI v0.117+). Codex's plugin system is
-Claude-Code-compatible, so the same skills and the SessionStart hook work there.
-From a checkout of this repo:
+hq also runs under OpenAI **Codex** — any CLI recent enough to have the plugin
+marketplace (i.e. the `codex plugin marketplace add` command used below). Codex's
+plugin system is Claude-Code-compatible, so the same `using-hq` skill and the
+SessionStart hook work there. From a checkout of this repo:
 
 ```
 codex plugin marketplace add ./
