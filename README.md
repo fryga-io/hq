@@ -60,9 +60,6 @@ The plugin ships:
 - `hooks/` — a SessionStart hook that injects `using-hq` into every session **that
   is inside a vault** (it walks up for `hq.config.yml`; outside a vault it stays
   silent). This is what makes the rules reachable in a normal session.
-- `templates/` — the canonical frontmatter templates for each file type. They
-  live at the plugin root and are read from there; they are **not** copied into
-  your vault.
 - `skeleton/` — a **content-free** structural skeleton (empty index/wiki stubs
   and dashboards) that `/hq-init` copies to scaffold a new vault.
 - `docs/vault-design.md` — the schema spec: structure, frontmatter schemas, and

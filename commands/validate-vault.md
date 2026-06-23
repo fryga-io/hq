@@ -178,7 +178,7 @@ Apply this to `initiatives/`, `tasks/`, `knowledge/`, `log/`, and (if present)
   checked against its own sub-index per the subfolder rule above. In `library/`,
   treat `wiki.md` (and a subfolder's `playlist.md`-style watchlist) as maintained
   module files — neither expected in an index nor counted as unindexed. Library item
-  ↔ wiki sync is checked separately in Test 8.
+  ↔ wiki sync is checked separately in Test 7.
 - **`crm/`** — typically Bases-indexed: `crm/index.md` embeds a `pipeline.base` and
   the company/contact subfolders carry no local index, so the companies and contacts
   are discoverable via the Base, not a hand-maintained wikilink list. A small CRM
@@ -198,8 +198,8 @@ Apply this to `initiatives/`, `tasks/`, `knowledge/`, `log/`, and (if present)
   against that subfolder index per the subfolder rule.
 
 **Output-only folders are never indexed** and must not be scanned or flagged:
-`dream/` (the `/dream` cycle's reports and salience dashboard),
-`_templates`/`templates`, and `dashboards`. When scanning `log/`, skip the
+`dream/` (the `/dream` cycle's reports and salience dashboard) and
+`dashboards`. When scanning `log/`, skip the
 `log/weekly/` subfolder entirely — weekly rollups (`log/weekly/YYYY-Wnn.md`) are
 output-only generated summaries, not authored entries, and are not expected in
 `log/index.md`. These conventions are documented in `docs/vault-design.md`.
@@ -215,58 +215,26 @@ If the vault has any `.base` files (e.g. in `dashboards/`):
 
 Note: view-specific `.base` files conventionally add further filters on top of
 the `file.ext == "md"` guard — for example, a task dashboard typically also
-carries `file.hasTag("task")` and `!file.inFolder("templates")`. These
-additional filters are not enforced by this test but are expected in practice.
+carries `file.hasTag("task")`. This additional filter is not enforced by this
+test but is expected in practice.
 
 If the vault has no `.base` files, record Test 5 as PASS (nothing to check) — the
 OS does not require dashboards.
 
-## Test 6: Template vs schema match
-
-Templates are canonical at the plugin root (`${CLAUDE_PLUGIN_ROOT}/templates/`),
-not inside the vault. This test validates that single canonical set against the
-schema spec. An `/hq-init` adopter vault ships **no** vault-local `templates/`
-folder (the skeleton ships none, and the command creates none); a vault may
-nonetheless choose to mirror the templates locally under `templates/`, and if it
-does, validate that copy too.
-
-This test is a **plugin-integrity check, not a vault-content check.** Resolve the
-templates directory accordingly:
-
-- Read `docs/vault-design.md` (the schema spec).
-- Resolve the templates directory: prefer `${CLAUDE_PLUGIN_ROOT}/templates/`
-  (the OS's canonical set); fall back to a vault-local `templates/` if the plugin
-  root is not resolvable in this environment.
-  - If a templates directory **resolves** (either the plugin set or a vault-local
-    copy), validate it: confirm each template carries the fields its schema
-    requires.
-  - If **neither resolves** in the current context — `${CLAUDE_PLUGIN_ROOT}` is
-    unbound (e.g. when these checks run transitively from `/hq-init`'s Step 7
-    verify or `/dream`'s lint) **and** the vault has no local `templates/` — record
-    Test 6 as **PASS with a note** ("templates not resolvable in this context;
-    plugin-integrity check skipped"). Do **not** FAIL: the canonical templates
-    live in the plugin, not the vault, so their absence from a content-only context
-    is not a vault defect. A direct `/validate-vault` run with the plugin root bound
-    still validates them.
-- `weekly.md` is an output template (its generated files are output artifacts,
-  not authored content). Check it against the "Weekly output file" schema in
-  `docs/vault-design.md` (`tags`, `title`, `week`, `date_start`, `date_end`). Do
-  **not** apply content-schema checks (Tests 2–4) to files in `log/weekly/`.
-
-## Test 7: README accuracy
+## Test 6: README accuracy
 
 - Does the README's "What's Active Right Now" list every initiative with
   `status: active`?
 - Can every content file be reached within two hops from the README via the
   indexes (progressive disclosure)? Exclude output-only folders that are not
   content and intentionally unindexed: `dream/` (maintenance-cycle output),
-  `log/weekly/` (weekly rollup output), `_templates`/`templates`, and
-  `dashboards`. Their files are not expected to be reachable from the README.
+  `log/weekly/` (weekly rollup output) and `dashboards`. Their files are not
+  expected to be reachable from the README.
 
-## Test 8: Library index ↔ wiki sync
+## Test 7: Library index ↔ wiki sync
 
 Only if the vault has a `library/` folder (the module is optional — if absent,
-record Test 8 as PASS, nothing to check).
+record Test 7 as PASS, nothing to check).
 
 The library module keeps two maintained files in lockstep: `library/index.md`
 (thin one-line pointers) and `library/wiki.md` (the synthesis layer). Every

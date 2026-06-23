@@ -99,7 +99,7 @@ Run the `validate-vault` checks, then **fix** the mechanical failures:
 - Sync README "What's Active Right Now" to current `status: active` initiatives.
 - Normalize frontmatter that drifts from the schema in `docs/vault-design.md` (enum typos, deterministically-fillable required fields). Validate `company`/`owner` values against `companies`/`team` in the config.
 - Fold dated appendices into current-state prose. Detect by scanning every `## ` heading for a literal `Update`/`Changelog`/`Progress` word OR a date (`## 2026-05-19 …`, `as of <date>`). Fold only the determinate ones; route judgment-laden ones (load-bearing positioning) to *Needs your call*. (Does not apply to `log/`, which is inherently dated.)
-- Verify `.base` guard filters are consistent (`file.ext == "md"`, `_templates`/`templates` excluded).
+- Verify `.base` guard filters are consistent (`file.ext == "md"` minimum).
 
 Report counts fixed per category; ambiguous breakage → *Needs your call*.
 

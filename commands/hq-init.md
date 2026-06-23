@@ -1,5 +1,5 @@
 ---
-description: "Interactive onboarding for a fresh hq vault. Interviews the operator for identity (companies, team roster, a one-line description), copies the content-free seed skeleton into the current directory (its empty index.md/wiki.md stubs and dashboards), and writes a personalized hq.config.yml, CLAUDE.md, and README.md. Produces a clean, empty, personalized vault that passes /validate-vault with zero errors. No example content, no vault-local templates (those live at the plugin root)."
+description: "Interactive onboarding for a fresh hq vault. Interviews the operator for identity (companies, team roster, a one-line description), copies the content-free seed skeleton into the current directory (its empty index.md/wiki.md stubs and dashboards), and writes a personalized hq.config.yml, CLAUDE.md, and README.md. Produces a clean, empty, personalized vault that passes /validate-vault with zero errors. No example content."
 ---
 
 Onboard a new hq vault in the **current working directory**. This is an
@@ -79,12 +79,6 @@ automatically.
 `${CLAUDE_PLUGIN_ROOT}/skeleton/hq.config.yml`, `skeleton/CLAUDE.md`, or
 `skeleton/README.md`. You regenerate those three from the interview answers in
 the next steps.
-
-**Do not create a vault-local `templates/` folder.** Templates are canonical at
-the plugin root; the vault reads them from `${CLAUDE_PLUGIN_ROOT}/templates/`
-when adding real entries. The skeleton ships no `templates/` folder, and neither
-should the scaffolded vault. (`validate-vault`'s Test 6 resolves templates from
-the plugin root.)
 
 After this step the working directory holds the empty content folders, the
 dashboards, and nothing else yet — no instance files.
@@ -180,8 +174,7 @@ Navigation list" below; do not hardcode this list>
 
 ## What's Active Right Now
 
-_No active initiatives yet. Add one with the hq initiative template, then
-list it here._
+_No active initiatives yet. Add one, then list it here._
 
 ## Maintenance
 
@@ -259,7 +252,7 @@ must PASS with zero errors. Report:
 
 - The companies and team members you scaffolded.
 - The resulting tree (the empty content folders, the dashboards, and the three
-  identity files — and confirm there is **no** vault-local `templates/` folder).
+  identity files).
 - That every `index.md` (and `library/wiki.md`) is empty-but-valid (frontmatter
   + intro, no dangling wikilinks).
 - The `validate-vault` result.

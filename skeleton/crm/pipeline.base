@@ -2,7 +2,6 @@ filters:
   and:
     - file.hasTag("crm")
     - 'file.ext == "md"'
-    - '!file.inFolder("templates")'
 
 properties:
   pipeline:

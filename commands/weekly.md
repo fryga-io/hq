@@ -55,9 +55,28 @@ inside it — `log/weekly/` is an output-only folder, intentionally unindexed
 
 ## Step 4: Write the weekly
 
-Create (or update) `log/weekly/YYYY-Wnn.md` using the template in
-`${CLAUDE_PLUGIN_ROOT}/templates/weekly.md`. Fill every section from the gathered data. Writing
-discipline:
+Create (or update) `log/weekly/YYYY-Wnn.md` with this frontmatter and section
+skeleton, filling every section from the gathered data:
+
+```markdown
+---
+tags: [log, weekly]
+title: "Weekly — Week <N> (<date range>)"
+week: <YYYY-Www>
+date_start: <Monday YYYY-MM-DD>
+date_end: <Sunday YYYY-MM-DD>
+---
+
+## TL;DR
+## This Week's Theme
+## Weather Report
+## By Initiative
+## Decisions
+## Next Week
+## Blockers
+```
+
+Writing discipline:
 
 - **Short sentences, active voice, no filler.** Every sentence carries a
   fact — a commit, a status change, a decision logged, a task completed.

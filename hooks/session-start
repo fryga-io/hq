@@ -72,7 +72,7 @@ plugin_root_escaped="$(escape_for_json "$PLUGIN_ROOT")"
 # Structural text uses literal \n (backslash-n) for newlines, matching the escaped
 # skill content; printf %s inserts it without interpreting backslashes. Backticks
 # are escaped so bash does not run command substitution inside the double quotes.
-session_context="<EXTREMELY_IMPORTANT>\nYou are operating an hq vault (root: ${vault_root_escaped}).\n\nThis vault's identity — company list, team roster, canon files, enum/CRM extensions — is in \`${vault_root_escaped}/hq.config.yml\`. Read it before acting.\n\nThe vault-design schema spec is at \`${plugin_root_escaped}/docs/vault-design.md\`. Read it before creating or editing any file's frontmatter, and copy ready-to-use frontmatter templates from \`${plugin_root_escaped}/templates/\`.\n\n**Below is the full content of your 'hq:using-hq' skill — the operating rules for this vault. Follow them. Use the slash commands for the rest:**\n\n${skill_escaped}\n</EXTREMELY_IMPORTANT>"
+session_context="<EXTREMELY_IMPORTANT>\nYou are operating an hq vault (root: ${vault_root_escaped}).\n\nThis vault's identity — company list, team roster, canon files, enum/CRM extensions — is in \`${vault_root_escaped}/hq.config.yml\`. Read it before acting.\n\nThe vault-design schema spec is at \`${plugin_root_escaped}/docs/vault-design.md\`. Read it before creating or editing any file's frontmatter.\n\n**Below is the full content of your 'hq:using-hq' skill — the operating rules for this vault. Follow them. Use the slash commands for the rest:**\n\n${skill_escaped}\n</EXTREMELY_IMPORTANT>"
 
 # Emit context injection, matching the platform's expected field (mirrors how the
 # superpowers hook handles Cursor / Claude Code / Copilot CLI).

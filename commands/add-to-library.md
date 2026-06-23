@@ -54,7 +54,7 @@ If no argument is provided, ask the user for the source.
 title (e.g. "The Real ROI of Warehouse Automation" → `real-roi-of-warehouse-automation`).
 This one slug is the file basename **and** the wikilink target used in both
 pointers (Step 3), so the file, the index entry, and the wiki entry always match
-(Test 8 checks this).
+(Test 7 checks this).
 
 Filename: `library/<slug>.md`.
 
@@ -109,7 +109,7 @@ file body.
 
 Keep both files in sync — every item in the wiki must have a matching pointer in
 the index, and vice versa, both pointing at the `<slug>` that is the item's file
-basename. (`validate-vault` Test 8 enforces this.)
+basename. (`validate-vault` Test 7 enforces this.)
 
 ## Step 4: Validate and commit
 

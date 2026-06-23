@@ -68,10 +68,8 @@ done.
 
 Frontmatter schemas, folders, enums, and conventions live in `docs/vault-design.md`
 (in the hq plugin; the SessionStart hook gives its absolute path). Read it before
-creating or editing any frontmatter. Ready-to-copy templates live in the plugin's
-`templates/` directory — the SessionStart hook surfaces its absolute path
-(`${CLAUDE_PLUGIN_ROOT}/templates/` when running inside a command). They are read
-from the plugin, never copied into the vault. Status fields use the documented enums, never free text; `company:` /
+creating or editing any frontmatter — the per-type frontmatter blocks in that spec
+are the canonical skeletons to copy. Status fields use the documented enums, never free text; `company:` /
 `owner:` values come from `hq.config.yml`, and a vault may *extend* (never replace)
 the default enum sets via `vault.enums`.
 
@@ -83,14 +81,14 @@ the default enum sets via `vault.enums`.
 3. **Frontmatter matches** `docs/vault-design.md`.
 4. **All wikilinks resolve.**
 5. **Dashboards consistent** — every `.base` carries the `file.ext == "md"` guard
-   minimum; view bases add their content-type filter and exclude templates.
+   minimum; view bases add their content-type filter (e.g. `file.hasTag("task")`).
 
 Run `/validate-vault` to check all of this.
 
 ## Creating a file
 
-1. Frontmatter matching the type's schema in `docs/vault-design.md` (copy from the
-   matching file in the plugin's `templates/` — the hook surfaces its absolute path).
+1. Frontmatter matching the type's schema in `docs/vault-design.md` — copy the
+   per-type frontmatter block from there (the hook surfaces the spec's absolute path).
 2. Update the relevant `index.md`.
 3. If it's an initiative, add it to README "What's Active" when active.
 
@@ -98,7 +96,7 @@ Run `/validate-vault` to check all of this.
 
 Schema is OS-level — it lives in the plugin, not one vault, so propose changes
 upstream rather than forking per vault. In the plugin: update `docs/vault-design.md`
-first, then the README, then `templates/`, then existing files.
+first, then the README, then existing files.
 
 ## Conventions
 

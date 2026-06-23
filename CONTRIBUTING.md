@@ -15,25 +15,19 @@ These are hard constraints. A change that breaks one of them won't merge.
    knowledge, library items, or any other sample data. `/hq-init` copies the
    skeleton verbatim, so anything you add to it lands in every new vault.
 
-2. **Templates are canonical at the plugin root.** Frontmatter templates live in
-   `templates/` and are read from there. They are **not** copied into vaults —
-   an onboarded vault carries no vault-local `templates/` folder. Edit the
-   template at the plugin root; never reintroduce a per-vault copy.
-
-3. **Schema changes go spec-first.** Change the schema in this order:
-   1. `docs/vault-design.md` — the spec. Always first.
+2. **Schema changes go spec-first.** Change the schema in this order:
+   1. `docs/vault-design.md` — the spec. Always first. Its per-type frontmatter
+      blocks are the canonical skeletons new files copy.
    2. `commands/validate-vault.md` — so validation enforces the new rule.
-   3. `templates/` — so new files match.
-   4. `skeleton/` — so the scaffold matches (structure only — see rule 1).
+   3. `skeleton/` — so the scaffold matches (structure only — see rule 1).
 
-   Don't edit a template or the skeleton ahead of the spec; the spec is the
-   source of design.
+   Don't edit the skeleton ahead of the spec; the spec is the source of design.
 
-4. **Keep everything config-driven.** No hardcoded company, team, or other
+3. **Keep everything config-driven.** No hardcoded company, team, or other
    identity anywhere in the plugin. Identity lives in a vault's `hq.config.yml`;
    the plugin describes the *mechanism*, the config supplies the *identity*. If a
    change needs a new identity input, add it to the config seam — not to a
-   command, template, or the skeleton.
+   command or the skeleton.
 
 ## Testing a change
 

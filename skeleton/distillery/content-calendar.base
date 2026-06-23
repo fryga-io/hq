@@ -2,7 +2,6 @@ filters:
   and:
     - file.hasTag("content")
     - 'file.ext == "md"'
-    - '!file.inFolder("templates")'
 
 properties:
   status:

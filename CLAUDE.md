@@ -15,8 +15,9 @@ what makes rules go stale.
 
 - **How a vault is governed** → `skills/using-hq/SKILL.md`. Change vault rules
   here and nowhere else.
-- **The schema** (frontmatter, folders, enums) → `docs/vault-design.md`. Change it
-  first, then the matching `templates/`, then anything downstream.
+- **The schema** (frontmatter, folders, enums) → `docs/vault-design.md`. Its
+  per-type frontmatter blocks are the canonical skeletons agents copy. Change it
+  first, then anything downstream (commands, skeleton).
 - **A command** → the file in `commands/`. Keep identity and enums config-driven
   (read from the vault's `hq.config.yml`), never hardcoded.
 - **The vault skeleton** `/hq-init` scaffolds → `skeleton/` (content-free).
@@ -29,8 +30,6 @@ what makes rules go stale.
 - `skills/using-hq/` — the vault operating rules, injected each vault session.
 - `hooks/` — `hooks.json` + the `session-start` script that injects `using-hq`
   only inside an hq vault (detected by walking up for `hq.config.yml`).
-- `templates/` — canonical frontmatter templates, read from the plugin root; never
-  copied into a vault.
 - `skeleton/` — the content-free vault skeleton `/hq-init` copies.
 - `docs/vault-design.md` — the schema spec.
 
