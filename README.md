@@ -54,6 +54,12 @@ Then operate the vault day to day with the agent and these commands:
 The plugin ships:
 
 - `commands/` — the agent commands above.
+- `skills/using-hq/` — the vault operating rules (session startup, schema
+  pointers, editing discipline, conventions). The single source of truth for how
+  an agent governs a vault.
+- `hooks/` — a SessionStart hook that injects `using-hq` into every session **that
+  is inside a vault** (it walks up for `hq.config.yml`; outside a vault it stays
+  silent). This is what makes the rules reachable in a normal session.
 - `templates/` — the canonical frontmatter templates for each file type. They
   live at the plugin root and are read from there; they are **not** copied into
   your vault.
@@ -65,7 +71,11 @@ The plugin ships:
 A vault is made generic by `hq.config.yml` at its root — the seam that holds the
 company list, team roster, and canon files. Nothing else hardcodes identity;
 tools find the config (and thereby the vault root) by walking up from the working
-directory, the way `git` finds `.git`.
+directory, the way `git` finds `.git`. That same walk-up is how the SessionStart
+hook decides a session is inside a vault and loads the rules — so your vault's
+`CLAUDE.md` stays minimal (identity + your own company policy), and the operating
+rules live in the plugin, updating centrally instead of going stale in every
+vault's copy.
 
 The schema is modular: a **core** of initiatives, tasks, knowledge, and log,
 plus optional modules — **library** (external-signal capture), **crm**,

@@ -166,7 +166,7 @@ role, not a single instance.
 <vault>/
   hq.config.yml                # identity: companies, team, canon
   README.md                    # map + conventions + "what's active now"
-  CLAUDE.md                    # imports the OS rules; adds company specifics
+  CLAUDE.md                    # minimal: identity + company specifics (rules load from the plugin via the using-hq skill)
 
   # NOTE: templates/ lives at the plugin root (${CLAUDE_PLUGIN_ROOT}/templates/),
   # not inside the vault. Onboarded vaults carry no vault-local templates/ folder.
@@ -339,7 +339,7 @@ but the canonical set is always the plugin's.
 
 Frontmatter templates for new files, one per type. Schema changes update
 templates *after* updating this design doc (see "When changing the schema" in
-`CLAUDE.md`).
+`skills/using-hq/SKILL.md`).
 
 ### `dream/` (output-only)
 

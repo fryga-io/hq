@@ -221,43 +221,33 @@ modules, `dashboards/` last). The core folders (`initiatives/`, `tasks/`,
 
 ## Step 6: Write the vault CLAUDE.md
 
-Write a **thin** `CLAUDE.md` at the vault root. It declares that this vault runs
-on hq, carries the few session-essential rules inline, and points to the
-plugin for the full ruleset. Model its tone on
-`${CLAUDE_PLUGIN_ROOT}/skeleton/CLAUDE.md`. Use this content (substitute the
-primary company name in the title):
+Write a **minimal** `CLAUDE.md` at the vault root by copying
+`${CLAUDE_PLUGIN_ROOT}/skeleton/CLAUDE.md` and substituting the **primary**
+(first) company name for `<Company Name>` in the title.
+
+Do **not** write the operating rules into it. They are **not** a per-vault copy:
+they load every session from the plugin's `using-hq` skill (injected by hq's
+SessionStart hook), so they update centrally and never go stale — a per-vault
+copy would drift the moment the OS evolves. CLAUDE.md carries only what is
+genuinely vault-specific: a human-facing header (for someone reading the repo on
+GitHub, who never sees the hook's injected context) and an empty section for
+company-specific policy. For reference, the result is:
 
 ```markdown
 # <Company Name> HQ — Agent Rules
 
-This vault runs on the **hq** Agent OS. The full ruleset — progressive
-disclosure, current-state-with-rationale, the complete schema and conventions —
-lives in the hq plugin (`CLAUDE.md` and `docs/vault-design.md`) and governs
-this vault. The installed plugin commands (`/validate-vault`, `/hq-init`) already
-carry the procedural detail they need.
+This vault runs on the **hq** Agent OS (a Claude Code plugin). Its operating
+rules, schema, and conventions load automatically each session via the plugin's
+`using-hq` skill, injected by hq's SessionStart hook. If they did not load (for
+example the plugin is not installed), invoke the `using-hq` skill manually.
 
-Identity for this vault (company list, team roster, canon files) lives in
-`hq.config.yml` at the vault root. Read it to learn who and what this vault is
-for.
+Identity — companies, team roster, canon files, enum/CRM extensions — lives in
+`hq.config.yml` at the vault root.
 
-## Session essentials
+## Company-specific instructions
 
-- **Session startup:** read the index files silently before responding —
-  `initiatives/index.md`, `knowledge/index.md`, `tasks/index.md`,
-  `log/index.md`. They give you the active context.
-- **Keep indexes current:** every create/update includes an index update. Every
-  file in a folder must appear in that folder's `index.md`.
-- **Before committing:** run `/validate-vault` and resolve any FAIL (indexes,
-  wikilinks, frontmatter enums, dashboard guards). Don't commit a failing vault.
-- **Editing scope:** stay inside the explicit ask. For any edit to existing prose
-  you weren't told to touch, show the diff and ask first — a "minor" adjacent
-  word swap is a silent claim change. The vault is the source of truth.
-- **Current state, not audit trail:** rewrite knowledge and initiative bodies to
-  reflect new truth and its rationale; don't stack dated "Updates" sections. The
-  exception is `log/` — point-in-time entries that are never rewritten. Git is
-  the audit trail.
-
-Company-specific instructions, if any, go below this line. (None yet.)
+(None yet — add policy here that is specific to this company and is not part of
+the hq OS.)
 ```
 
 ## Step 7: Verify and report
