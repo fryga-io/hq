@@ -1,0 +1,30 @@
+filters:
+  and:
+    - file.hasTag("task")
+    - 'file.ext == "md"'
+
+formulas:
+  priority_label: 'if(priority == 1, "High", if(priority == 2, "Medium", "Low"))'
+
+properties:
+  status:
+    displayName: Status
+  formula.priority_label:
+    displayName: Priority
+
+views:
+  - type: table
+    name: "Open Tasks"
+    filters:
+      and:
+        - 'status != "done"'
+        - 'status != "cancelled"'
+    order:
+      - file.name
+      - status
+      - formula.priority_label
+      - owner
+      - due
+    groupBy:
+      property: status
+      direction: ASC

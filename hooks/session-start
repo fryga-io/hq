@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+# SessionStart hook for the hq plugin.
+#
+# Injects the `using-hq` skill (the vault operating rules) into the session — but
+# ONLY when the session is inside an hq vault (a directory tree containing
+# hq.config.yml). The plugin is installed globally, so this self-scoping is what
+# keeps hq's rules from leaking into every unrelated project. Outside a vault the
+# hook injects nothing.
+
+set -euo pipefail
+
+# Plugin root = parent of this hooks/ dir.
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+# Walk up from a directory looking for hq.config.yml; print the vault root if found.
+find_vault_root() {
+  local dir="$1"
+  while [ -n "$dir" ] && [ "$dir" != "/" ] && [ "$dir" != "." ]; do
+    if [ -f "$dir/hq.config.yml" ]; then
+      printf '%s' "$dir"
+      return 0
+    fi
+    dir="$(dirname "$dir")"
+  done
+  return 1
+}
+
+# Determine the session's working directory. The SessionStart input does not
+# reliably carry `cwd`, so try both the stdin `cwd` field (when present) and the
+# hook's own $PWD (the dir Claude Code launched in). Use the first that resolves
+# to a vault.
+input="$(cat 2>/dev/null || true)"
+cwd_from_stdin="$(printf '%s' "$input" | sed -n 's/.*"cwd"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)"
+
+vault_root=""
+for candidate in "$cwd_from_stdin" "$PWD"; do
+  [ -z "$candidate" ] && continue
+  # Only walk absolute paths. A relative cwd (rare; the contract sends an absolute
+  # one or omits it, and $PWD is always absolute) would otherwise loop forever on
+  # "." inside find_vault_root.
+  case "$candidate" in /*) ;; *) continue ;; esac
+  if vault_root="$(find_vault_root "$candidate")"; then
+    break
+  fi
+done
+
+# Not an hq vault → inject nothing, exit clean.
+if [ -z "$vault_root" ]; then
+  printf '{}\n'
+  exit 0
+fi
+
+# Read the using-hq skill content.
+skill_content="$(cat "${PLUGIN_ROOT}/skills/using-hq/SKILL.md" 2>&1 || echo "Error reading using-hq skill")"
+
+# Escape a string for embedding in a JSON string value.
+escape_for_json() {
+    local s="$1"
+    s="${s//\\/\\\\}"
+    s="${s//\"/\\\"}"
+    s="${s//$'\n'/\\n}"
+    s="${s//$'\r'/\\r}"
+    s="${s//$'\t'/\\t}"
+    printf '%s' "$s"
+}
+
+skill_escaped="$(escape_for_json "$skill_content")"
+vault_root_escaped="$(escape_for_json "$vault_root")"
+plugin_root_escaped="$(escape_for_json "$PLUGIN_ROOT")"
+
+# Structural text uses literal \n (backslash-n) for newlines, matching the escaped
+# skill content; printf %s inserts it without interpreting backslashes. Backticks
+# are escaped so bash does not run command substitution inside the double quotes.
+session_context="<EXTREMELY_IMPORTANT>\nYou are operating an hq vault (root: ${vault_root_escaped}).\n\n\`${vault_root_escaped}/hq.config.yml\` is the vault marker; identity is carried by the vault's own companies/ and people/ registries and how notes link, not declared there. Read it for canon and any enum/CRM extensions before acting.\n\nThe vault-design schema spec is at \`${plugin_root_escaped}/docs/vault-design.md\`. Read it before creating or editing any file's frontmatter.\n\n**Below is the full content of your 'hq:using-hq' skill — the operating rules for this vault. Follow them. Use the slash commands for the rest:**\n\n${skill_escaped}\n</EXTREMELY_IMPORTANT>"
+
+# Emit context injection, matching the platform's expected field (mirrors how the
+# superpowers hook handles Cursor / Claude Code / Copilot CLI).
+if [ -n "${CURSOR_PLUGIN_ROOT:-}" ]; then
+  printf '{\n  "additional_context": "%s"\n}\n' "$session_context"
+elif [ -n "${CLAUDE_PLUGIN_ROOT:-}" ] && [ -z "${COPILOT_CLI:-}" ]; then
+  printf '{\n  "hookSpecificOutput": {\n    "hookEventName": "SessionStart",\n    "additionalContext": "%s"\n  }\n}\n' "$session_context"
+else
+  printf '{\n  "additionalContext": "%s"\n}\n' "$session_context"
+fi
+
+exit 0
