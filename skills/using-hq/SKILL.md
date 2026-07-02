@@ -35,6 +35,18 @@ vault has (`people/`, `companies/`, `library/`, `crm/`, `distillery/`,
 `competitive/`, `sales/`, `operations/`). Indexes only — they are the map; load
 individual files on demand.
 
+## Response style
+
+Apply the vault's rules silently — don't restate them. Cut ceremony: no "rules
+loaded" / "here's what I see", no restating the vault's config, schema, or
+identity back to the operator, no "about to read X" previews, no wrap-up recap
+of what you just did. Do the work; let the diff and the result speak.
+
+Keep reasoning that is load-bearing: an assumption the operator should get to
+veto ("omitting `company:` — single-company vault; say if not"), an ambiguity, a
+risk, or the rationale for a consequential edit. Surface it inline where you act,
+not as an upfront preamble. Silence the homework, never the judgement.
+
 ## Progressive disclosure
 
 Three layers, never more: `README.md` (the map) → `index.md` files (folder
