@@ -1,0 +1,29 @@
+filters:
+  and:
+    - file.hasTag("initiative")
+    - file.ext == "md"
+formulas:
+  age: (today() - date(started)).days
+  days_to_target: if(target_date, (date(target_date) - today()).days, "")
+properties:
+  formula.age:
+    displayName: Days Active
+  formula.days_to_target:
+    displayName: Days to Target
+views:
+  - type: table
+    name: Active
+    filters: status == "active"
+    order:
+      - file.name
+      - status
+      - started
+      - target_date
+      - formula.days_to_target
+      - formula.age
+  - type: table
+    name: All
+    order:
+      - file.name
+      - status
+      - started

@@ -6,7 +6,8 @@ title: Initiatives
 
 # Initiatives
 
-Strategic efforts spanning weeks to months. One file per initiative.
+One file per initiative — a strategic effort or a standing bucket. Each owns its
+checklists in its body.
 
 | Initiative | Company | Status | Started |
 |---|---|---|---|

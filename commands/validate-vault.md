@@ -41,7 +41,7 @@ against a fixed list. The enum and CRM-tag extensions are documented in
 ## Test 1: Structure integrity
 
 - Does every expected **core** content directory exist? (`initiatives/`,
-  `tasks/`, `knowledge/`, `log/`) These are required.
+  `knowledge/`, `log/`) These are required.
 - **Optional modules** (`library/`, `crm/`, `distillery/`, `competitive/`,
   `sales/`, `operations/`) are not required — a vault that does not use a module
   simply omits its folder. Do **not** FAIL on a missing optional module. But if a
@@ -55,7 +55,7 @@ against a fixed list. The enum and CRM-tag extensions are documented in
 
 ## Test 2: Frontmatter consistency and required body sections
 
-Read every `.md` file in `initiatives/`, `tasks/`, `knowledge/`, `log/`, and (if
+Read every `.md` file in `initiatives/`, `knowledge/`, `log/`, and (if
 present) `people/`, `companies/`, `library/`, `crm/`, `distillery/`,
 `competitive/`, `sales/`, `operations/`. Scan optional module folders recursively (their content lives in
 subfolders — `crm/companies/`, `distillery/content/<channel_id>/`,
@@ -66,9 +66,6 @@ frontmatter field**, not from its folder — `competitive/`, `sales/`, and most
 
 - Does every file have valid YAML frontmatter?
 - Required fields by type (see `docs/vault-design.md` for the schemas):
-  - **Task:** `tags`, `title`, `status`, `priority`, `created` — plus `owner` (in a
-    multi-operator vault) and `company` (in a multi-company vault). (`initiative`
-    may be empty for admin/orphan tasks.)
   - **Initiative:** `tags`, `title`, `status`, `started` — plus `owner`
     (multi-operator) and `company` (multi-company).
   - **Knowledge:** `tags`, `title`, `topics`, `created` — plus `company`
@@ -104,9 +101,7 @@ frontmatter field**, not from its folder — `competitive/`, `sales/`, and most
 - Enum validation. Three enums are **config-extensible** — the effective allowed
   set is the OS default below **∪** the matching `vault.enums.<name>` list (if
   present); flag a value only if it is in neither. The rest are fixed.
-  - Task `status` ∈ `backlog | todo | doing | blocked | done | cancelled` (fixed).
   - Initiative `status` ∈ `active | paused | completed | abandoned` (fixed).
-  - `priority` ∈ `1 | 2 | 3` (fixed).
   - Log `type` ∈ `decision | meeting | review | observation` **∪
     `vault.enums.log_type`** (extensible).
   - CRM `pipeline` (Company or Contact) ∈ `researched | contacts-identified |
@@ -129,8 +124,11 @@ frontmatter field**, not from its folder — `competitive/`, `sales/`, and most
     the team handles, and Content's `author` likewise. If `team` is **not** declared
     (solo vault), `owner`/`author` are not expected; do not check them.
 - Required body sections by type (check for `##` headings in the file body):
-  - **Initiative:** `## Goal`, `## Context`, `## Key Results`.
-  - **Task:** `## Context`, `## Done When`.
+  - **Initiative:** `## Goal` is required. `## Checklists`, `## Context`, and
+    `## Key Results` are optional — `## Checklists` is the conventional home for an
+    active initiative's open work, but it is not hard-required (some initiatives
+    track their work as `## Key Results`). A standing bucket carries just `## Goal`
+    + `## Checklists`.
   - **Library:** the item must capture its source. Either a raw-material section
     (`## Raw Content` **or** `## Raw Transcript` — the full text or transcript
     verbatim, never a summary) **or**, for a book/binary source, a sibling source
@@ -191,7 +189,7 @@ Check each subfolder by its own structure:
   are expected in the **parent** folder's `index.md` (or covered by the parent's
   Bases mode, if the parent is Bases-indexed).
 
-Apply this to `initiatives/`, `tasks/`, `knowledge/`, `log/`, and (if present)
+Apply this to `initiatives/`, `knowledge/`, `log/`, and (if present)
 `people/`, `companies/`, `library/` and every optional module. Notes and
 exemptions:
 
@@ -238,8 +236,8 @@ If the vault has any `.base` files (e.g. in `dashboards/`):
 - Are the filters logically consistent with the view's stated purpose?
 
 Note: view-specific `.base` files conventionally add further filters on top of
-the `file.ext == "md"` guard — for example, a task dashboard typically also
-carries `file.hasTag("task")`. This additional filter is not enforced by this
+the `file.ext == "md"` guard — for example, an initiatives dashboard typically also
+carries `file.hasTag("initiative")`. This additional filter is not enforced by this
 test but is expected in practice.
 
 If the vault has no `.base` files, record Test 5 as PASS (nothing to check) — the

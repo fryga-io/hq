@@ -5,8 +5,8 @@ works, and the schema and conventions that hold it together. If a folder, file
 type, or workflow is not described here, it does not belong in the vault until
 it is.
 
-This spec covers the **core** vault: `initiatives/`, `tasks/`, `knowledge/`, and
-`log/`. Optional modules layer on top, each documented here: the **library**
+This spec covers the **core** vault: `initiatives/`, `knowledge/`, and `log/`.
+Optional modules layer on top, each documented here: the **library**
 (external-signal capture) under "Library module", and **CRM**, **distillery**
 (content pipeline), **competitive**, **sales**, and **operations** under "Optional
 modules". Every module is content-free in the skeleton — an index stub plus the
@@ -69,8 +69,9 @@ vault:
 
 ### Config-extensible enums
 
-The OS ships **default** enum sets for the controlled-vocabulary fields (a task's
-`status`, a CRM `pipeline` stage, a content `status`, a log `type`, and so on). A
+The OS ships **default** enum sets for the controlled-vocabulary fields (an
+initiative's `status`, a CRM `pipeline` stage, a content `status`, a log `type`,
+and so on). A
 mature vault often runs a motion with stages the defaults don't name — a CRM that
 scores leads before contacting them, a content pipeline that schedules posts ahead
 of publish, a log that records retros. Rather than forcing every vault into the
@@ -97,10 +98,10 @@ extra. The three extensible enums and their OS defaults are:
 | `content_status` | `idea`, `draft`, `review`, `ready`, `published` | Content `status` |
 | `log_type` | `decision`, `meeting`, `review`, `observation` | Log `type` |
 
-The other enums (task `status`, initiative `status`, `priority`, CRM `grade`) are
-**not** extensible — they are small, universal lifecycles where a vault-specific
-value almost always signals a mistake. If a vault genuinely needs to extend one of
-those, that is a design conversation, not a config line.
+The other enums (initiative `status`, CRM `grade`) are **not** extensible — they
+are small, universal lifecycles where a vault-specific value almost always signals
+a mistake. If a vault genuinely needs to extend one of those, that is a design
+conversation, not a config line.
 
 A value that is neither an OS default nor a declared extra is a FAIL. Declaring an
 extra you don't use is harmless. Keep the declared sets minimal — the point is to
@@ -178,8 +179,8 @@ role, not a single instance.
 9. **Relationships are wikilinks; structure only what a dashboard reads.** A
    connection between notes lives as a `[[wikilink]]` in prose, where the agent
    reads it. Lift a relationship into a frontmatter property only when a Bases
-   dashboard must query or roll up on it (as a task does with `initiative`). Don't
-   add a property an agent would already get from the prose.
+   dashboard must query or roll up on it (as a CRM contact does with its `company`
+   wikilink). Don't add a property an agent would already get from the prose.
 
 ## Vault structure
 
@@ -191,11 +192,7 @@ role, not a single instance.
 
   initiatives/
     index.md                   # all initiatives with status and company
-    (flat .md files, one per initiative)
-
-  tasks/
-    index.md                   # active tasks rolled up by initiative
-    (flat .md files, one per task)
+    (flat .md files, one per initiative — each owns its checklists in-body)
 
   knowledge/
     index.md                   # knowledge articles by topic
@@ -242,7 +239,7 @@ discoverable, and validate-vault (Test 4) accepts either:
 
 **1. Wikilink-enumeration (the default, for small folders).** The folder's
 `index.md` names every non-index file by wikilink, with a one-line description. The
-index *is* the enumeration. This is how the core folders (`initiatives/`, `tasks/`,
+index *is* the enumeration. This is how the core folders (`initiatives/`,
 `knowledge/`, `log/`) and small modules work. Test 4 requires every file to appear
 in the index by wikilink.
 
@@ -291,19 +288,16 @@ index, surfaced through the Bases-indexed `crm/index.md`), and `distillery/conte
 
 ### `initiatives/`
 
-Strategic efforts spanning weeks to months. One file per initiative. Each owns a
-`## Goal`, `## Context`, and `## Key Results`. Tasks link to their parent
-initiative via the `initiative` property — backlinks surface automatically on the
-initiative page. Initiatives never store task lists in their body; Bases compute
-that from frontmatter.
-
-### `tasks/`
-
-Discrete, actionable work items. Flat folder, one file per task, action-first
-kebab-case filenames (`draft-pilot-agreement.md`). Status, priority, and owner
-live in frontmatter. `tasks/index.md` is rolled up by initiative for human
-reading; the `dashboards/*.base` files are how the agent and the team query
-day-to-day.
+The vault's one unit of work. One file per initiative, and the initiative **owns
+its checklists in its own body** — open it and everything left on it is right
+there. Two flavors share the schema: **strategic** initiatives (efforts spanning
+weeks to months, carrying a `## Goal`, optional `## Context` and `## Key Results`,
+and the work under `## Checklists`) and **standing buckets** (always-on lanes like
+Admin & Ops, Sales, or SEO — a one-line `## Goal` plus `## Checklists`, nothing
+heavier). The work is plain markdown checklists in the body (schema below): there
+is no separate task file, no `initiative` backlink to maintain, and no Bases
+rollup to keep in sync. To see what's left on an initiative, you read the
+initiative.
 
 ### `knowledge/`
 
@@ -368,11 +362,11 @@ introduce their own schemas (CRM Company/Contact, Channel, Content, Report).
 
 ### `dashboards/`
 
-Obsidian Bases queries over the vault — open tasks, initiative overviews. Each
-`.base` filters frontmatter, may compute formulas, and renders as a table. Every
-`.base` carries `file.ext == "md"` as a minimum guard so non-markdown files
+Obsidian Bases queries over the vault — e.g. an initiatives overview by status.
+Each `.base` filters frontmatter, may compute formulas, and renders as a table.
+Every `.base` carries `file.ext == "md"` as a minimum guard so non-markdown files
 never leak into a view. View-specific `.base` files additionally filter by
-content type: a task dashboard also uses `file.hasTag("task")`.
+content type: an initiatives dashboard also uses `file.hasTag("initiative")`.
 
 ### `dream/` (output-only)
 
@@ -434,28 +428,44 @@ target_date:                   # YYYY-MM-DD, optional soft deadline
 ---
 ```
 
-Required body sections: `## Goal`, `## Context`, `## Key Results`.
+Required body section: `## Goal`. Everything else is **optional** — `## Checklists`
+is the conventional home for an active initiative's open work, and a standing bucket
+(Admin & Ops, Sales, SEO) is just a one-line `## Goal` plus its `## Checklists`. But
+Checklists is not forced: an initiative whose open work is fully captured as
+outcome-level `## Key Results` needn't restate it as a checklist — pick the form
+that fits and don't duplicate. `## Context` and `## Key Results` are likewise
+optional; a strategic initiative usually carries both, a bucket neither.
 
-### Task
+**Checklists own the work.** Under `## Checklists`, group items into one or more
+named lists (`### List name`), or list them directly when there is only one list.
+Each item is a plain markdown checkbox — `- [ ]` open, `- [x]` done. Annotate an
+item inline, as prose, with an owner and/or a due date: `— @handle` names a team
+handle (a `people/` note, multi-operator vaults only) and `due YYYY-MM-DD` a soft
+deadline. Both are optional and human-read, never validated — the checklist is for
+people to read, not a dashboard to query.
 
-```yaml
----
-tags: [task]
-title: "Draft the 90-day pilot agreement"
-status: backlog                # backlog | todo | doing | blocked | done | cancelled
-priority: 2                    # 1=high, 2=medium, 3=low
-owner: robin                   # multi-operator vaults only: the doer's handle (→ a people/ note); omit in a solo vault
-company: acme                  # multi-company vaults only: one of your own companies (list if shared)
-initiative: "[[launch-pilot-program]]"  # wikilink, optional (empty for admin tasks)
-due:                           # YYYY-MM-DD, optional
-created: 2026-06-10
-completed:                     # YYYY-MM-DD, filled when status → done
----
+**`## Key Results` vs `## Checklists`.** Key Results (optional) state the
+*outcomes* — what success looks like, often written as checkboxes. Checklists hold
+the *work* — the to-do lists that get you there. They coexist; an outcome is not a
+to-do.
+
+```markdown
+## Goal
+Open-source HQ as Fryga's operating system.
+
+## Key Results
+- [x] hq extracted, config-driven, skeleton green
+- [ ] Repo public with LICENSE, CONTRIBUTING, and CI
+
+## Checklists
+
+### Go public
+- [x] Squash main to one clean public commit
+- [ ] Interactive install smoke-test — @marcin
+
+### CI
+- [ ] plugin validate + structural checks on PRs — @marcin, due 2026-08-01
 ```
-
-Required body sections: `## Context`, `## Done When`. **Owner = the doer** — one
-person, accountable and executing collapsed. If the title says "Robin: design
-drafts", `owner: robin`, not whoever delegated.
 
 ### Knowledge
 
@@ -541,8 +551,7 @@ date_end: 2026-06-28
 
 Files in `log/weekly/` are **output artifacts** generated by the `/weekly`
 command, not authored content. They are exempt from the content-schema checks
-(Tests 2–4) that apply to authored types (tasks, initiatives, knowledge, log
-entries).
+(Tests 2–4) that apply to authored types (initiatives, knowledge, log entries).
 
 ### Library item
 
@@ -676,7 +685,7 @@ may append a dated, initialed interpretation section after the generated content
 ### File naming
 
 - **lowercase-kebab-case** always.
-- **Tasks:** action-first (`draft-pilot-agreement.md`).
+- **Initiatives:** named for their subject (`hq-open-source.md`, `admin-ops.md`).
 - **Log entries:** `YYYY-MM-DD-slug.md`.
 - **No status in filenames.** Status lives in frontmatter.
 - **No empty placeholder notes.** If there isn't enough context for a sentence,
@@ -699,10 +708,6 @@ file ctime.
 
 Small, documented sets. Never free text. See the per-schema definitions above.
 
-### Priority
-
-Numbers (1/2/3), not text. Bases formulas render labels.
-
 ### Companies
 
 Multi-company vaults only. When present it is list-capable — `company: acme` or
@@ -712,8 +717,8 @@ in `hq.config.yml`). A single-company vault omits the field entirely.
 ### Owners
 
 Multi-operator vaults only. A team handle that names a `people/` note — never a
-full name. **Owner is the doer** — accountable and executing collapsed; one person
-per task. A solo vault omits the field.
+full name. An initiative's `owner:` is the person accountable for it; a checklist
+item may name its own doer inline (`— @handle`). A solo vault omits the field.
 
 ### Signing dated entries
 
@@ -909,14 +914,12 @@ subfolder's `index.md`.
 1. **Relationships are wikilinks by default.** A connection between notes lives as
    a `[[wikilink]]` in prose, where the agent reads it. Promote it to a frontmatter
    property only when a Bases dashboard must query or roll up on it.
-2. **Tasks → initiatives** via the `initiative` property using a wikilink — one of
-   those promoted relationships, because dashboards roll tasks up by initiative.
-   Creates automatic backlinks on the initiative page.
-3. **Work links to its rationale.** An initiative or effort links to the
-   knowledge/canon that motivates it, so "why are we doing this" is one hop away.
-4. **Knowledge cross-references** go in body text, not frontmatter.
-5. **Never duplicate what Bases can compute.** Don't maintain task lists inside
-   initiative notes.
+2. **Work links to its rationale.** An initiative links to the knowledge/canon that
+   motivates it, so "why are we doing this" is one hop away.
+3. **Knowledge cross-references** go in body text, not frontmatter.
+4. **An initiative's work lives in its own body.** Its checklists are plain
+   markdown in the initiative file — there is no separate work file to link back,
+   and nothing for a dashboard to roll up.
 
 ## Workflows
 
@@ -943,7 +946,6 @@ commit.
 The agent maintains every `index.md` as part of create/update operations:
 
 - `initiatives/index.md` — when initiatives are added or status changes.
-- `tasks/index.md` — when tasks are added or status changes.
 - `knowledge/index.md` — when the scope gains or loses files.
 - `log/index.md` — when log entries are added.
 - `library/index.md` **and** `library/wiki.md` — when a library item is added or

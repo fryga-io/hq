@@ -1,8 +1,9 @@
 # hq
 
 An open-source Claude Code plugin that turns a plain markdown vault into an
-**AI-operated company hub** — initiatives, tasks, knowledge, a decision log, a
-library of external signals, a CRM, a content pipeline, and more, all maintained
+**AI-operated company hub** — initiatives (each owning its checklists), knowledge,
+a decision log, a library of external signals, a CRM, a content pipeline, and more,
+all maintained
 by agent commands. The markdown files are the source of truth; Obsidian and the
 agent are two interfaces over them. Your content stays private; only the
 *mechanism* (schema, agent rules, commands) is open.
@@ -59,7 +60,7 @@ The plugin ships:
   every vault session — the single source of truth for how an agent governs a
   vault. Alongside it, one **capability skill per module** — the know-how for
   *operating* that module, loaded on demand (`working-initiatives`,
-  `working-tasks`, `working-knowledge`, `working-log`, `working-people`,
+  `working-knowledge`, `working-log`, `working-people`,
   `working-companies`, `working-library`, `working-crm`, `working-distillery`,
   `working-competitive`, `working-sales`, `working-operations`). `using-hq` holds
   the cross-module always-on discipline and a resolver listing them all; the schema
@@ -81,7 +82,7 @@ hook decides a session is inside a vault and loads the rules — so your vault's
 rules live in the plugin, updating centrally instead of going stale in every
 vault's copy.
 
-The schema is modular: a **core** of initiatives, tasks, knowledge, and log,
+The schema is modular: a **core** of initiatives, knowledge, and log,
 plus optional modules — **people** and **companies** (entity registries),
 **library** (external-signal capture), **crm**, **distillery** (content pipeline),
 **competitive**, **sales**, and

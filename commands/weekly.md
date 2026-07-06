@@ -1,5 +1,5 @@
 ---
-description: "Generate the weekly rollup — a structured summary of the week's initiatives, tasks, decisions, and log entries, addressed to the team named in hq.config.yml."
+description: "Generate the weekly rollup — a structured summary of the week's initiatives, their checklists, decisions, and log entries, addressed to the team named in hq.config.yml."
 ---
 
 Generate the weekly rollup for the vault.
@@ -39,9 +39,9 @@ Run these in parallel:
   from the vault root directory for commit history. Substitute the actual
   Monday and the following Monday's dates.
 - Read all files in `initiatives/` (skip `index.md`). Note each initiative's
-  `status`, `owner`, `company`, and any body changes since last week.
-- Read all files in `tasks/` (skip `index.md`). Note status (`todo`, `doing`,
-  `blocked`, `done`, `cancelled`), `owner`, `due`, and `initiative` linkage.
+  `status`, `owner`, `company`, and any body changes since last week — including
+  which `## Checklists` items got checked off (`- [x]`) or were newly added, plus
+  any item carrying a `due` date or a flagged blocker.
 - Read all files in `log/` (skip `index.md` and the `weekly/` subfolder). Note
   any new entries added since Monday — type, title, date.
 - If `knowledge/` has files newer than Monday (check `created` frontmatter or
@@ -80,7 +80,7 @@ date_end: <Sunday YYYY-MM-DD>
 Writing discipline:
 
 - **Short sentences, active voice, no filler.** Every sentence carries a
-  fact — a commit, a status change, a decision logged, a task completed.
+  fact — a commit, a status change, a decision logged, a checklist item checked off.
 - **Facts only, no editorializing.** Report what happened. Do not infer
   problems, blockers, or constraints from observations.
 - **Attribute by handle.** Reference team members by their `handle` from
@@ -96,18 +96,20 @@ Writing discipline:
   strategically? What shifted or was confirmed? If nothing shifted, say so
   plainly.
 - **Weather Report:** Three bulleted lists — going well, going sideways, needs
-  attention. Each bullet cites the specific initiative, task, commit, or log
-  entry that grounds it. No speculation.
+  attention. Each bullet cites the specific initiative, checklist item, commit, or
+  log entry that grounds it. No speculation.
 - **By Initiative:** One subsection per initiative (use the initiative `title`
   as the heading). Lead with the initiative's current status. Summarize what
-  moved, what didn't, and what tasks are active/done/blocked under it.
-  Group by `company` if the vault covers multiple companies.
+  moved, what didn't, and which checklist items got checked off or are still open
+  under it. Group by `company` if the vault covers multiple companies.
 - **Decisions:** List every new `log/` entry of `type: decision` from this
   week. Wikilink to each entry. If none, write "None this week."
-- **Next Week:** Draw from tasks with upcoming `due` dates, initiative plans,
-  and any explicitly queued work. List as bullets.
-- **Blockers:** List only tasks or initiatives explicitly marked `status:
-  blocked`. If nothing is blocked, write "None."
+- **Next Week:** Draw from checklist items with upcoming `due` dates, initiative
+  plans, and any explicitly queued work. List as bullets.
+- **Blockers:** List only checklist items or initiatives an author has explicitly
+  flagged as blocked — a `- [ ]` item that says it is blocked (and on what), or a
+  `paused` initiative with a stated blocker. Never infer a blocker. If nothing is
+  flagged, write "None."
 
 ## Step 5: Commit
 

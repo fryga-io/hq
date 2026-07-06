@@ -1,6 +1,6 @@
 ---
 name: using-hq
-description: "Use when working in an hq vault — any session whose working directory is under a directory containing hq.config.yml (an AI-operated company hub of markdown initiatives, tasks, knowledge, log, CRM, and content). Read at the start of work there, and before reading, creating, or editing any vault file."
+description: "Use when working in an hq vault — any session whose working directory is under a directory containing hq.config.yml (an AI-operated company hub of markdown initiatives, knowledge, log, CRM, and content). Read at the start of work there, and before reading, creating, or editing any vault file."
 ---
 
 # Using hq
@@ -30,7 +30,7 @@ it outward, never rewrite the vault to match.
 ## Session startup
 
 Read **every** module's `index.md` silently before responding — the core
-(`initiatives/`, `tasks/`, `knowledge/`, `log/`) and every optional module the
+(`initiatives/`, `knowledge/`, `log/`) and every optional module the
 vault has (`people/`, `companies/`, `library/`, `crm/`, `distillery/`,
 `competitive/`, `sales/`, `operations/`). Indexes only — they are the map; load
 individual files on demand.
@@ -95,13 +95,13 @@ a `people/` note. A vault may *extend* (never replace) the default enum sets via
 
 ## Before every commit
 
-1. **Indexes current** — every file in `initiatives/`, `tasks/`, `knowledge/`,
-   `log/` (and any module folder that enumerates files) appears in its `index.md`.
+1. **Indexes current** — every file in `initiatives/`, `knowledge/`, `log/` (and
+   any module folder that enumerates files) appears in its `index.md`.
 2. **README "What's Active" current** — every active initiative listed.
 3. **Frontmatter matches** `docs/vault-design.md`.
 4. **All wikilinks resolve.**
 5. **Dashboards consistent** — every `.base` carries the `file.ext == "md"` guard
-   minimum; view bases add their content-type filter (e.g. `file.hasTag("task")`).
+   minimum; view bases add their content-type filter (e.g. `file.hasTag("initiative")`).
 
 Run `/validate-vault` to check all of this.
 
@@ -120,7 +120,7 @@ first, then the README, then existing files.
 
 ## Conventions
 
-- lowercase-kebab-case filenames; tasks action-first (`draft-pilot-agreement.md`).
+- lowercase-kebab-case filenames; initiatives named for their subject (`hq-open-source.md`).
 - Dates `YYYY-MM-DD`, via the `created` / `date` property.
 - `[[wikilinks]]` for internal links; markdown links for external URLs.
 - Relationships are `[[wikilinks]]` in prose; promote one to a frontmatter property only when a Bases dashboard queries it.
@@ -142,8 +142,7 @@ applies, and the schema still lives in the spec). Reach for the one matching you
 work.
 
 **Core:**
-- `working-initiatives` — status moves, archive, split.
-- `working-tasks` — create, roll up under an initiative, advance, reconcile.
+- `working-initiatives` — work checklists, status moves, archive, split.
 - `working-knowledge` — promote a note to canon, merge/split notes.
 - `working-log` — capture a decision; the log-vs-knowledge call.
 

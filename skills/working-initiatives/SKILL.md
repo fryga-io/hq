@@ -1,22 +1,48 @@
 ---
 name: working-initiatives
-description: "Use when operating an hq vault's initiatives beyond creating one — changing an initiative's status (active → paused / completed / abandoned), reconciling initiatives/index.md and the README's What's Active list after a status change, archiving a concluded initiative, or splitting one initiative into two. Use whenever you touch initiatives/ for a lifecycle move rather than authoring a brand-new initiative's Goal/Context/Key Results."
+description: "Use when operating an hq vault's initiatives — working an initiative's checklists (add, check off, annotate items with owner/due), changing its status (active → paused / completed / abandoned), reconciling initiatives/index.md and the README's What's Active list after a status change, archiving a concluded initiative, or splitting one into two. Use whenever you touch initiatives/ for a checklist or lifecycle move rather than authoring a brand-new initiative's Goal."
 ---
 
 # Working initiatives
 
-**Initiatives** are the hq vault's core unit of strategic work — one file per
-multi-week effort, each owning a `## Goal`, `## Context`, and `## Key Results`.
-This skill is the faculty for the *lifecycle* of an existing initiative: moving
-its status, keeping its index surfaces honest after the move, archiving it when it
-concludes, and splitting it when it outgrows one goal.
+**Initiatives** are the hq vault's one unit of work — one file per effort, and each
+initiative **owns its checklists in its own body**. There is no separate task file:
+to see what's left on an initiative, you read the initiative. Two flavors share the
+schema — **strategic** initiatives (a multi-week effort with a `## Goal`, optional
+`## Context` / `## Key Results`, and the work under `## Checklists`) and **standing
+buckets** (always-on lanes like Admin & Ops, Sales, or SEO — a one-line `## Goal`
+plus `## Checklists`). This skill is the faculty for *operating* an existing
+initiative: working its checklists, moving its status, keeping its index surfaces
+honest, archiving it when it concludes, and splitting it when it outgrows one goal.
 
-Initiatives is a heavily always-on faculty, so most of its discipline is **not
-here** — it is the cross-module governance in `using-hq` and the schema in the
-spec. This skill carries only the thin lifecycle layer on top. It does **not**
-cover authoring a new initiative's body or its frontmatter (that is the spec →
-*Initiative*), and it does **not** restate the create-a-file or before-commit
-checklists (those are `using-hq`).
+Most initiative discipline is **not here** — it is the cross-module governance in
+`using-hq` and the schema in the spec. This skill carries the thin operating layer
+on top. It does **not** cover authoring a new initiative's body or frontmatter
+(that is the spec → *Initiative*), nor the create-a-file / before-commit checklists
+(those are `using-hq`).
+
+## Working the checklists — the everyday move
+
+Checklists are plain markdown in the initiative body; operating them is plain
+markdown editing under current-state-with-rationale (`using-hq`):
+
+- **Add work** as a `- [ ]` item under the right `### list` (or directly under
+  `## Checklists` when there is a single list). Open a new `### named list` when a
+  distinct strand of work appears.
+- **Advance an item** by flipping `- [ ]` → `- [x]`. That is the whole lifecycle —
+  an item has no status enum, no backlog/doing/blocked. If a granular state matters,
+  say it in the item's own words (`- [ ] Smoke-test — blocked on the CC restart`).
+- **Annotate inline, as prose:** `— @handle` names the doer (a `people/` note,
+  multi-operator vaults only) and `due YYYY-MM-DD` a soft deadline. Both optional,
+  human-read, never validated.
+- **The body is current state, not an audit trail.** Keep recently-completed items
+  as `- [x]` while they still give useful momentum or context; prune stale done
+  items when they stop earning their space, and remove a finished list once its
+  outcome is captured in the Goal / Key Results or a log entry. Git holds the
+  history.
+
+Do **not** reach for a `tasks/` folder, an `initiative:` backlink, or a Bases
+rollup — none exist. The work is in the file.
 
 ## The surfaces a status change touches
 
@@ -33,9 +59,12 @@ surfaces you maintain by hand:
 The README list is **active-only**. Flipping an initiative to `paused`,
 `completed`, or `abandoned` means *removing* its README line; flipping back to
 `active` means *adding* it. `validate-vault` Test 6 fails on any stale README
-entry, Test 4 on any index row that contradicts the file. Tasks need no touch —
-they link up via the `initiative` property and Bases recompute (per spec →
-*Linking strategy*).
+entry, Test 4 on any index row that contradicts the file.
+
+**Standing buckets stay `active`** as long as their lane is live — Admin & Ops or
+Sales rarely "completes." They sit in the index and README's What's Active like any
+other active initiative; group them separately there if the vault's `CLAUDE.md`
+calls for it.
 
 ## Move a status
 
@@ -78,22 +107,20 @@ use it, and its exact index format, is your vault's `CLAUDE.md` call.)
 When one initiative has grown two distinct goals, split it rather than let it
 sprawl:
 
-1. **Create the second initiative** (spec → *Initiative*) — its own `## Goal` /
-   `## Context` / `## Key Results`, carved from the original, with a fresh slug.
-2. **Divide the body and Key Results** between the two and rewrite each to stand
-   alone. The original keeps its slug, so its inbound `[[<slug>]]` links still
-   resolve.
-3. **Re-point tasks.** Move each task's `initiative:` wikilink to whichever
-   initiative now owns it — that backlink is the only rollup surface (no body
-   lists).
-4. **Reconcile both index surfaces:** add the new initiative's row to
+1. **Create the second initiative** (spec → *Initiative*) — its own `## Goal`,
+   optional `## Context` / `## Key Results`, and `## Checklists`, carved from the
+   original, with a fresh slug.
+2. **Divide the body between the two.** Move each `### checklist` (and any Key
+   Results) to whichever initiative now owns it, and rewrite each to stand alone.
+   The original keeps its slug, so its inbound `[[<slug>]]` links still resolve.
+3. **Reconcile both index surfaces:** add the new initiative's row to
    `initiatives/index.md`, and add it to README "What's Active" if it is `active`.
-5. If the split leaves the original's remaining scope finished, run the status
+4. If the split leaves the original's remaining scope finished, run the status
    move + archive above on it.
 
-Merging two into one is the same in reverse: fold one body into the other,
-re-point its tasks, remove the absorbed initiative's index row and README line,
-and archive or delete the emptied file.
+Merging two into one is the same in reverse: fold one body (Goal, Key Results,
+checklists) into the other, remove the absorbed initiative's index row and README
+line, and archive or delete the emptied file.
 
 ## Common mistakes
 
@@ -104,18 +131,17 @@ and archive or delete the emptied file.
 | Grepping the vault to "fix" inbound links after an archive move | Bare `[[<slug>]]` still resolves on basename (Test 3). There is nothing to repair — a move is not a rename. |
 | Appending a dated "Completed:" / "Update:" section instead of rewriting the body | Current-state-with-rationale, per `using-hq`; git holds the history. |
 | Labelling a dropped effort `completed` to look tidy | `completed` = goal reached, `abandoned` = effort dropped. Record the real outcome. |
-| Leaving a split initiative's tasks pointed at the old slug | Tasks roll up by their `initiative` wikilink; re-point each to its new owner or the rollup is wrong. |
+| Inventing a status enum for a checklist item (`doing`, `blocked`) | An item is `- [ ]` or `- [x]`; any extra state goes in the item's own prose. |
+| Keeping every completed item forever as an audit trail | The body is current state; prune stale done items and finished lists — git holds the history. |
 
 ## Related
 
 - **`using-hq`** — the always-on discipline this skill sits on: current-state-with-
   rationale rewrites, index maintenance, the before-commit checklist, wikilink
   resolution. Don't re-derive any of it here.
-- **`docs/vault-design.md`** → *Initiative* (frontmatter + the status enum and
-  required `## Goal` / `## Context` / `## Key Results` sections) and *Linking
-  strategy* (tasks → initiatives via the `initiative` property).
-- **`working-tasks`** — re-pointing a task's `initiative` wikilink during a split
-  or merge.
+- **`docs/vault-design.md`** → *Initiative* (frontmatter, the status enum, the
+  required `## Goal` / `## Checklists` sections, and the checklist conventions) and
+  *Linking strategy*.
 - **`validate-vault`** Tests 4 (index accuracy) and 6 (README "What's Active"
   accuracy) — the two checks a status move keeps green; Test 3 (link integrity) is
   what makes archive moves safe.

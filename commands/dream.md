@@ -95,7 +95,7 @@ Two hard rules across all phases:
 
 Run the `validate-vault` checks, then **fix** the mechanical failures:
 
-- Regenerate stale `index.md` entries so every file in `initiatives/`, `tasks/`, `knowledge/`, `log/`, and (if present) `library/` appears in its index. (The `dream/` folder is output-only and intentionally not indexed — never add it to any index.)
+- Regenerate stale `index.md` entries so every file in `initiatives/`, `knowledge/`, `log/`, and (if present) `library/` appears in its index. (The `dream/` folder is output-only and intentionally not indexed — never add it to any index.)
 - Repair dangling wikilinks where the target is **unambiguous** (2+ candidates → leave it, report it). **Whitelist:** links inside any folder listed in `vault.link_whitelist` (config) are intentional published-site URLs (e.g. site-relative `/blog/…`, `/careers`, `/`) in verbatim repo copies — never "unresolved links," never repair, never report. If the config declares no whitelist, this exception is empty.
 - Sync README "What's Active Right Now" to current `status: active` initiatives.
 - Normalize frontmatter that drifts from the schema in `docs/vault-design.md` (enum typos, deterministically-fillable required fields). Validate `company`/`owner` values against `companies`/`team` **when the vault declares them** (multi-company / multi-operator); a single-company / solo vault has neither field.
