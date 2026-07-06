@@ -192,7 +192,7 @@ role, not a single instance.
 
   initiatives/
     index.md                   # all initiatives with status and company
-    (flat .md files, one per initiative — each owns its checklists in-body)
+    (flat .md files, one per initiative — each owns its to-dos in-body)
 
   knowledge/
     index.md                   # knowledge articles by topic
@@ -288,16 +288,16 @@ index, surfaced through the Bases-indexed `crm/index.md`), and `distillery/conte
 
 ### `initiatives/`
 
-The vault's one unit of work. One file per initiative, and the initiative **owns
-its checklists in its own body** — open it and everything left on it is right
-there. Two flavors share the schema: **strategic** initiatives (efforts spanning
-weeks to months, carrying a `## Goal`, optional `## Context` and `## Key Results`,
-and the work under `## Checklists`) and **standing buckets** (always-on lanes like
-Admin & Ops, Sales, or SEO — a one-line `## Goal` plus `## Checklists`, nothing
-heavier). The work is plain markdown checklists in the body (schema below): there
-is no separate task file, no `initiative` backlink to maintain, and no Bases
-rollup to keep in sync. To see what's left on an initiative, you read the
-initiative.
+The vault's one unit of work — a **Basecamp-style project**. One file per
+initiative, and the initiative **owns its work in its own body** — open it and
+everything left on it is right there. Two flavors share the schema: **strategic**
+initiatives (efforts spanning weeks to months, carrying a `## Goal`, optional
+`## Context` and `## Key Results`, the work under `## To-dos`, and a `## Docs`
+reference shelf) and **standing buckets** (always-on lanes like Admin & Ops, Sales,
+or SEO — a one-line `## Goal` plus `## To-dos`, nothing heavier). The work is plain
+markdown to-do lists in the body (schema below): there is no separate task file, no
+`initiative` backlink to maintain, and no Bases rollup to keep in sync. To see
+what's left on an initiative, you read the initiative.
 
 ### `knowledge/`
 
@@ -428,26 +428,38 @@ target_date:                   # YYYY-MM-DD, optional soft deadline
 ---
 ```
 
-Required body section: `## Goal`. Everything else is **optional** — `## Checklists`
+Required body section: `## Goal`. Everything else is **optional** — `## To-dos`
 is the conventional home for an active initiative's open work, and a standing bucket
-(Admin & Ops, Sales, SEO) is just a one-line `## Goal` plus its `## Checklists`. But
-Checklists is not forced: an initiative whose open work is fully captured as
-outcome-level `## Key Results` needn't restate it as a checklist — pick the form
-that fits and don't duplicate. `## Context` and `## Key Results` are likewise
-optional; a strategic initiative usually carries both, a bucket neither.
+(Admin & Ops, Sales, SEO) is just a one-line `## Goal` plus its `## To-dos`. But
+To-dos is not forced: an initiative whose open work is fully captured as
+outcome-level `## Key Results` needn't restate it as a to-do list — pick the form
+that fits and don't duplicate. `## Context`, `## Key Results`, and `## Docs` are
+likewise optional; a strategic initiative usually carries Context and Key Results,
+a bucket neither.
 
-**Checklists own the work.** Under `## Checklists`, group items into one or more
-named lists (`### List name`), or list them directly when there is only one list.
-Each item is a plain markdown checkbox — `- [ ]` open, `- [x]` done. Annotate an
-item inline, as prose, with an owner and/or a due date: `— @handle` names a team
-handle (a `people/` note, multi-operator vaults only) and `due YYYY-MM-DD` a soft
-deadline. Both are optional and human-read, never validated — the checklist is for
-people to read, not a dashboard to query.
+The initiative is a **Basecamp-style project**: its standard tools are `## To-dos`
+(the work) and `## Docs` (the reference shelf), on top of the strategic framing
+(`## Goal`, optional `## Context` / `## Key Results`).
 
-**`## Key Results` vs `## Checklists`.** Key Results (optional) state the
-*outcomes* — what success looks like, often written as checkboxes. Checklists hold
-the *work* — the to-do lists that get you there. They coexist; an outcome is not a
-to-do.
+**`## To-dos` own the work.** Under `## To-dos`, group items into one or more named
+lists (`### List name`), or list them directly when there is only one list. Each
+item is a plain markdown checkbox — `- [ ]` open, `- [x]` done. Annotate an item
+inline, as prose, with an owner and/or a due date: `— @handle` names a team handle
+(a `people/` note, multi-operator vaults only) and `due YYYY-MM-DD` a soft deadline.
+An item may carry a **notes block** — indented lines (prose or sub-bullets) directly
+beneath it — for the description, sub-steps, or links a one-liner can't hold. It is
+all human-read, never validated — the list is for people to read, not a dashboard
+to query.
+
+**`## Key Results` vs `## To-dos`.** Key Results (optional) state the *outcomes* —
+what success looks like, often written as checkboxes. To-dos hold the *work* — the
+lists that get you there. They coexist; an outcome is not a to-do.
+
+**`## Docs` — the initiative's shelf.** An optional curated list of the docs and
+assets that belong to this initiative — `[[wikilinks]]` into `knowledge/`,
+`library/`, `brand/`, plus external links — so the reference for an effort sits with
+it. The documents live in their home module (knowledge is shared, not siloed per
+initiative); this section gathers the relevant ones, it does not copy them.
 
 ```markdown
 ## Goal
@@ -457,14 +469,19 @@ Open-source HQ as Fryga's operating system.
 - [x] hq extracted, config-driven, skeleton green
 - [ ] Repo public with LICENSE, CONTRIBUTING, and CI
 
-## Checklists
+## To-dos
 
 ### Go public
 - [x] Squash main to one clean public commit
-- [ ] Interactive install smoke-test — @marcin
+- [ ] Interactive install smoke-test — @marcin, due 2026-08-01
+    Needs a Claude Code restart; then `/plugin install hq@fryga` in a fresh vault.
 
 ### CI
-- [ ] plugin validate + structural checks on PRs — @marcin, due 2026-08-01
+- [ ] plugin validate + structural checks on PRs — @marcin
+
+## Docs
+- [[hq-vault-design]] — the schema this OS extends
+- [MIT license](https://opensource.org/license/mit)
 ```
 
 ### Knowledge
@@ -717,7 +734,7 @@ in `hq.config.yml`). A single-company vault omits the field entirely.
 ### Owners
 
 Multi-operator vaults only. A team handle that names a `people/` note — never a
-full name. An initiative's `owner:` is the person accountable for it; a checklist
+full name. An initiative's `owner:` is the person accountable for it; a to-do
 item may name its own doer inline (`— @handle`). A solo vault omits the field.
 
 ### Signing dated entries
@@ -917,7 +934,7 @@ subfolder's `index.md`.
 2. **Work links to its rationale.** An initiative links to the knowledge/canon that
    motivates it, so "why are we doing this" is one hop away.
 3. **Knowledge cross-references** go in body text, not frontmatter.
-4. **An initiative's work lives in its own body.** Its checklists are plain
+4. **An initiative's work lives in its own body.** Its to-dos are plain
    markdown in the initiative file — there is no separate work file to link back,
    and nothing for a dashboard to roll up.
 

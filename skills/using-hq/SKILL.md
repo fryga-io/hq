@@ -142,7 +142,7 @@ applies, and the schema still lives in the spec). Reach for the one matching you
 work.
 
 **Core:**
-- `working-initiatives` — work checklists, status moves, archive, split.
+- `working-initiatives` — work to-dos, curate docs, status moves, archive, split.
 - `working-knowledge` — promote a note to canon, merge/split notes.
 - `working-log` — capture a decision; the log-vs-knowledge call.
 

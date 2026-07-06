@@ -7,7 +7,7 @@ title: Initiatives
 # Initiatives
 
 One file per initiative — a strategic effort or a standing bucket. Each owns its
-checklists in its body.
+to-dos in its body.
 
 | Initiative | Company | Status | Started |
 |---|---|---|---|

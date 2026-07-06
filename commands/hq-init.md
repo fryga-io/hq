@@ -167,7 +167,7 @@ Navigation list" below; do not hardcode this list>
 - Every file has YAML frontmatter with `tags` and `title`. See the schemas in
   the OS spec (the hq plugin's `docs/vault-design.md`).
 - Status enums, never free text. Initiatives: `active | paused | completed | abandoned`.
-- An initiative owns its work as `## Checklists` in its body — `- [ ]` / `- [x]` items.
+- An initiative owns its work as `## To-dos` in its body — `- [ ]` / `- [x]` items.
 - `[[wikilinks]]` for internal links; markdown links for external URLs.
 
 ## What's Active Right Now
@@ -194,7 +194,7 @@ For each scaffolded folder, use the one-line description from this reference tab
 
 | Folder | Bullet |
 |---|---|
-| `initiatives/` | `- [[initiatives/index\|Initiatives]] — efforts and standing lanes; each owns its checklists` |
+| `initiatives/` | `- [[initiatives/index\|Initiatives]] — efforts and standing lanes; each owns its to-dos` |
 | `knowledge/` | `- [[knowledge/index\|Knowledge]] — company-owned thinking and references` |
 | `log/` | `- [[log/index\|Log]] — decisions, meeting notes, observations` |
 | `library/` | `- [[library/index\|Library]] — external signals (raw content + synthesis wiki)` |

@@ -1,7 +1,7 @@
 # hq
 
 An open-source Claude Code plugin that turns a plain markdown vault into an
-**AI-operated company hub** — initiatives (each owning its checklists), knowledge,
+**AI-operated company hub** — initiatives (each owning its to-dos and docs), knowledge,
 a decision log, a library of external signals, a CRM, a content pipeline, and more,
 all maintained
 by agent commands. The markdown files are the source of truth; Obsidian and the

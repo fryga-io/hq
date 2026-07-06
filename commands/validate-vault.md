@@ -124,11 +124,11 @@ frontmatter field**, not from its folder — `competitive/`, `sales/`, and most
     the team handles, and Content's `author` likewise. If `team` is **not** declared
     (solo vault), `owner`/`author` are not expected; do not check them.
 - Required body sections by type (check for `##` headings in the file body):
-  - **Initiative:** `## Goal` is required. `## Checklists`, `## Context`, and
-    `## Key Results` are optional — `## Checklists` is the conventional home for an
+  - **Initiative:** `## Goal` is required. `## To-dos`, `## Docs`, `## Context`,
+    and `## Key Results` are optional — `## To-dos` is the conventional home for an
     active initiative's open work, but it is not hard-required (some initiatives
     track their work as `## Key Results`). A standing bucket carries just `## Goal`
-    + `## Checklists`.
+    + `## To-dos`.
   - **Library:** the item must capture its source. Either a raw-material section
     (`## Raw Content` **or** `## Raw Transcript` — the full text or transcript
     verbatim, never a summary) **or**, for a book/binary source, a sibling source

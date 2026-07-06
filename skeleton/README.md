@@ -7,7 +7,7 @@ Identity is carried by the vault itself; `hq.config.yml` holds only canon and an
 
 ## Navigation
 
-- [[initiatives/index|Initiatives]] — efforts and standing lanes; each owns its checklists
+- [[initiatives/index|Initiatives]] — efforts and standing lanes; each owns its to-dos
 - [[knowledge/index|Knowledge]] — company-owned thinking and references
 - [[people/index|People]] — registry of people the vault refers to
 - [[companies/index|Companies]] — registry of organizations the vault refers to
@@ -26,7 +26,7 @@ Identity is carried by the vault itself; `hq.config.yml` holds only canon and an
 - Every file has YAML frontmatter with `tags` and `title`. See the schemas in
   the OS spec (the hq plugin's `docs/vault-design.md`).
 - Status enums, never free text. Initiatives: `active | paused | completed | abandoned`.
-- An initiative owns its work as `## Checklists` in its body — `- [ ]` / `- [x]` items.
+- An initiative owns its work as `## To-dos` in its body — `- [ ]` / `- [x]` items.
 - `[[wikilinks]]` for internal links; markdown links for external URLs.
 
 ## What's Active Right Now
