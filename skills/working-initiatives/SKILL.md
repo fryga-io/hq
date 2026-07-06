@@ -52,8 +52,8 @@ rollup — none exist. The work is in the file.
 ## Curate the Docs shelf
 
 `## Docs` (optional) is the initiative's reference shelf — a curated list of
-`[[wikilinks]]` to the `knowledge/`, `library/`, and `brand/` docs the effort leans
-on, plus external links, each with a one-line note on why it's relevant. Add to it
+`[[wikilinks]]` to the `knowledge/`, `library/`, and other-module docs the effort
+leans on, plus external links, each with a one-line note on why it's relevant. Add to it
 as the initiative accumulates reference, so "everything for this project" sits in
 one place. The documents themselves live in their home module (knowledge is shared,
 not siloed per initiative) — this section **gathers** the relevant ones, it does not

@@ -153,7 +153,7 @@ role, not a single instance.
 ## Design principles
 
 1. **If it's not in the vault, it doesn't exist.** All operational knowledge,
-   tasks, decisions, and strategic context live here.
+   work, decisions, and strategic context live here.
 2. **README is the map.** Short, navigational, points to indexes. The agent
    reads it first every session.
 3. **Progressive disclosure.** README → index files → individual files. Three
@@ -457,8 +457,8 @@ lists that get you there. They coexist; an outcome is not a to-do.
 
 **`## Docs` — the initiative's shelf.** An optional curated list of the docs and
 assets that belong to this initiative — `[[wikilinks]]` into `knowledge/`,
-`library/`, `brand/`, plus external links — so the reference for an effort sits with
-it. The documents live in their home module (knowledge is shared, not siloed per
+`library/`, and any other module, plus external links — so the reference for an
+effort sits with it. The documents live in their home module (knowledge is shared, not siloed per
 initiative); this section gathers the relevant ones, it does not copy them.
 
 ```markdown
@@ -719,7 +719,7 @@ file ctime.
   basename is ugly (`[[launch-pilot-program|the pilot]]`).
 - **Standard markdown links** for external URLs.
 - **Property links** in frontmatter use the same syntax:
-  `initiative: "[[launch-pilot-program]]"`.
+  `company: "[[northwind-crm]]"`.
 
 ### Status enums
 

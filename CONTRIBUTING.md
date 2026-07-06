@@ -11,7 +11,7 @@ how to test one.
 These are hard constraints. A change that breaks one of them won't merge.
 
 1. **The skeleton stays content-free.** `skeleton/` is structure only — empty
-   `index.md` / `wiki.md` stubs and dashboards, no example initiatives, tasks,
+   `index.md` / `wiki.md` stubs and dashboards, no example initiatives,
    knowledge, library items, or any other sample data. `/hq-init` copies the
    skeleton verbatim, so anything you add to it lands in every new vault.
 

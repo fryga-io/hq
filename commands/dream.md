@@ -132,7 +132,7 @@ Score active content and regenerate the `dream/salience.md` "What's hot" dashboa
 
 - **Recency** — most recent git commit touching the file. (Measure against `main`, not the dream branch, so this cycle's own lint edits don't inflate a file's score: `git log -1 --format=%ct main -- <file>`.)
 - **Backlink density** — inbound link count. If an `obsidian` CLI is available, `obsidian backlinks file="<name>"` is exact. **Fallback (always works):** grep the vault for `[[<basename>]]` wikilink targets and count the files that reference each candidate file.
-- **Status weight** — `active`/`doing` over `paused`/`backlog`; `completed`/`abandoned`/`done`/`cancelled` excluded.
+- **Status weight** — `active` over `paused`; `completed`/`abandoned` excluded.
 
 Rank, write the top slice into `dream/salience.md` and the report. No prose edits to vault content.
 
