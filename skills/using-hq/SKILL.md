@@ -27,6 +27,20 @@ neither authoritative. External artifacts — a website, blog, tool, another rep
 When an external artifact diverges from its vault file, the artifact is wrong: fix
 it outward, never rewrite the vault to match.
 
+## Raw material is captured before it is answered
+
+When the operator hands you a **transcript** — a meeting recording, a call, an
+interview — the raw transcript goes into a `log/` entry **verbatim, before you
+answer anything about it**. Summary, action items, and to-dos are written on top
+of it, in the same entry.
+
+This holds when the ask is only "pull out the action items": file the entry, then
+answer. Answering in chat and offering to file it later is the failure this rule
+exists to stop — the prose survives, the transcript does not. Missing facts do
+not defer the entry either: file what was said, then ask. Same for other pasted
+raw material an entry is built from (an email thread, a chat export). Shape and
+sections → **`working-log`**.
+
 ## Session startup
 
 Read **every** module's `index.md` silently before responding — the core
