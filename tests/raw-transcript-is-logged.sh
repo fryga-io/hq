@@ -8,9 +8,10 @@
 # run a real headless session against a real throwaway vault and look at the
 # file it wrote. No mocks. It costs tokens and it can flake.
 #
-# It asserts the OUTCOME (transcript lines present verbatim in log/), not the
-# mechanism — an agent that gets the entry right without loading the
-# `working-log` skill still passes. Skill invocation is reported as a diagnostic.
+# A run passes only if BOTH hold: the `working-log` skill was actually invoked,
+# and every transcript line survives verbatim in log/. The outcome is what the
+# rule is for; the skill call is how the vault's log discipline gets loaded, so
+# a run that lands the right file by luck without it is not a pass.
 #
 #   ./tests/raw-transcript-is-logged.sh          # 2 cases x 3 runs
 #   RUNS=1 ./tests/raw-transcript-is-logged.sh   # quick
@@ -53,7 +54,19 @@ run_case() { # $1 = prompt; echoes "<verbatim-lines-found>/<total> <skill-fired:
     --allowed-tools Skill Read Glob Grep Write Edit \
     ${MODEL_ARG[@]+"${MODEL_ARG[@]}"} 2>/dev/null)"
 
-  printf '%s' "$out" | grep -q '"skill":"hq:working-log"' && skill=1
+  # Parse the stream properly: the JSON is emitted with and without spaces after
+  # the colons depending on the event, so grepping a literal shape false-negatives.
+  printf '%s' "$out" | python3 -c '
+import json, sys
+for line in sys.stdin:
+    try: d = json.loads(line)
+    except ValueError: continue
+    for c in (d.get("message") or {}).get("content") or []:
+        if isinstance(c, dict) and c.get("type") == "tool_use" and c.get("name") == "Skill":
+            if "working-log" in json.dumps(c.get("input") or {}):
+                sys.exit(0)
+sys.exit(1)
+' && skill=1
 
   # Everything written under log/, minus the pre-existing index stub.
   logged="$(find "$vault/log" -name '*.md' ! -name 'index.md' -exec cat {} + 2>/dev/null)"
@@ -75,14 +88,14 @@ for case in "${CASES[@]}"; do
     read -r lines skill <<< "$(run_case "$prompt")"
     detail="$detail $lines"
     skills=$((skills + skill))
-    [ "${lines%/*}" = "${lines#*/}" ] && passes=$((passes + 1))
+    [ "${lines%/*}" = "${lines#*/}" ] && [ "$skill" -eq 1 ] && passes=$((passes + 1))
   done
   if [ "$passes" -eq "$RUNS" ]; then
-    printf 'PASS  %-18s transcript verbatim %d/%d runs  [working-log skill fired %d/%d]\n' \
-      "$name" "$passes" "$RUNS" "$skills" "$RUNS"
+    printf 'PASS  %-18s %d/%d runs  (working-log fired %d/%d, transcript verbatim%s)\n' \
+      "$name" "$passes" "$RUNS" "$skills" "$RUNS" "$detail"
   else
-    printf 'FAIL  %-18s transcript verbatim %d/%d runs (lines kept:%s)  [working-log skill fired %d/%d]\n' \
-      "$name" "$passes" "$RUNS" "$detail" "$skills" "$RUNS"
+    printf 'FAIL  %-18s %d/%d runs  (working-log fired %d/%d, transcript verbatim%s)\n' \
+      "$name" "$passes" "$RUNS" "$skills" "$RUNS" "$detail"
     fail=1
   fi
 done
