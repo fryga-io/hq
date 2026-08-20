@@ -1,7 +1,7 @@
 {
   "name": "hq",
   "description": "An AI-operated company brain — a structured markdown vault plus the Claude Code commands that maintain it",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": {
     "name": "Marcin Ostrowski",
     "email": "marcin@fryga.io"
