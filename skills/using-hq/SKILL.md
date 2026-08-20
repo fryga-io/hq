@@ -144,7 +144,7 @@ work.
 **Core:**
 - `working-initiatives` — work to-dos, curate docs, status moves, archive, split.
 - `working-knowledge` — promote a note to canon, merge/split notes.
-- `working-log` — capture a decision; the log-vs-knowledge call.
+- `working-log` — capture a decision, meeting, or transcript; the log-vs-knowledge call.
 
 **Entity registries:**
 - `working-people` — add/update a person node; node-vs-CRM-contact routing.
