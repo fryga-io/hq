@@ -552,6 +552,12 @@ No required body sections — a log entry's structure fits its `type` (a decisio
 meeting, handoff, or observation each shape their own sections). Filename
 `YYYY-MM-DD-slug.md`.
 
+**One exception**: an entry written from a transcript carries the **full raw
+transcript verbatim** under a `## Raw Transcript` section at the bottom of the
+body, never summarized or condensed. Summary, action items, and to-dos go above
+it — the transcript is raw material the entry is built on top of, and it is never
+replaced by the prose written from it.
+
 ### Weekly output file
 
 ```yaml

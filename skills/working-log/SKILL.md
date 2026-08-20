@@ -1,6 +1,6 @@
 ---
 name: working-log
-description: "Use when capturing something into an hq vault's log/ — recording a decision, meeting, review, or observation as a dated entry; choosing whether an event belongs in the log versus a knowledge/initiative rewrite; or signing and indexing an existing log entry. Use whenever you touch log/ to capture a point-in-time record."
+description: "Use when capturing something into an hq vault's log/ — recording a decision, meeting, review, or observation as a dated entry; filing a transcript someone handed over; choosing whether an event belongs in the log versus a knowledge/initiative rewrite; or signing and indexing an existing log entry. Use whenever you touch log/ to capture a point-in-time record."
 ---
 
 # Working the log
@@ -35,6 +35,12 @@ Frontmatter `type` is one of `decision | meeting | review | observation` (**see 
 
 A decision entry that records only the verdict and not the *why* is half an entry — the reasoning is the part future-you cannot reconstruct from git.
 
+## A transcript goes in raw, and stays
+
+When the entry comes from a transcript — a meeting recording, a call, an interview — the **full raw transcript goes into the entry verbatim**, under `## Raw Transcript` at the bottom of the body (**see the spec** → *Log Entry*). Summary, action items, and to-dos are written **on top of it**, above it in the same file. Never store only your prose: the summary is your reading of the meeting, the transcript is what was actually said, and only one of those can be re-read later for something you missed the first time.
+
+Same rule for other pasted raw material an entry is built from (an email thread, a chat export) — it goes in verbatim under `## Raw Content`, mirroring the library's raw-material convention (**per `working-library`**).
+
 ## Sign dated lines with operator initials
 
 Because log entries are inherently dated records, any dated line inside one carries the operator's initials: `2026-06-05 (RV): decided X`. Initials come from the operator's `people/` note (**see the spec** → *Signing dated entries*). Git is the source of truth for authorship; the initials add Obsidian-readable attribution. Knowledge and initiative files do **not** use dated, signed lines.
@@ -51,6 +57,7 @@ A new entry must appear in `log/index.md` (**per using-hq** → *Creating a file
 - **Logging a decision but not rewriting the canon it changed** — the log records the *event*; the standing truth must also be updated in place (**per using-hq**).
 - **Stacking a dated decision into a knowledge/initiative file** — standing files carry no dated "Updates" sections; that belongs in the log (**per using-hq**).
 - **A `decision` entry with the verdict but no rationale** — the *why* is the irreplaceable part; record it.
+- **Summarizing a transcript and dropping the raw text** — the transcript goes in verbatim under `## Raw Transcript`; the summary sits on top of it, never in place of it.
 - **Dated lines with no `(initials)`** — inherently-dated records are signed (**see the spec**).
 - **Adding a `/weekly` rollup to `log/index.md`** — `log/weekly/` is output-only and unindexed.
 
