@@ -1,6 +1,6 @@
 ---
 name: working-log
-description: "Use when capturing something into an hq vault's log/ — recording a decision, meeting, review, or observation as a dated entry; choosing whether an event belongs in the log versus a knowledge/initiative rewrite; or signing and indexing an existing log entry. Use whenever you touch log/ to capture a point-in-time record."
+description: "Use when capturing something into an hq vault's log/ — recording a decision, meeting, review, or observation as a dated entry; filing a transcript someone handed over; choosing whether an event belongs in the log versus a knowledge/initiative rewrite; or signing and indexing an existing log entry. Use whenever you touch log/ to capture a point-in-time record."
 ---
 
 # Working the log
