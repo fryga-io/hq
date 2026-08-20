@@ -13,6 +13,21 @@
 # rule is for; the skill call is how the vault's log discipline gets loaded, so
 # a run that lands the right file by luck without it is not a pass.
 #
+# Measured 2026-08-20, Opus, 5 runs per case unless noted. Four variants of where
+# the trigger lives, scored as (working-log skill invoked / runs):
+#
+#   description                          using-hq section    fired
+#   -----------------------------------  ------------------  ------------
+#   original, no transcript mention      full recipe         5/6   (n=6)
+#   full trigger + "before answering"    full recipe         3/10
+#   transcript in the trigger list       full recipe         7/10  <- shipped
+#   transcript in the trigger list       pointer to skill    5/10
+#
+# None reached 10/10. Across all four, "transcript verbatim in log/" was 36/36 —
+# the outcome held everywhere the skill call did not. Before the rule existed,
+# the asks-for-summary case stored nothing 0/2: the agent answered in chat, called
+# no tools, and offered to file the entry later.
+#
 #   ./tests/raw-transcript-is-logged.sh          # 2 cases x 3 runs
 #   RUNS=1 ./tests/raw-transcript-is-logged.sh   # quick
 #   MODEL=sonnet ./tests/raw-transcript-is-logged.sh
