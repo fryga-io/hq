@@ -23,6 +23,22 @@ on top. It does **not** cover authoring a new initiative's body or frontmatter
 (that is the spec → *Initiative*), nor the create-a-file / before-commit checklists
 (those are `using-hq`).
 
+## An initiative is finite
+
+An initiative is a **project: it has a beginning and an end**. Scope and name it so
+it can be *closed*, not so it can absorb a permanent subject. When the project ends,
+what remains durable is promoted into `knowledge/` and the file is archived (below).
+
+Two consequences, both at naming time:
+
+- **Name it for the project, not for the standing topic** — `acme-compliance`
+  (closable) over `compliance` (never closable).
+- **"Part of this work outlives the project" is not a reason to keep it open.** It
+  is a line item for the close: promote it to `knowledge/`, then archive.
+
+The one exception is a **standing bucket** — a declared always-on lane (see *The
+surfaces a status change touches*). Anything not declared a bucket is finite.
+
 ## Working the to-dos — the everyday move
 
 `## To-dos` are plain markdown in the initiative body; operating them is plain
@@ -76,10 +92,12 @@ The README list is **active-only**. Flipping an initiative to `paused`,
 `active` means *adding* it. `validate-vault` Test 6 fails on any stale README
 entry, Test 4 on any index row that contradicts the file.
 
-**Standing buckets stay `active`** as long as their lane is live — Admin & Ops or
-Sales rarely "completes." They sit in the index and README's What's Active like any
-other active initiative; group them separately there if the vault's `CLAUDE.md`
-calls for it.
+**Standing buckets are the one exception to finiteness** and stay `active` as long
+as their lane is live — Admin & Ops or Sales rarely "completes." A bucket is a
+deliberate declaration, not a default: every other initiative is a project that must
+be closable (see *An initiative is finite*). Buckets sit in the index and README's
+What's Active like any other active initiative; group them separately there if the
+vault's `CLAUDE.md` calls for it.
 
 ## Move a status
 
@@ -100,12 +118,16 @@ real outcome — don't soften an abandoned initiative into "completed".
 When a `completed` or `abandoned` initiative is no longer live reference, move its
 file into an `archive/` subfolder to keep `initiatives/` scannable:
 
-1. Move `initiatives/<slug>.md` → `initiatives/archive/<slug>.md`. The slug and
+1. **Promote what outlives the project.** Anything still durable — a procedure, a
+   standing answer, a reference the vault will keep consulting — moves into
+   `knowledge/` (per `working-knowledge`) before the file leaves `initiatives/`.
+   Leftovers are not a reason to keep the initiative open; they are this step.
+2. Move `initiatives/<slug>.md` → `initiatives/archive/<slug>.md`. The slug and
    body are unchanged.
-2. In `initiatives/index.md`, move its row out of the live table into the
+3. In `initiatives/index.md`, move its row out of the live table into the
    **Archived** line, noting outcome + date (e.g. `[[archive/<slug>]] — shipped,
    archived <date>`).
-3. Confirm it is **not** in README "What's Active" (a concluded initiative already
+4. Confirm it is **not** in README "What's Active" (a concluded initiative already
    left that list when its status changed).
 
 **Inbound `[[<slug>]]` links do not break on this move.** Test 3 resolves
@@ -149,6 +171,7 @@ line, and archive or delete the emptied file.
 | Labelling a dropped effort `completed` to look tidy | `completed` = goal reached, `abandoned` = effort dropped. Record the real outcome. |
 | Inventing a status enum for a to-do item (`doing`, `blocked`) | An item is `- [ ]` or `- [x]`; any extra state goes in the item's own prose or notes block. |
 | Copying a knowledge/library doc into `## Docs` | Docs is a curated list of `[[wikilinks]]`; the document stays in its home module. |
+| Keeping an initiative `active` because part of its work outlives the project | An initiative is finite. Close it, promote the durable part to `knowledge/`, archive the file. Only a declared standing bucket stays open. |
 | Keeping every completed item forever as an audit trail | The body is current state; prune stale done items and finished lists — git holds the history. |
 
 ## Related
