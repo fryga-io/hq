@@ -41,6 +41,14 @@ not defer the entry either: file what was said, then ask. Same for other pasted
 raw material an entry is built from (an email thread, a chat export). Shape and
 sections → **`working-log`**.
 
+## Write at checkpoints, not per message
+
+The rule above is for raw material only. Everything else (decisions, state
+changes, the operator's verdicts) goes into the vault at checkpoints: a decision
+that changes state, the end of an iteration, or when the operator asks. Not after
+every message. One update and one commit per checkpoint. In-chat instructions and
+reactions to throwaway drafts stay in the chat.
+
 ## Session startup
 
 Read **every** module's `index.md` silently before responding — the core
