@@ -52,10 +52,16 @@ reactions to throwaway drafts stay in the chat.
 ## Session startup
 
 Read **every** module's `index.md` silently before responding — the core
-(`initiatives/`, `knowledge/`, `log/`) and every optional module the
+(`initiatives/`, `knowledge/`) and every optional module the
 vault has (`people/`, `companies/`, `library/`, `crm/`, `distillery/`,
 `competitive/`, `sales/`, `operations/`). Indexes only — they are the map; load
 individual files on demand.
+
+**`log/` is not in that read, and you never open it on your own.** It is an
+archive, exactly like git history: you go in only when the operator explicitly
+asks you to. Current state lives in `knowledge/`, `operations/` and
+`initiatives/` — when the answer is not there, say so and ask. Never reach into
+`log/` to fill the gap, and never quote a log entry as what is true now.
 
 ## Response style
 
