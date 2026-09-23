@@ -9,7 +9,7 @@
     {
       "name": "hq",
       "description": "An AI-operated company brain — a structured markdown vault plus the Claude Code commands that maintain it",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "source": "./",
       "author": {
         "name": "Marcin Ostrowski",
