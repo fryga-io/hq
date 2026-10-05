@@ -57,6 +57,10 @@ vault has (`people/`, `companies/`, `library/`, `crm/`, `distillery/`,
 `competitive/`, `sales/`, `operations/`). Indexes only — they are the map; load
 individual files on demand.
 
+An index line is a pointer, not a source. Cite a file only after opening it in
+this session. When a fact appears only in an index, open the file or ask. Two
+facts joined by an inference are a question, not a claim.
+
 **`log/` is not in that read, and you never open it on your own.** It is an
 archive, exactly like git history: you go in only when the operator explicitly
 asks you to. Current state lives in `knowledge/`, `operations/` and
@@ -74,6 +78,16 @@ Keep reasoning that is load-bearing: an assumption the operator should get to
 veto ("omitting `company:` — single-company vault; say if not"), an ambiguity, a
 risk, or the rationale for a consequential edit. Surface it inline where you act,
 not as an upfront preamble. Silence the homework, never the judgement.
+
+- **One topic per message.** Carry the current topic only. Park open questions
+  that belong elsewhere and raise them once the current topic is closed; don't
+  repeat them in every message. Status in brief: what happened, what's next.
+- **Report in chat.** Summarize runs, reviews and audits for the operator in
+  chat, in plain language. Don't send the operator to read a report file.
+- **Agent tooling is the agent's call.** Tools built for the agent's own use
+  (indexers, search helpers, agent skills) are the agent's to design: make the
+  technical decisions and say what you chose. Bring the operator only questions
+  about the business and about their own words.
 
 ## Progressive disclosure
 
@@ -93,6 +107,19 @@ changed and why.
 observations). They are never rewritten when reality changes — a new log entry
 captures the new state. Knowledge and initiative files are rewritten.
 
+- **Rules are written general.** Files agents read as instructions — runbooks,
+  canon, command and skill prompts — state the rule only, with no ticket numbers,
+  places, counterparties or platforms from the case that prompted it.
+- **The rule, not the proof.** A file states the rule and one clause on where it
+  comes from ("read from the shared drive", "from the supplier's offer"). The
+  counts, samples and distributions behind it stay out of the file. Same in
+  answers: cite the source, not a tally.
+- **Recording an operator's rule.** Write the rule's content with attribution
+  and date (`<Name>, YYYY-MM-DD:`). Leave out colloquial or emotional phrasing,
+  the approval itself ("ok, make it a rule"), and the story of how the rule came
+  up. Quote verbatim only when the wording itself carries the rule: a number, a
+  condition, a name.
+
 ## Editing scope: stay inside the explicit ask
 
 Every claim is load-bearing; a "minor" adjacent word swap is a silent claim change.
@@ -104,6 +131,10 @@ diff and ask first.**
 - **Adjacent edits pause** — prose next to your edit, prose now inconsistent with
   it, or a claim you think is stale: stop at "I noticed X in [location] — propose Y,
   or leave?" and wait.
+- **Content scope.** An artifact carries exactly what was asked for. A finding
+  outside that scope, however relevant, goes to chat as a question ("found X —
+  should it go somewhere?"), not into the file: not as a section, a heading, or a
+  parenthetical.
 
 Guards against: reconciling adjacent text to your new claim (coherence bias);
 synthesizing a "missing" bullet the operator should infer (helpfulness reflex);
@@ -148,7 +179,7 @@ first, then the README, then existing files.
 
 ## Conventions
 
-- lowercase-kebab-case filenames; initiatives named for their subject (`hq-open-source.md`).
+- Every file the agent names — vault notes, exports, PDFs, attachments — is lowercase-kebab-case: no spaces, no dots except before the extension, dates in the name as `YYYY-MM-DD`. Initiatives are named for their subject (`hq-open-source.md`).
 - Dates `YYYY-MM-DD`, via the `created` / `date` property.
 - `[[wikilinks]]` for internal links; markdown links for external URLs.
 - Relationships are `[[wikilinks]]` in prose; promote one to a frontmatter property only when a Bases dashboard queries it.

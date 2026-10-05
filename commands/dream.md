@@ -56,7 +56,7 @@ Read `hq.config.yml` and extract:
 2. **Find the watermark.** The most recent dated file in `dream/` is the watermark. `consolidate` only considers `log/` entries dated *after* it. **If `dream/` is empty (first run), scan the entire `log/` history** — a bounded first run would strand older un-promoted entries forever (the watermark only moves forward).
 3. **Run phases in order**, committing after each: `lint`, `contradict`, `consolidate`, `salience`. Commit-per-phase preserves partial progress and keeps each diff reviewable alone.
 4. **Write the report** to `dream/YYYY-MM-DD.md` (see format) and commit it.
-5. **Hand back**: one-paragraph summary + counts + "review branch `dream/YYYY-MM-DD`, merge when happy." Do not merge yourself.
+5. **Hand back** in chat: one-paragraph summary + counts + "review branch `dream/YYYY-MM-DD`, merge when happy." Put every *Needs your call* item in that message, numbered, one line each, phrased as a question; don't send the operator to the report file. Do not merge yourself.
 
 Under `--dry-run`, do none of the writes above: cut no branch, commit nothing, edit no file. Report what each phase *would* do — the lint fixes it would apply, the paste-ready fixes contradict found, the promotions consolidate would make, the salience ranking — and leave `git status` clean.
 
