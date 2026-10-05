@@ -39,6 +39,8 @@ A decision entry that records only the verdict and not the *why* is half an entr
 
 When the entry comes from a transcript — a meeting recording, a call, an interview — the **full raw transcript goes into the entry verbatim**, under `## Raw Transcript` at the bottom of the body (**see the spec** → *Log Entry*). Summary, action items, and to-dos are written **on top of it**, above it in the same file. Never store only your prose: the summary is your reading of the meeting, the transcript is what was actually said, and only one of those can be re-read later for something you missed the first time.
 
+File it before you answer anything about it, even when the ask is only "pull out the action items" and even when facts are missing: file what was said, then ask. Answering in chat and offering to file it later is the failure: the prose survives, the transcript does not.
+
 Same rule for other pasted raw material an entry is built from (an email thread, a chat export) — it goes in verbatim under `## Raw Content`, mirroring the library's raw-material convention (**per `working-library`**).
 
 ## Sign dated lines with operator initials

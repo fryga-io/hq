@@ -27,27 +27,27 @@ neither authoritative. External artifacts — a website, blog, tool, another rep
 When an external artifact diverges from its vault file, the artifact is wrong: fix
 it outward, never rewrite the vault to match.
 
-## Raw material is captured before it is answered
+## Write at checkpoints
 
-When the operator hands you a **transcript** — a meeting recording, a call, an
-interview — the raw transcript goes into a `log/` entry **verbatim, before you
-answer anything about it**. Summary, action items, and to-dos are written on top
-of it, in the same entry.
+Decisions, state changes and the operator's verdicts stay in the chat until a
+checkpoint. There are three: the work is finished, the context is about to be
+compacted, the session is handed over. Within one session the approach can
+change several times; a decision written the moment it is made leaves a state
+that is stale an hour later. At a checkpoint write the final state only, one
+update and one commit. The final state and its reason are information; the
+back-and-forth of decisions inside one chat is noise and is never written down.
 
-This holds when the ask is only "pull out the action items": file the entry, then
-answer. Answering in chat and offering to file it later is the failure this rule
-exists to stop — the prose survives, the transcript does not. Missing facts do
-not defer the entry either: file what was said, then ask. Same for other pasted
-raw material an entry is built from (an email thread, a chat export). Shape and
-sections → **`working-log`**.
+Exception: a transcript or other raw material handed over goes into `log/` at
+once, before you answer anything about it → `working-log`.
 
-## Write at checkpoints, not per message
+## Rules live in the vault, not in agent memory
 
-The rule above is for raw material only. Everything else (decisions, state
-changes, the operator's verdicts) goes into the vault at checkpoints: a decision
-that changes state, the end of an iteration, or when the operator asks. Not after
-every message. One update and one commit per checkpoint. In-chat instructions and
-reactions to throwaway drafts stay in the chat.
+How to work here (the operator's corrections, preferences, conventions) is
+written in the vault: its CLAUDE.md, knowledge/, operations/. When a rule holds
+for every vault, it goes into this plugin, written generally, not fitted to
+the case it came from. Never into the agent's private memory (such as Claude
+Code's auto-memory): nobody else can see it, so nobody can tell which rules
+the agent follows.
 
 ## Session startup
 
