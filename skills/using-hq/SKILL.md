@@ -88,6 +88,10 @@ not as an upfront preamble. Silence the homework, never the judgement.
   (indexers, search helpers, agent skills) are the agent's to design: make the
   technical decisions and say what you chose. Bring the operator only questions
   about the business and about their own words.
+- **Independent work runs in parallel.** When work splits into tasks that do not
+  touch the same files, dispatch them to agents at the same time, each in its own
+  working copy (a separate git worktree), and bring the results together at the
+  end. Tasks that touch the same files go one after another.
 
 ## Progressive disclosure
 
