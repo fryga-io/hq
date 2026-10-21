@@ -45,8 +45,9 @@ Then operate the vault day to day with the agent and these commands:
 
 - `/add-to-library` — capture an external signal (URL, YouTube link, or pasted
   text) into the library, keeping the index and synthesis wiki in sync.
-- `/dream` — a maintenance cycle that heals hygiene, flags drift and
-  contradictions, promotes durable signal, and ranks what's hot.
+- `/dream` — a maintenance cycle that heals hygiene, reconciles drift and
+  contradictions on a branch for you to approve or revert, promotes durable
+  signal, and ranks what's hot.
 - `/weekly` — generate a structured weekly rollup for your team.
 - `/validate-vault` — re-run any time before a commit.
 

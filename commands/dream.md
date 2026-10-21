@@ -1,5 +1,5 @@
 ---
-description: "Run a maintenance cycle over the vault — surface where it has drifted out of sync, heal mechanical hygiene, and rank what's hot. Four phases: lint (auto-fix mechanical hygiene), contradict (detect-only drift/contradiction detection), consolidate (promote durable log signal), salience (rank what's hot). Config-driven: discovers canon from hq.config.yml plus each file's self-declaration; Obsidian CLI optional. Cuts a dream/YYYY-MM-DD branch, never writes to main."
+description: "Run a maintenance cycle over the vault — surface where it has drifted out of sync, heal mechanical hygiene, and rank what's hot. Four phases: lint (auto-fix mechanical hygiene), contradict (reconciles drift and contradictions on the branch), consolidate (promote durable log signal), salience (rank what's hot). Config-driven: discovers canon from hq.config.yml plus each file's self-declaration; Obsidian CLI optional. Cuts a dream/YYYY-MM-DD branch, never writes to main."
 ---
 
 Run a maintenance cycle over the vault — surface where it has drifted out
@@ -15,10 +15,10 @@ Obsidian CLI, if present, is an enhancement, never a requirement.
 conversations. Those edits are partial: a conversation rewrites the canon and
 leaves the satellites that restate it lagging behind. So the dominant failure is
 **intra-knowledge drift** — a satellite file still says "three pillars" while the
-canon now says "three bets". The cycle's main job is to *detect* that drift and
-hand the operator ready-to-apply fixes — not to silently rewrite load-bearing
-prose. Promoting log signal into knowledge is a secondary safety net. Runs on
-demand; never unattended (v1).
+canon now says "three bets". The cycle's main job is to reconcile that drift on
+the dream branch, the operator's newer statement winning, and ask the operator to
+approve or revert each change. Promoting log signal into knowledge is a secondary
+safety net. Runs on demand; never unattended (v1).
 
 ## Step 0: Resolve the vault root and load config
 
@@ -48,17 +48,17 @@ Read `hq.config.yml` and extract:
 - `/dream` — run all four phases in order
 - `/dream <phase>` — one phase only. Phases: `lint`, `contradict`, `consolidate`, `salience`
 - `/dream --dry-run` — report what each phase *would* do; touch nothing, commit nothing
-- `/dream --interactive` — checkpoint with the operator after each phase's findings, before that phase commits. Decisions get applied in-run (including judgment items contradict would otherwise only report), each recorded in the report's *Needs your call* section as resolved. Authority rules below still bind the non-interactive default.
+- `/dream --interactive` — checkpoint with the operator after each phase's findings, before that phase commits. Verdicts get applied in-run, each recorded in the report's *Needs your call* section as resolved and in `dream/verdicts.md`. Authority rules below still bind the non-interactive default.
 
 ## Harness — do this first, every run
 
-1. **Cut a branch from `main`** (`git checkout -b dream/YYYY-MM-DD main` — works even when `main` is checked out in another worktree; pull first if the checkout is clean and a remote exists). If the branch exists, append `-2`, `-3`. When testing the command from a feature branch that already contains `main`, branching from the current HEAD is acceptable — note it in the report. **Never write to `main`.** On long runs (especially `--interactive`), re-check `main` before the final commit — the operator may have pushed mid-cycle; merge and reconcile before handing back. The cycle's writes (lint fixes, the report, the salience dashboard) land on this branch; the operator reviews via `git diff main...dream/YYYY-MM-DD` and merges when satisfied.
+1. **Cut a branch from `main`** (`git checkout -b dream/YYYY-MM-DD main` — works even when `main` is checked out in another worktree; pull first if the checkout is clean and a remote exists). If the branch exists, append `-2`, `-3`. When testing the command from a feature branch that already contains `main`, branching from the current HEAD is acceptable — note it in the report. **Never write to `main`.** On long runs (especially `--interactive`), re-check `main` before the final commit — the operator may have pushed mid-cycle; merge and reconcile before handing back. The cycle's writes (lint fixes, contradict's reconciliations, the report, the salience dashboard) land on this branch; the operator does not review the diff, answers the hand-back questions, and merges.
 2. **Find the watermark.** The most recent dated file in `dream/` is the watermark. `consolidate` only considers `log/` entries dated *after* it. **If `dream/` is empty (first run), scan the entire `log/` history** — a bounded first run would strand older un-promoted entries forever (the watermark only moves forward).
 3. **Run phases in order**, committing after each: `lint`, `contradict`, `consolidate`, `salience`. Commit-per-phase preserves partial progress and keeps each diff reviewable alone.
 4. **Write the report** to `dream/YYYY-MM-DD.md` (see format) and commit it.
-5. **Hand back** in chat: one-paragraph summary + counts + "review branch `dream/YYYY-MM-DD`, merge when happy." Put every *Needs your call* item in that message, numbered, one line each, phrased as a question; don't send the operator to the report file. Do not merge yourself.
+5. **Hand back** in chat: one-paragraph summary + counts + the *Needs your call* items, numbered, one line each: a concrete, high-level question about a thing that is changing, for the operator to approve or revert. One question per thing, however many files it touches. Skip any question `dream/verdicts.md` already answers. Don't send the operator to the report file or the diff. When the operator answers, revert on the branch what they reject and record each verdict in `dream/verdicts.md`. Do not merge yourself.
 
-Under `--dry-run`, do none of the writes above: cut no branch, commit nothing, edit no file. Report what each phase *would* do — the lint fixes it would apply, the paste-ready fixes contradict found, the promotions consolidate would make, the salience ranking — and leave `git status` clean.
+Under `--dry-run`, do none of the writes above: cut no branch, commit nothing, edit no file. Report what each phase *would* do — the lint fixes it would apply, the changes contradict would make, the promotions consolidate would make, the salience ranking — and leave `git status` clean.
 
 ## Discovering canon — config plus self-declaration
 
@@ -77,18 +77,18 @@ Build the canon set from both before contradict runs. Do **not** infer canon
 from a filename pattern — there is no fixed `*-canon.md` convention to rely on.
 The config list plus self-declaration is the whole source.
 
-## Authority — what writes, what only proposes
+## Authority — what each phase writes
 
 The cycle does three different things with three different permission levels. Keep
 them straight.
 
-- **lint auto-fixes mechanical hygiene** on the branch — indexes, unambiguous links, frontmatter enums, `.base` guards, determinate dated-appendix folds. Deterministic, low-stakes, reviewable in the diff.
+- **lint auto-fixes mechanical hygiene** on the branch — indexes, unambiguous links, frontmatter enums, `.base` guards, determinate dated-appendix folds. Deterministic, low-stakes.
 - **consolidate auto-writes only *new, additive* knowledge** that clears both gates — never overwrites or rewrites an existing claim. Rare (see Phase 3).
-- **contradict never writes to vault content.** It is detect-only. It emits **copy-paste-ready fixes** for the operator to apply, and routes genuine decisions to *Needs your call*. Reconciling an existing load-bearing claim is the operator's to apply, not the cycle's to guess.
+- **contradict reconciles on the branch.** It rewrites stale and contradicting content to the operator's newer statement, and puts one question per change in *Needs your call* for the operator to approve or revert.
 
 Two hard rules across all phases:
 
-- **Canon is the source of truth *by declaration*** — the discovered canon set (config `vault.canon` plus each file's self-declared canon). Determinate fixes reconcile satellite → canon. **Do NOT use git commit recency to decide which file is authoritative.** Recency measures when text churned, not when a claim was decided — a satellite touched yesterday for a typo is not "fresher truth," and a canon claim untouched for a month is not stale. When the canon's declared authority plus the content itself don't settle which side is right, it is a judgment item, not a determinate fix.
+- **Canon is the source of truth *by declaration*** — the discovered canon set (config `vault.canon` plus each file's self-declared canon). Determinate fixes reconcile satellite → canon. **The operator's newer statement wins over the canon:** when a date written in the vault (a dated rule or note, a `log/` entry) shows the operator stated something after what the canon says, rewrite the canon to it. **Do NOT use git commit recency to decide which file is authoritative.** Recency measures when text churned, not when a claim was decided — a satellite touched yesterday for a typo is not "fresher truth," and a canon claim untouched for a month is not stale. When neither the canon's declared authority nor a written date settles which side is right, ask one question.
 - **Never write dated appendices.** No `## Update`, `## Changelog`, `as of <date>` sections. Weave new truth into current-state prose; git is the history. Fold any *existing* dated appendix you encounter into current-state prose (lint).
 
 ## Phase 1 — lint (deterministic, auto-fix)
@@ -104,16 +104,16 @@ Run the `validate-vault` checks, then **fix** the mechanical failures:
 
 Report counts fixed per category; ambiguous breakage → *Needs your call*.
 
-## Phase 2 — contradict (detect-only, the main event)
+## Phase 2 — contradict (reconcile, the main event)
 
-Cross-read `knowledge/` + `initiatives/` for claims that disagree, have drifted from the canon, or gone stale. **Writes nothing to vault content.** Classify every finding into exactly one of three buckets:
+Cross-read `knowledge/` + `initiatives/` for claims that disagree, have drifted from the canon, or gone stale. **Writes its reconciliations on the dream branch.** Classify every finding into exactly one of three buckets:
 
-- **Paraphrase-drift — determinate fix.** Same idea, stale wording the canon settles (e.g. "three pillars" → "three bets"). Emit a **copy-paste-ready fix** in the report: exact `file:line`, the old text, and the replacement text, so applying it is a paste. You do not apply it.
-- **Contradiction — judgment.** A satellite asserts something the canon *refuses* (e.g. a "build-new" claim when canon says "What's out: build-new"), or two files genuinely disagree on a decision. Describe both sides, cite both `file:line`, route to *Needs your call*. Do **not** pick a winner — a contradiction is a decision, not a typo.
+- **Paraphrase-drift — determinate fix.** Same idea, stale wording the canon settles (e.g. "three pillars" → "three bets"). Apply it on the branch; record `file:line`, the old text and the new text in the report.
+- **Contradiction — judgment.** A satellite asserts something the canon *refuses* (e.g. a "build-new" claim when canon says "What's out: build-new"), or two files genuinely disagree on a decision. Rewrite the losing side to the operator's newer statement, cite both `file:line` in the report, and route a question to *Needs your call*.
 - **Staleness.** A `status: active` initiative with no git activity touching it in 3+ weeks. Flag in *Needs your call* (it may be live work happening off-git — the operator's call to pause).
 - **External-artifact drift is not a contradiction.** The vault is the truth; external repos implement what the vault states (vault-design principle 8). When an external artifact (site, blog repo) diverges from its vault file, the artifact is wrong: emit a *fix outward* chore (update the repo to match the vault), never rewrite the vault file to match the repo, and never classify the divergence as a vault contradiction.
 
-The drift-vs-contradiction split is the whole discipline: only drift earns a paste-ready fix; contradictions and staleness are always the operator's to decide.
+Drift and contradictions are both applied on the branch; the operator approves or reverts each. Staleness stays the operator's to decide.
 
 ## Phase 3 — consolidate (demoted — additive safety net)
 
@@ -124,7 +124,7 @@ Promote durable signal out of the log before it's lost. **This rarely fires** �
 - **Age gate** — skip anything younger than **3 days** (let it settle).
 - **Evidence gate** — require **≥2 corroborating mentions** across separate sources. One-offs stay in the log.
 
-Signal clearing both gates is woven in as **new, additive** content (a new `knowledge/` file with proper frontmatter + index entry, or a genuinely new section). **Consolidate never overwrites or rewrites an existing claim** — that's reconciliation, which is Phase 2's detect-only territory. Anything that fails a gate stays put; note why in the report.
+Signal clearing both gates is woven in as **new, additive** content (a new `knowledge/` file with proper frontmatter + index entry, or a genuinely new section). **Consolidate never overwrites or rewrites an existing claim** — that's reconciliation, which is Phase 2's territory. Anything that fails a gate stays put; note why in the report.
 
 ## Phase 4 — salience (deterministic, no LLM)
 
@@ -138,7 +138,7 @@ Rank, write the top slice into `dream/salience.md` and the report. No prose edit
 
 ## Self-consumption guard
 
-The `dream/` folder is **excluded from every phase's inputs.** The cycle never reads its own output (reports, salience) as signal — that creates feedback loops. `dream/` is output only; intentionally not in any `index.md`, and excluded from `validate-vault`'s index/orphan checks.
+The `dream/` folder is **excluded from every phase's inputs.** The cycle never reads its own output (reports, salience) as signal — that creates feedback loops. One exception: `dream/verdicts.md`, the operator's recorded verdicts, which the hand-back reads so the same question is not asked again. `dream/` is output only; intentionally not in any `index.md`, and excluded from `validate-vault`'s index/orphan checks.
 
 ## Report format — `dream/YYYY-MM-DD.md`
 
@@ -152,10 +152,10 @@ Phases run: lint, contradict, consolidate, salience
 <counts fixed per category; ambiguous items deferred>
 
 ## contradict
-### Determinate fixes (paste-ready)
-<file:line · replace «old» → «new»>
-### Contradictions & staleness → Needs your call
-<file:line ↔ file:line, the disagreement / the stale initiative>
+### Changes applied
+<file:line · «old» → «new»>
+### Contradictions resolved & staleness
+<file:line ↔ file:line, which statement won / the stale initiative>
 
 ## consolidate
 <promotions: what → file, age, mentions> · <deferrals + reason>
@@ -164,7 +164,7 @@ Phases run: lint, contradict, consolidate, salience
 <ranked top slice>
 
 ## Needs your call
-<contradictions, staleness, and any judgment-laden item with no determinate fix>
+<one concrete question per change: approve or revert; staleness; any judgment-laden item with no determinate fix>
 ```
 
 ## Optional: Obsidian CLI enhancement
@@ -188,9 +188,9 @@ filesystem (grep) for anything the diff touches.
 ## Red flags — STOP if you catch yourself
 
 - About to commit to `main` → wrong. Cut the dream branch.
-- Auto-rewriting an existing knowledge/initiative claim to resolve drift → wrong. contradict is detect-only; emit a paste-ready fix for the operator to apply.
-- Picking a winner on a contradiction (a satellite asserting what the canon refuses) → wrong. That's a decision → *Needs your call*.
-- Using git commit recency to decide which file is authoritative → wrong. Recency is churn, not authority. Canon is authority by declaration; unclear cases are judgment items.
+- Sending the operator to review a diff or paste a fix → wrong. Apply the change on the branch and ask one concrete question about it.
+- Asking a question `dream/verdicts.md` already answers → wrong.
+- Using git commit recency to decide which file is authoritative → wrong. Recency is churn, not authority. Canon is authority by declaration, overridden by a dated newer statement of the operator's; unclear cases get one question.
 - Assuming canon from a filename → wrong. Discover it from `vault.canon` plus self-declaration.
 - consolidate overwriting an existing claim → wrong. It only adds new, gated, additive knowledge.
 - Promoting a single mention or a <3-day-old entry → wrong. Gates: age ≥3d AND ≥2 mentions.
