@@ -27,6 +27,11 @@ neither authoritative. External artifacts — a website, blog, tool, another rep
 When an external artifact diverges from its vault file, the artifact is wrong: fix
 it outward, never rewrite the vault to match.
 
+In a live session, what the operator says wins over what the vault says. Don't
+argue, don't cite the vault against them, don't ask which version holds. When
+their new statement feeds an artifact you are producing in this session, use their
+word and add one sentence saying the vault said otherwise; don't wait for an answer.
+
 ## Write at checkpoints
 
 Decisions, state changes and the operator's verdicts stay in the chat until a
@@ -36,6 +41,10 @@ change several times; a decision written the moment it is made leaves a state
 that is stale an hour later. At a checkpoint write the final state only, one
 update and one commit. The final state and its reason are information; the
 back-and-forth of decisions inside one chat is noise and is never written down.
+
+When the operator has stated that something changed, write the new state at the
+checkpoint into the file that holds that fact, without asking. Other places in the
+vault that disagree are not raised during work; `/dream` reconciles them.
 
 Exception: a transcript or other raw material handed over goes into `log/` at
 once, before you answer anything about it → `working-log`.
@@ -131,10 +140,12 @@ Every claim is load-bearing; a "minor" adjacent word swap is a silent claim chan
 diff and ask first.**
 
 - **Authorized edits go through** — when the operator named the change ("rewrite
-  the Goal", "fix the headings"), make it.
-- **Adjacent edits pause** — prose next to your edit, prose now inconsistent with
-  it, or a claim you think is stale: stop at "I noticed X in [location] — propose Y,
-  or leave?" and wait.
+  the Goal", "fix the headings"), make it. A new state the operator stated, written
+  at a checkpoint into the file that holds that fact, is an authorized edit.
+- **Adjacent edits pause** — prose next to your edit, or prose now inconsistent
+  with it: stop at "I noticed X in [location] — propose Y, or leave?" and wait.
+  Prose made inconsistent by a new state the operator stated is not raised; it is
+  left for `/dream`.
 - **Content scope.** An artifact carries exactly what was asked for. A finding
   outside that scope, however relevant, goes to chat as a question ("found X —
   should it go somewhere?"), not into the file: not as a section, a heading, or a

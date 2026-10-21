@@ -371,7 +371,8 @@ content type: an initiatives dashboard also uses `file.hasTag("initiative")`.
 ### `dream/` (output-only)
 
 Where the `/dream` maintenance cycle writes its output: one `YYYY-MM-DD.md`
-report per run plus a regenerated `salience.md` "what's hot" ranking. It is
+report per run, a regenerated `salience.md` "what's hot" ranking, and
+`verdicts.md`, the operator's answers to the cycle's questions. It is
 created on the cycle's first run; a vault that never runs `/dream` has no
 `dream/` folder.
 
@@ -380,7 +381,8 @@ content file, so it carries no `index.md`, appears in no other index, and is
 **excluded from `validate-vault`** — the index/orphan check (Test 4) skips it and
 the README-reachability check (Test 6) does not expect its files to be reachable.
 The cycle also never reads `dream/` as input (the self-consumption guard), so its
-reports never feed back into a later run. Treat it the way `dashboards/` is treated: a real folder the validator deliberately ignores.
+reports never feed back into a later run. The one exception is `verdicts.md`, read
+so the cycle does not ask the same question twice. Treat it the way `dashboards/` is treated: a real folder the validator deliberately ignores.
 
 ### `log/weekly/` (output-only)
 
