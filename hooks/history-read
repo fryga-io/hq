@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+# PostToolUse hook for the hq plugin.
+#
+# When a tool call inside an hq vault reads history — `log/` or a folder listed
+# under `vault.history` in hq.config.yml — inject a reminder that it is history,
+# not current state, and how to report it. It never blocks: the operator asking
+# "why" is a legitimate reason to read the log, and only the model knows whether
+# that happened. Outside a vault, or for any other path, it injects nothing.
+
+set -uo pipefail
+
+input="$(cat 2>/dev/null || true)"
+
+# python3 parses the hook JSON reliably; without it, stay silent.
+command -v python3 >/dev/null 2>&1 || { printf '{}\n'; exit 0; }
+
+HQ_HOOK_INPUT="$input" python3 - <<'PY'
+import json, os, re, sys
+
+def silent():
+    print("{}")
+    sys.exit(0)
+
+try:
+    data = json.loads(os.environ.get("HQ_HOOK_INPUT") or "{}")
+except ValueError:
+    silent()
+
+cwd = data.get("cwd") or os.getcwd()
+root = cwd
+while True:
+    if os.path.isfile(os.path.join(root, "hq.config.yml")):
+        break
+    parent = os.path.dirname(root)
+    if parent == root:
+        silent()
+    root = parent
+
+# History folders: log/ plus vault.history entries (a flat YAML list).
+folders = ["log"]
+try:
+    in_history = False
+    for line in open(os.path.join(root, "hq.config.yml"), encoding="utf-8"):
+        stripped = line.split("#", 1)[0].rstrip()
+        if re.match(r"^\s+history:\s*$", stripped):
+            in_history = True
+            continue
+        if in_history:
+            m = re.match(r"^\s+-\s+(\S+)\s*$", stripped)
+            if m:
+                folders.append(m.group(1).strip("'\"").rstrip("/"))
+                continue
+            if stripped.strip():
+                in_history = False
+        m = re.match(r"^\s+history:\s*\[(.*)\]\s*$", stripped)
+        if m:
+            folders += [f.strip().strip("'\"").rstrip("/") for f in m.group(1).split(",") if f.strip()]
+except OSError:
+    pass
+
+tool = data.get("tool_name", "")
+ti = data.get("tool_input") or {}
+if tool == "Bash":
+    text = ti.get("command", "")
+    # Writing or committing an entry is not reading history.
+    if re.match(r"^\s*git\s", text):
+        silent()
+else:
+    text = " ".join(str(ti.get(k, "")) for k in ("file_path", "path", "pattern", "glob"))
+
+hit = None
+for f in folders:
+    absolute = os.path.join(root, f) + "/"
+    relative = re.compile(r"(^|[\s'\"=(:])(\./)?" + re.escape(f) + r"/")
+    if absolute in text or relative.search(text) or (tool != "Bash" and os.path.normpath(ti.get("path", "") or "x") == os.path.join(root, f)):
+        hit = f
+        break
+if not hit:
+    silent()
+
+msg = (
+    f"You just read history (`{hit}/`). It records why something was decided and "
+    "what was considered and rejected — never what is true now. Use it only to answer "
+    "the operator's question about why something is so, what else was considered, or "
+    "when it changed (or for a command built to read it, such as /dream or /weekly). "
+    "Report it as history: the date, the past tense, then the current rule from its "
+    "working file; when they differ, the working file holds — say so, don't resolve it. "
+    "If the operator did not ask, stop reading history and work from the working files."
+)
+print(json.dumps({"hookSpecificOutput": {"hookEventName": "PostToolUse", "additionalContext": msg}}))
+PY

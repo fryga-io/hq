@@ -56,10 +56,11 @@ procedure** — it overwrites established source-of-truth prose:
 4. Update the `knowledge/index.md` hook if the canon's one-line summary changed
    (per using-hq → *Index maintenance*).
 
-Note `/dream`'s `consolidate` phase is deliberately **additive-only** — it will
-not overwrite or reconcile an existing canon claim, it routes that to the
-operator. Overwriting canon is your judgment under the editing-scope gate, never
-an automated rewrite.
+Note `/dream`'s `consolidate` phase only writes a decision's rule into the
+working file its log entry names when the rule is missing there — it will not
+overwrite or reconcile an existing canon claim, it routes that to the operator.
+Overwriting canon is your judgment under the editing-scope gate, never an
+automated rewrite.
 
 ## Merge two overlapping notes
 

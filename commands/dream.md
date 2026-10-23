@@ -1,5 +1,5 @@
 ---
-description: "Run a maintenance cycle over the vault — surface where it has drifted out of sync, heal mechanical hygiene, and rank what's hot. Four phases: lint (auto-fix mechanical hygiene), contradict (reconciles drift and contradictions on the branch), consolidate (promote durable log signal), salience (rank what's hot). Config-driven: discovers canon from hq.config.yml plus each file's self-declaration; Obsidian CLI optional. Cuts a dream/YYYY-MM-DD branch, never writes to main."
+description: "Run a maintenance cycle over the vault — surface where it has drifted out of sync, heal mechanical hygiene, and rank what's hot. Four phases: lint (auto-fix mechanical hygiene), contradict (reconciles drift and contradictions on the branch), consolidate (every decision in the log stands in its working file), salience (rank what's hot). Config-driven: discovers canon from hq.config.yml plus each file's self-declaration; Obsidian CLI optional. Cuts a dream/YYYY-MM-DD branch, never writes to main."
 ---
 
 Run a maintenance cycle over the vault — surface where it has drifted out
@@ -17,8 +17,10 @@ leaves the satellites that restate it lagging behind. So the dominant failure is
 **intra-knowledge drift** — a satellite file still says "three pillars" while the
 canon now says "three bets". The cycle's main job is to reconcile that drift on
 the dream branch, the operator's newer statement winning, and ask the operator to
-approve or revert each change. Promoting log signal into knowledge is a secondary
-safety net. Runs on demand; never unattended (v1).
+approve or revert each change. The log is history, not a source of knowledge:
+the cycle checks that every decision recorded there stands in its working file,
+and never promotes log content as current truth. Runs on demand; never
+unattended (v1).
 
 ## Step 0: Resolve the vault root and load config
 
@@ -83,7 +85,7 @@ The cycle does three different things with three different permission levels. Ke
 them straight.
 
 - **lint auto-fixes mechanical hygiene** on the branch — indexes, unambiguous links, frontmatter enums, `.base` guards, determinate dated-appendix folds. Deterministic, low-stakes.
-- **consolidate auto-writes only *new, additive* knowledge** that clears both gates — never overwrites or rewrites an existing claim. Rare (see Phase 3).
+- **consolidate writes a missing rule into its working file** on the branch, when a decision entry's rule is absent there, and asks approve-or-revert for each. It never overwrites an existing claim (see Phase 3).
 - **contradict reconciles on the branch.** It rewrites stale and contradicting content to the operator's newer statement, and puts one question per change in *Needs your call* for the operator to approve or revert.
 
 Two hard rules across all phases:
@@ -115,16 +117,29 @@ Cross-read `knowledge/` + `initiatives/` for claims that disagree, have drifted 
 
 Drift and contradictions are both applied on the branch; the operator approves or reverts each. Staleness stays the operator's to decide.
 
-## Phase 3 — consolidate (demoted — additive safety net)
+## Phase 3 — consolidate (every decision has a home)
 
-Promote durable signal out of the log before it's lost. **This rarely fires** — logs get folded into knowledge by hand during conversations, so the dominant drift is intra-knowledge (Phase 2), not un-promoted log signal. Consolidate exists for the delivery stretch where the canon goes unmaintained and logs pile up.
+The log is history (**per using-hq** → *`log/` is history, not state*). A decision
+whose only home is the log is a bug; this phase finds it. The operator ran
+`/dream`, which is the request to open `log/`.
 
-**Inputs:** `log/` after the watermark. Never read `dream/` or `.base` dashboards as signal. Apply **both gates**:
+**Inputs:** `type: decision` entries in `log/` after the watermark (first run: all
+of them). Never read `dream/` or `.base` dashboards as signal.
 
-- **Age gate** — skip anything younger than **3 days** (let it settle).
-- **Evidence gate** — require **≥2 corroborating mentions** across separate sources. One-offs stay in the log.
+For each entry, open the working file(s) its *Lives in* section names:
 
-Signal clearing both gates is woven in as **new, additive** content (a new `knowledge/` file with proper frontmatter + index entry, or a genuinely new section). **Consolidate never overwrites or rewrites an existing claim** — that's reconciliation, which is Phase 2's territory. Anything that fails a gate stays put; note why in the report.
+- **The rule stands there** → nothing to do.
+- **The rule is missing**, and no later entry supersedes it → write it into that
+  file on the branch as current-state prose, the rule only (no author, no date,
+  no link back into the log), and put one approve-or-revert question in *Needs
+  your call*.
+- **The working file says something else** → do not rewrite it. The working file
+  holds; report the difference in *Needs your call* as a question (the decision
+  may have changed without a new entry).
+- **No *Lives in*, or it points nowhere** → report it in *Needs your call*; do not
+  guess the home.
+
+Meeting, review and observation entries are not promoted.
 
 ## Phase 4 — salience (deterministic, no LLM)
 
@@ -158,7 +173,7 @@ Phases run: lint, contradict, consolidate, salience
 <file:line ↔ file:line, which statement won / the stale initiative>
 
 ## consolidate
-<promotions: what → file, age, mentions> · <deferrals + reason>
+<decisions checked · rules written: entry → file:line · differences and missing homes (also in Needs your call)>
 
 ## salience — what's hot
 <ranked top slice>
@@ -192,8 +207,9 @@ filesystem (grep) for anything the diff touches.
 - Asking a question `dream/verdicts.md` already answers → wrong.
 - Using git commit recency to decide which file is authoritative → wrong. Recency is churn, not authority. Canon is authority by declaration, overridden by a dated newer statement of the operator's; unclear cases get one question.
 - Assuming canon from a filename → wrong. Discover it from `vault.canon` plus self-declaration.
-- consolidate overwriting an existing claim → wrong. It only adds new, gated, additive knowledge.
-- Promoting a single mention or a <3-day-old entry → wrong. Gates: age ≥3d AND ≥2 mentions.
+- consolidate overwriting an existing claim → wrong. It only writes a missing rule; a difference is a question.
+- consolidate promoting meeting or observation content into knowledge → wrong. The log is history.
+- Writing a link from a working file into `log/` → wrong. Nothing links into history.
 - Writing a `## Update`/changelog/"as of" section → wrong. Weave into current-state prose.
 - Reading a prior `dream/` report as input → wrong. Self-consumption guard.
 - Adding `dream/` to an index → wrong. It is output-only, intentionally unindexed.

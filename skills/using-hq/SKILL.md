@@ -46,6 +46,11 @@ When the operator has stated that something changed, write the new state at the
 checkpoint into the file that holds that fact, without asking. Other places in the
 vault that disagree are not raised during work; `/dream` reconciles them.
 
+A decision is written first into the file agents work from for that task: a
+command or skill prompt, `knowledge/`, `operations/`, an initiative. The log entry
+recording why it was decided follows in the same commit → `working-log`. A
+decision whose only home is `log/` is a bug.
+
 Exception: a transcript or other raw material handed over goes into `log/` at
 once, before you answer anything about it → `working-log`.
 
@@ -70,11 +75,31 @@ An index line is a pointer, not a source. Cite a file only after opening it in
 this session. When a fact appears only in an index, open the file or ask. Two
 facts joined by an inference are a question, not a claim.
 
-**`log/` is not in that read, and you never open it on your own.** It is an
-archive, exactly like git history: you go in only when the operator explicitly
-asks you to. Current state lives in `knowledge/`, `operations/` and
-`initiatives/` — when the answer is not there, say so and ask. Never reach into
-`log/` to fill the gap, and never quote a log entry as what is true now.
+## `log/` is history, not state
+
+`log/` records what was decided, why, and what was considered and rejected. It
+never says what is true now. Current rules live in the files agents work from —
+`knowledge/`, `operations/`, `initiatives/`, the registries, command and skill
+prompts, CLAUDE.md — and each states its rule without needing the log. When the
+answer is not there, say so and ask. Never reach into `log/` to fill the gap.
+The same holds for every folder the config lists under `vault.history` (for
+example design specs).
+
+- **No path leads into `log/`.** Files agents work from never wikilink into
+  `log/` or a `vault.history` folder; the README map's link to `log/index` is the
+  one exception. Links run one way: a log entry names the file where its decision
+  lives.
+- **Open it only on request.** `log/` is not in the startup read and you never
+  open it on your own, not even before proposing to change a rule. The request is
+  the operator asking why something is so, whether something else was considered,
+  or when it changed — or running a command built to read the log (`/dream`,
+  `/weekly`). Find the entry by searching `log/index.md` and the entries that
+  link to the file in question, or by `git log -S` on the rule's line: the commit
+  that wrote the rule names its entry.
+- **Report it as history.** Give the date and the past tense ("on <date> the log
+  records …, X was rejected because …"), then restate the current rule from its
+  working file. When the two differ, the working file holds; report the
+  difference, don't resolve it. Never quote a log entry as what is true now.
 
 ## Response style
 
@@ -117,8 +142,9 @@ rewrite; git diff/log/blame are the audit trail, and commit messages name what
 changed and why.
 
 **Exception: `log/` entries** are point-in-time records (decisions, meetings,
-observations). They are never rewritten when reality changes — a new log entry
-captures the new state. Knowledge and initiative files are rewritten.
+observations). They are never rewritten when reality changes: the working file
+is rewritten, and a new entry records the change and why. Knowledge and
+initiative files are rewritten.
 
 - **Rules are written general.** Files agents read as instructions — runbooks,
   canon, command and skill prompts — state the rule only, with no ticket numbers,
@@ -127,8 +153,9 @@ captures the new state. Knowledge and initiative files are rewritten.
   comes from ("read from the shared drive", "from the supplier's offer"). The
   counts, samples and distributions behind it stay out of the file. Same in
   answers: cite the source, not a tally.
-- **Recording an operator's rule.** Write the rule's content with attribution
-  and date (`<Name>, YYYY-MM-DD:`). Leave out colloquial or emotional phrasing,
+- **Recording an operator's rule.** In the working file, write the rule as a
+  plain sentence, without attribution or date. Who said it, when, and in what
+  words goes into the log entry. Leave out colloquial or emotional phrasing,
   the approval itself ("ok, make it a rule"), and the story of how the rule came
   up. Quote verbatim only when the wording itself carries the rule: a number, a
   condition, a name.
@@ -218,7 +245,7 @@ work.
 **Core:**
 - `working-initiatives` — work to-dos, curate docs, status moves, archive, split.
 - `working-knowledge` — promote a note to canon, merge/split notes.
-- `working-log` — capture a decision, meeting, or transcript; the log-vs-knowledge call.
+- `working-log` — record why a decision was made, a meeting, or a transcript; answer "why is it so" from the log.
 
 **Entity registries:**
 - `working-people` — add/update a person node; node-vs-CRM-contact routing.

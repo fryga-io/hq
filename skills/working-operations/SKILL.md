@@ -78,9 +78,10 @@ The **procedure lives in the file (or in the command it names), not in this skil
 - A **checklist** is a literal checkbox list with a stated cadence ("run by the 5th
   of the following month"). Work the boxes in order; the file is self-describing.
 
-When a run surfaces a real decision, observation, or escalation, that is a `log/`
-entry, not an edit to the runbook (per `using-hq`: log is point-in-time, knowledge
-is current-state). Edit the runbook only when the *operation itself* changes.
+When a run surfaces an observation or escalation, that is a `log/` entry, not an
+edit to the runbook (per `using-hq`: log is history, working files are current
+state). When it surfaces a decision that changes the operation, edit the runbook
+first and record why in a `log/` entry (per `working-log`).
 
 ## Common mistakes
 
