@@ -41,7 +41,7 @@ Frontmatter `type` is one of `decision | meeting | review | observation` (**see 
   - **Why** — the reasoning. A decision with the verdict but no *why* is half an entry; the reasoning is the part nobody can reconstruct later.
   - **Considered and rejected** — each alternative with the reason it lost. This is what stops the same option being proposed again. Write only alternatives that were actually raised; when none were recorded, say so.
   - **Replaces** — the earlier entry this supersedes, if any.
-  - **Lives in** — the working file(s) where the rule now stands.
+  - **Lives in** — the working file(s) where the rule now stands. When the decision has since changed, the superseding entry, or one line saying it no longer applies and which commit changed it.
 - **`meeting`** — who, the substance discussed, what was validated or learned, and any next step.
 - **`review`** — what was assessed and the findings or verdict.
 - **`observation`** — the signal noticed and why it matters (the read), kept short.

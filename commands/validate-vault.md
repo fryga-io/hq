@@ -321,9 +321,10 @@ targets, compare the sets. No Obsidian CLI required.
   in the vault's own language. Report each as a FAIL with `file:line`.
 - **Decision entries are complete.** Every `type: decision` entry carries the
   sections `Question`, `Chosen`, `Why`, `Considered and rejected`, `Replaces` and
-  `Lives in`, in that order, and `Lives in` holds at least one wikilink (to the
-  working file where the rule stands, or for a superseded decision, to the
-  superseding entry). A missing section or an empty `Lives in` is a FAIL.
+  `Lives in`, in that order, and `Lives in` is not empty. It names where the rule
+  stands: a wikilink to the working file, a file outside the vault (e.g. a plugin
+  skill), the superseding entry, or one line saying the rule no longer applies and
+  which commit changed it. A missing section or an empty `Lives in` is a FAIL.
 
 `log/weekly/` is skipped by all three checks (output-only).
 

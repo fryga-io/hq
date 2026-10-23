@@ -577,8 +577,9 @@ A `decision` entry carries these sections, in order:
 ```
 
 *Replaces* may be empty. *Lives in* wikilinks the working file(s) where the rule
-stands; for a decision that has since been superseded, it may instead name the
-superseding entry. Meeting, review and observation entries have no required
+stands, or names a file outside the vault that holds it. For a decision that has
+since changed, it names the superseding entry, or says in one line that the rule
+no longer applies and which commit changed it. Meeting, review and observation entries have no required
 sections.
 
 No entry of any type describes how the system works now: no commands, file
