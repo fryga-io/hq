@@ -92,8 +92,9 @@ the case that tests this rule:
   files give it **no home**. Do not blindly append it to a roster whose scope
   rule excludes it. **Decide:** is this a positioning threat worth a tracked
   profile (which may mean amending the scope rule), or a market signal that
-  belongs in `knowledge/` or the library instead? Surface the call to the
-  operator rather than forcing it into the wrong file.
+  belongs in `knowledge/` or the library instead? Make the call, say which in one
+  clause, and put a scope-rule change in the parked list rather than forcing the
+  company into the wrong file.
 
 ## Answer positioning questions from the right surface
 

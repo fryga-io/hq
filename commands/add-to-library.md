@@ -76,10 +76,8 @@ created: <today YYYY-MM-DD>
 
 - **`company`**: **multi-company vaults only.** If the vault declares no
   `companies`, omit the field entirely. If it declares several, default to all of
-  them (a list) or ask the operator which apply — never invent a value outside the
-  declared list.
-- **`topics`**: ask the operator, or infer obvious tags from the content; an empty
-  list `[]` is valid.
+  them (a list) — never invent a value outside the declared list.
+- **`topics`**: infer obvious tags from the content; an empty list `[]` is valid.
 
 Under `## Raw Content`, paste the FULL fetched or provided text VERBATIM.
 

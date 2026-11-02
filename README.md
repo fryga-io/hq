@@ -57,7 +57,7 @@ The plugin ships:
 
 - `commands/` — the agent commands above.
 - `skills/` — the agent skills. `using-hq/` is the always-on **governance**
-  (session startup, schema pointers, editing discipline, conventions) injected
+  (flow, reading, the log, editing, end of work) injected
   every vault session — the single source of truth for how an agent governs a
   vault. Alongside it, one **capability skill per module** — the know-how for
   *operating* that module, loaded on demand (`working-initiatives`,

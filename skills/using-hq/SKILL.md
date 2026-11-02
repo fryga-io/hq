@@ -5,256 +5,112 @@ description: "Use when working in an hq vault — any session whose working dire
 
 # Using hq
 
-You are operating an **hq vault** — an AI-operated company hub: a markdown vault
-where the files are the source of truth and the agent and Obsidian are two
-interfaces over them. These are the generic rules for any hq vault; the vault's
-own `CLAUDE.md` adds company-specific policy on top.
+You are operating an **hq vault**: a markdown vault where the files are the source
+of truth and the agent and Obsidian are two interfaces over them. These are the
+generic rules for any hq vault; the vault's own `CLAUDE.md` adds company-specific
+policy. The schema (frontmatter, folders, enums) lives in `docs/vault-design.md`;
+the session-start hook gives its path. External artifacts (a site, a repo)
+implement what the vault states; when one diverges, fix it outward.
 
-**`hq.config.yml`** at the vault root is the marker: you find the vault root by
-walking up from the working directory to the directory that contains it. Identity
-— which companies are your own, who is on the team — is carried by the vault's own
-`companies/` and `people/` registries and how notes link to them, not declared in
-config. Config holds only what the vault can't derive or a dashboard validates:
-canon pointers, enum/CRM extensions, and — only in a multi-company or
-multi-operator vault — a short list naming those. Read it before acting; by default
-it is nearly empty.
+## Flow
 
-## The vault is the source of truth
+The operator drives. Follow their head and keep the work moving.
 
-The markdown files are the truth; Obsidian and the agent are interfaces over them,
-neither authoritative. External artifacts — a website, blog, tool, another repo —
-*implement* what the vault states; the vault is authored first and flows outward.
-When an external artifact diverges from its vault file, the artifact is wrong: fix
-it outward, never rewrite the vault to match.
+- **Their word wins.** In a live session, what the operator says wins over what
+  the vault says, the canon included. Use their word; don't argue, don't cite the
+  vault against them, don't ask which version holds.
+- **Ask only when nothing can move without them**: a business decision only they
+  can make, or what they meant by their own words. Ask it once, one question per
+  message, and keep working on whatever does not depend on the answer.
+- **Don't stop to ask** about file names, tags, frontmatter, indexes, where a file
+  goes, tooling or build choices, whether to proceed when the direction is clear,
+  or a fact you can look up in the vault, the mail or the drive. Decide, say in
+  one clause what you chose, and go on.
+- **Park everything else for the end of work**: a contradiction with the vault,
+  prose elsewhere that no longer fits, a finding outside the ask, an assumption,
+  an offer of extra work. Don't raise it mid-work.
+- No ceremony: no "rules loaded", no previews, no recap. Report runs, reviews and
+  audits in chat in plain language; don't send the operator to a report file.
+- Independent tasks that touch different files run in parallel, each agent in its
+  own git worktree.
 
-In a live session, what the operator says wins over what the vault says. Don't
-argue, don't cite the vault against them, don't ask which version holds. When
-their new statement feeds an artifact you are producing in this session, use their
-word and add one sentence saying the vault said otherwise; don't wait for an answer.
+## Reading
 
-## Write at checkpoints
-
-Decisions, state changes and the operator's verdicts stay in the chat until a
-checkpoint. There are three: the work is finished, the context is about to be
-compacted, the session is handed over. Within one session the approach can
-change several times; a decision written the moment it is made leaves a state
-that is stale an hour later. At a checkpoint write the final state only, one
-update and one commit. The final state and its reason are information; the
-back-and-forth of decisions inside one chat is noise and is never written down.
-
-When the operator has stated that something changed, write the new state at the
-checkpoint into the file that holds that fact, without asking. Other places in the
-vault that disagree are not raised during work; `/dream` reconciles them.
-
-A decision is written first into the file agents work from for that task: a
-command or skill prompt, `knowledge/`, `operations/`, an initiative. The log entry
-recording why it was decided follows in the same commit → `working-log`. A
-decision whose only home is `log/` is a bug.
-
-Exception: a transcript or other raw material handed over goes into `log/` at
-once, before you answer anything about it → `working-log`.
-
-## Rules live in the vault, not in agent memory
-
-How to work here (the operator's corrections, preferences, conventions) is
-written in the vault: its CLAUDE.md, knowledge/, operations/. When a rule holds
-for every vault, it goes into this plugin, written generally, not fitted to
-the case it came from. Never into the agent's private memory (such as Claude
-Code's auto-memory): nobody else can see it, so nobody can tell which rules
-the agent follows.
-
-## Session startup
-
-Read **every** module's `index.md` silently before responding — the core
-(`initiatives/`, `knowledge/`) and every optional module the
-vault has (`people/`, `companies/`, `library/`, `crm/`, `distillery/`,
-`competitive/`, `sales/`, `operations/`). Indexes only — they are the map; load
-individual files on demand.
-
-An index line is a pointer, not a source. Cite a file only after opening it in
-this session. When a fact appears only in an index, open the file or ask. Two
-facts joined by an inference are a question, not a claim.
+Start from `README.md` (the map), then the `index.md` of the modules the task
+touches, then the files themselves. Cite a file only after opening it in this
+session; an index line is a pointer, not a source. What no opened file says, don't
+claim.
 
 ## `log/` is history, not state
 
-`log/` records what was decided, why, and what was considered and rejected. It
-never says what is true now. Current rules live in the files agents work from —
-`knowledge/`, `operations/`, `initiatives/`, the registries, command and skill
-prompts, CLAUDE.md — and each states its rule without needing the log. When the
-answer is not there, say so and ask. Never reach into `log/` to fill the gap.
-The same holds for every folder the config lists under `vault.history` (for
-example design specs).
+`log/` records what was decided, why, and what was rejected; it never says what
+is true now. The same holds for every folder listed under `vault.history`.
 
-- **No path leads into `log/`.** Files agents work from never wikilink into
-  `log/` or a `vault.history` folder; the README map's link to `log/index` is the
-  one exception. Links run one way: a log entry names the file where its decision
-  lives.
-- **Open it only on request.** `log/` is not in the startup read and you never
-  open it on your own, not even before proposing to change a rule. The request is
-  the operator asking why something is so, whether something else was considered,
-  or when it changed — or running a command built to read the log (`/dream`,
-  `/weekly`). Find the entry by searching `log/index.md` and the entries that
-  link to the file in question, or by `git log -S` on the rule's line: the commit
-  that wrote the rule names its entry.
-- **Report it as history.** Give the date and the past tense ("on <date> the log
-  records …, X was rejected because …"), then restate the current rule from its
-  working file. When the two differ, the working file holds; report the
-  difference, don't resolve it. Never quote a log entry as what is true now.
+- Open it only when the operator asks why something is so, whether something else
+  was considered, or when it changed, or when a command built to read it runs
+  (`/dream`, `/weekly`). Answer as dated history, then state the current rule from
+  its working file.
+- Nothing outside `log/` links into it; the README map's link to `log/index` is
+  the one exception.
+- A transcript or other raw material handed over goes into `log/` at once, before
+  you answer anything about it → `working-log`.
 
-## Response style
+## Editing
 
-Apply the vault's rules silently — don't restate them. Cut ceremony: no "rules
-loaded" / "here's what I see", no restating the vault's config, schema, or
-identity back to the operator, no "about to read X" previews, no wrap-up recap
-of what you just did. Do the work; let the diff and the result speak.
+- **Stay inside the ask.** Change what the operator asked for, and a new state the
+  operator stated in the file that holds that fact. Don't touch other prose; park
+  it.
+- **An artifact carries exactly what was asked for.** A finding outside that scope
+  goes to the parked list, never into the file as a section, heading, or aside.
+- **Current state with rationale.** Rewrite the body to the new truth and why; no
+  "Update" / "Changelog" / dated sections. Git is the history. `log/` entries are
+  the exception: never rewritten, a new entry records the change.
+- **Writing a rule.** Files agents read as instructions state the rule generally,
+  as a plain sentence, with one clause on where it comes from: no ticket numbers,
+  counterparties, tallies, attribution or dates. Who said it, when, and why goes
+  into the log entry.
+- Every file the agent names, vault notes and exports alike, is
+  lowercase-kebab-case with dates as `YYYY-MM-DD`.
+- Read your diff before saying done.
 
-Keep reasoning that is load-bearing: an assumption the operator should get to
-veto ("omitting `company:` — single-company vault; say if not"), an ambiguity, a
-risk, or the rationale for a consequential edit. Surface it inline where you act,
-not as an upfront preamble. Silence the homework, never the judgement.
+## End of work
 
-- **One topic per message.** Carry the current topic only. Park open questions
-  that belong elsewhere and raise them once the current topic is closed; don't
-  repeat them in every message. Status in brief: what happened, what's next.
-- **Report in chat.** Summarize runs, reviews and audits for the operator in
-  chat, in plain language. Don't send the operator to read a report file.
-- **Agent tooling is the agent's call.** Tools built for the agent's own use
-  (indexers, search helpers, agent skills) are the agent's to design: make the
-  technical decisions and say what you chose. Bring the operator only questions
-  about the business and about their own words.
-- **Independent work runs in parallel.** When work splits into tasks that do not
-  touch the same files, dispatch them to agents at the same time, each in its own
-  working copy (a separate git worktree), and bring the results together at the
-  end. Tasks that touch the same files go one after another.
+Decisions and state changes stay in the chat until a checkpoint: the work is
+finished, the context is about to be compacted, or the session is handed over.
+At a checkpoint:
 
-## Progressive disclosure
+1. Write the final state only, into the file that holds each fact, without
+   asking. The back-and-forth inside the session is never written down.
+2. A decision goes first into the file agents work from for that task (a command
+   or skill prompt, `knowledge/`, `operations/`, an initiative); the log entry
+   recording why follows in the same commit → `working-log`.
+3. New files get frontmatter copied from the spec's per-type block and a line in
+   their `index.md`; an active initiative is listed in README *What's Active*.
+4. When files were created, moved or deleted, or frontmatter changed, run
+   `/validate-vault`. One commit.
+5. Hand back the parked list in one short message, most useful first. Other
+   places in the vault that disagree with the new state are left for `/dream`.
 
-Three layers, never more: `README.md` (the map) → `index.md` files (folder
-contents) → individual files (content). Load deeper only when the task needs it.
+## Rules live in the vault
 
-## Current state with rationale; history lives in git
-
-Files describe what is true *now* and the reasoning for it. When new information
-arrives, rewrite the relevant body to reflect the new truth and why — do **not**
-append "Updates" / "Changelog" / dated correction sections that preserve old
-framings beside the new one. Old framings, even wrong ones, are removed during the
-rewrite; git diff/log/blame are the audit trail, and commit messages name what
-changed and why.
-
-**Exception: `log/` entries** are point-in-time records (decisions, meetings,
-observations). They are never rewritten when reality changes: the working file
-is rewritten, and a new entry records the change and why. Knowledge and
-initiative files are rewritten.
-
-- **Rules are written general.** Files agents read as instructions — runbooks,
-  canon, command and skill prompts — state the rule only, with no ticket numbers,
-  places, counterparties or platforms from the case that prompted it.
-- **The rule, not the proof.** A file states the rule and one clause on where it
-  comes from ("read from the shared drive", "from the supplier's offer"). The
-  counts, samples and distributions behind it stay out of the file. Same in
-  answers: cite the source, not a tally.
-- **Recording an operator's rule.** In the working file, write the rule as a
-  plain sentence, without attribution or date. Who said it, when, and in what
-  words goes into the log entry. Leave out colloquial or emotional phrasing,
-  the approval itself ("ok, make it a rule"), and the story of how the rule came
-  up. Quote verbatim only when the wording itself carries the rule: a number, a
-  condition, a name.
-
-## Editing scope: stay inside the explicit ask
-
-Every claim is load-bearing; a "minor" adjacent word swap is a silent claim change.
-**For any edit to existing prose you weren't explicitly told to touch, show the
-diff and ask first.**
-
-- **Authorized edits go through** — when the operator named the change ("rewrite
-  the Goal", "fix the headings"), make it. A new state the operator stated, written
-  at a checkpoint into the file that holds that fact, is an authorized edit.
-- **Adjacent edits pause** — prose next to your edit, or prose now inconsistent
-  with it: stop at "I noticed X in [location] — propose Y, or leave?" and wait.
-  Prose made inconsistent by a new state the operator stated is not raised; it is
-  left for `/dream`.
-- **Content scope.** An artifact carries exactly what was asked for. A finding
-  outside that scope, however relevant, goes to chat as a question ("found X —
-  should it go somewhere?"), not into the file: not as a section, a heading, or a
-  parenthetical.
-
-Guards against: reconciling adjacent text to your new claim (coherence bias);
-synthesizing a "missing" bullet the operator should infer (helpfulness reflex);
-reporting done without reading your own diff. Always read your diff before claiming
-done.
-
-## The schema
-
-Frontmatter schemas, folders, enums, and conventions live in `docs/vault-design.md`
-(in the hq plugin; the SessionStart hook gives its absolute path). Read it before
-creating or editing any frontmatter — the per-type frontmatter blocks in that spec
-are the canonical skeletons to copy. Status fields use the documented enums, never
-free text. `company:` (multi-company vaults only) and `owner:` (multi-operator
-vaults only) are omitted by default; where present they name your own companies and
-a `people/` note. A vault may *extend* (never replace) the default enum sets via
-`vault.enums`.
-
-## Before every commit
-
-1. **Indexes current** — every file in `initiatives/`, `knowledge/`, `log/` (and
-   any module folder that enumerates files) appears in its `index.md`.
-2. **README "What's Active" current** — every active initiative listed.
-3. **Frontmatter matches** `docs/vault-design.md`.
-4. **All wikilinks resolve.**
-5. **Dashboards consistent** — every `.base` carries the `file.ext == "md"` guard
-   minimum; view bases add their content-type filter (e.g. `file.hasTag("initiative")`).
-
-Run `/validate-vault` to check all of this.
-
-## Creating a file
-
-1. Frontmatter matching the type's schema in `docs/vault-design.md` — copy the
-   per-type frontmatter block from there (the hook surfaces the spec's absolute path).
-2. Update the relevant `index.md`.
-3. If it's an initiative, add it to README "What's Active" when active.
-
-## Changing the schema
-
-Schema is OS-level — it lives in the plugin, not one vault, so propose changes
-upstream rather than forking per vault. In the plugin: update `docs/vault-design.md`
-first, then the README, then existing files.
-
-## Conventions
-
-- Every file the agent names — vault notes, exports, PDFs, attachments — is lowercase-kebab-case: no spaces, no dots except before the extension, dates in the name as `YYYY-MM-DD`. Initiatives are named for their subject (`hq-open-source.md`).
-- Dates `YYYY-MM-DD`, via the `created` / `date` property.
-- `[[wikilinks]]` for internal links; markdown links for external URLs.
-- Relationships are `[[wikilinks]]` in prose; promote one to a frontmatter property only when a Bases dashboard queries it.
-- `company:` — multi-company vaults only; list-capable, naming your own companies. A single-company vault omits it.
-
-## Commands
-
-- `/validate-vault` — full structural check (before every commit).
-- `/dream` — maintenance: heal hygiene, surface drift, rank what's hot.
-- `/add-to-library` — capture an external signal (URL, video, pasted text).
-- `/weekly` — structured weekly rollup.
-- `/hq-init` — scaffold a fresh vault (once, in an empty directory).
+How to work in a vault (the operator's corrections, preferences, conventions) is
+written in the vault: its `CLAUDE.md`, `knowledge/`, `operations/`. A rule for
+every vault goes into this plugin. Never into the agent's private memory, which
+nobody else can see. Schema changes go upstream into this plugin, never forked
+per vault.
 
 ## Capability skills
 
-Every module has a **capability skill** — the per-module operating know-how,
-loaded on demand when you work that module (the always-on discipline above still
-applies, and the schema still lives in the spec). Reach for the one matching your
-work.
+One per module, loaded when you work that module:
 
-**Core:**
-- `working-initiatives` — work to-dos, curate docs, status moves, archive, split.
-- `working-knowledge` — promote a note to canon, merge/split notes.
-- `working-log` — record why a decision was made, a meeting, or a transcript; answer "why is it so" from the log.
-
-**Entity registries:**
-- `working-people` — add/update a person node; node-vs-CRM-contact routing.
+- `working-initiatives` — to-dos, docs shelf, status moves, archive, split.
+- `working-knowledge` — promote to canon, merge/split notes.
+- `working-log` — record a decision, meeting, or transcript; answer "why" from the log.
+- `working-people` — add/update a person; node vs CRM contact.
 - `working-companies` — add a company node; wire project backlinks.
-
-**Optional modules:**
-- `working-library` — research, cite, remove, restructure items (past `/add-to-library`).
+- `working-library` — research, cite, remove, restructure items.
 - `working-crm` — advance a stage, log a touch, reconcile the index.
 - `working-distillery` — draft, run the review panel, bank, wire a channel.
 - `working-competitive` — record a move, re-grade threat, positioning.
 - `working-sales` — append prospects, reconcile totals, read a playbook.
-- `working-operations` — file a report, run a checklist, report-vs-audit.
+- `working-operations` — file a report, run a checklist, report vs audit.

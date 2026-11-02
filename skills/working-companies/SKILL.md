@@ -34,7 +34,7 @@ A new node is a registry file:
 |---|---|---|
 | filename | `<slug>.md`, lowercase-kebab | spec → *File naming* |
 | `company:` | **multi-company vaults only:** which of *your own* companies the node relates to (e.g. `company: [acme]`); usually empty for an external org, and omitted entirely in a single-company vault | `hq.config.yml` companies, per `using-hq` — **not** the company the node is *about* |
-| index entry | one line under the right heading in `companies/index.md` | per `using-hq` (create-a-file) |
+| index entry | one line under the right heading in `companies/index.md` | per `using-hq` (*End of work*) |
 
 The `company:` field is the easy trap, and in most vaults it simply isn't there: a
 single-company vault has no `company:` at all. In a **multi-company** vault it names

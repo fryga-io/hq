@@ -41,26 +41,24 @@ A vault may declare **canon** files in `hq.config.yml` — load-bearing
 source-of-truth nodes (e.g. `knowledge/<company>-canon.md`) that the rest of the
 vault cites instead of restating. `validate-vault` confirms each declared canon
 file exists. When a note and the canon disagree, **the canon wins**: the note
-defers to it.
+defers to it. In a live session the operator's word wins over both (per using-hq
+→ *Flow*).
 
 **Promoting an insight into canon is governed judgment, not a mechanical
 procedure** — it overwrites established source-of-truth prose:
 
 1. Weave the insight into the correct canon section as **current-state prose**
    (per using-hq — no dated appendix).
-2. Canon prose you weren't told to touch is load-bearing. **Pause and show the
-   diff** before editing adjacent claims, and get the operator's go-ahead before
-   you overwrite an existing canon claim (per using-hq → *Editing scope*).
+2. Change the canon claims the operator asked for or stated anew. Other canon
+   claims that no longer fit go to the parked list for the end of work (per
+   using-hq → *Editing*).
 3. **De-duplicate the source note**: make it *cite* the canon (`[[<company>-canon]]`)
-   rather than restate it (per using-hq — no duplication).
+   rather than restate it.
 4. Update the `knowledge/index.md` hook if the canon's one-line summary changed
-   (per using-hq → *Index maintenance*).
+   (the spec → *Index maintenance*).
 
-Note `/dream`'s `consolidate` phase only writes a decision's rule into the
-working file its log entry names when the rule is missing there — it will not
-overwrite or reconcile an existing canon claim, it routes that to the operator.
-Overwriting canon is your judgment under the editing-scope gate, never an
-automated rewrite.
+Outside a live session, canon that disagrees with the rest of the vault is
+reconciled by `/dream` on its branch, one approve-or-revert question per change.
 
 ## Merge two overlapping notes
 
@@ -73,7 +71,7 @@ signal or breaking inbound links:
    Run `obsidian backlinks file="<absorbed-slug>"` to enumerate the inbound set;
    add an alias on the survivor if the old name still reads naturally in prose.
 3. Delete the absorbed file and remove its `knowledge/index.md` entry; keep the
-   survivor's (per using-hq → *Index maintenance*).
+   survivor's (the spec → *Index maintenance*).
 4. `/validate-vault` to confirm no dangling links (Test 3) and no orphans
    (Test 4).
 
@@ -84,7 +82,8 @@ coherent sub-scope grows large enough to group (e.g. a domain or audience cluste
 that has outgrown the flat list). A subfolder carries **its own `index.md`** and is
 checked against it; the top-level `knowledge/index.md` then **points at the
 sub-index** rather than re-listing the sub-items (the spec → *Subfolders*).
-Splitting a scope out is a larger move — confirm with the operator before doing it.
+Split a scope out when the operator asks; otherwise offer it in the parked list
+at the end of work.
 
 The two entity registries that recur across vaults, **`people/` and
 `companies/`**, are *not* knowledge subfolders — they are their own top-level
@@ -96,7 +95,7 @@ modules (`working-people`, `working-companies`).
 |---|---|
 | Filing a report, runbook, checklist, or sourcing list under `knowledge/` | Those change because we *did* something — they belong in a function directory. Knowledge is the *thinking*. |
 | Restating canon content in a note instead of citing it | Two sources of truth drift apart — the exact intra-knowledge drift `/dream` is built to detect. Cite `[[<company>-canon]]`. |
-| Overwriting a canon claim without showing the diff / asking | Canon is load-bearing source-of-truth prose; silent edits are silent claim changes (per using-hq → *Editing scope*). |
+| Rewriting canon claims nobody asked you to touch | Canon is load-bearing source-of-truth prose; silent edits are silent claim changes. Park them (per using-hq → *Editing*). |
 | Merging notes but leaving inbound `[[<absorbed-slug>]]` links dangling | `obsidian backlinks` enumerates them — repoint each before deleting → else Test 3 FAIL. |
 | Stacking a dated "Updated / merged-from" section into a knowledge file | Knowledge is current-state-with-rationale; git carries history (per using-hq). |
 | Re-listing a subfolder's files in the top-level index | A subfolder with its own index is self-contained; the parent points at the sub-index only. |
@@ -104,8 +103,7 @@ modules (`working-people`, `working-companies`).
 ## Related
 
 - **`using-hq`** — the always-on discipline this skill builds on: current-state
-  rewriting, editing scope (the canon-overwrite gate), index maintenance,
-  wikilink resolution, before-every-commit checklist.
+  rewriting, editing scope, the end-of-work steps.
 - **The spec** (`docs/vault-design.md`) → *Knowledge* (frontmatter schema and the
   belongs-here test) and *Subfolders* (the one-level subfolder rule).
 - **`validate-vault`** — Test 4 (every knowledge file indexed, no orphans) and

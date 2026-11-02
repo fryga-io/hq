@@ -5,6 +5,8 @@ is *not itself a vault* — it has no `hq.config.yml`, so the SessionStart hook 
 not fire here. These rules govern agents working **on the plugin**, not inside a
 vault.
 
+The plugin is built to work well on Opus.
+
 The operating rules an adopter's vault runs on are **not** in this file — they
 live in `skills/using-hq/SKILL.md` (the SessionStart hook injects them into every
 vault session) and the schema lives in `docs/vault-design.md`. Treat each as the

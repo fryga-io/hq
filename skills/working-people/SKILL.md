@@ -64,7 +64,7 @@ they are, a CRM contact for the deal in flight — linked to each other.
 ## Add a person node
 
 1. Create `people/<first-last>.md` with the *Person* frontmatter copied from the
-   spec (per `using-hq` → *Creating a file*). In a multi-company vault, set
+   spec (per `using-hq` → *End of work*). In a multi-company vault, set
    `company:` **only if** the person is on one of your own companies; otherwise
    leave it empty. In a single-company vault there is no `company:` field. Give a
    **team member** their `handle` and `initials`.
