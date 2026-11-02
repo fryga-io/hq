@@ -14,7 +14,7 @@ placing a new artifact in the right kind with the right schema.
 
 It does **not** cover frontmatter (see the spec for *Report*, and *Knowledge* for
 everything else), the always-on cross-module discipline (per `using-hq`:
-current-state-not-audit-trail, editing scope, index hygiene, wikilink resolution),
+current-state-not-audit-trail, editing scope, index hygiene),
 or the report-generating tool itself (operator-supplied, per the spec). This skill
 is only the operations-specific layer on top.
 
@@ -97,8 +97,7 @@ first and record why in a `log/` entry (per `working-log`).
 ## Related
 
 - **`using-hq`** - the always-on discipline this skill sits on top of: current-state
-  vs. audit-trail (and the `log/` exception), editing scope, index hygiene before
-  commit, wikilink resolution.
+  vs. audit-trail (and the `log/` exception), editing scope, index hygiene.
 - **`docs/vault-design.md`** - *Report* (the report frontmatter + subfolder
   convention), *Knowledge* (runbook/checklist/snapshot/audit frontmatter), and
   *Operations module* (the doing-not-thinking boundary against `log/` and

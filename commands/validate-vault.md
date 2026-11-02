@@ -79,8 +79,8 @@ frontmatter field**, not from its folder — `competitive/`, `sales/`, and most
   - **Company** (`tags` contains `company` but **not** `crm`): `tags`, `title`,
     `topics`, `created`. (`company` is optional; set only in a multi-company vault.)
   - **Log:** `tags`, `title`, `date`, `type`.
-  - **Library:** `tags`, `title`, `url`, `topics`, `created` — plus `company`
-    (multi-company). (`topics` is a required key of list type; an empty list `[]` is
+  - **Library:** `tags`, `title`, `url`, `topics`, `created`. Library items
+    carry no `company`. (`topics` is a required key of list type; an empty list `[]` is
     valid. `url` is required but may be an empty string `""` for pasted-text sources.)
   - **CRM Company** (`tags` contains `crm` **and any** of `{company} ∪
     vault.crm.company_tags`): `tags`, `title`, `pipeline`, `created`. (`grade`,

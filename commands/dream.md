@@ -86,11 +86,11 @@ them straight.
 
 - **lint auto-fixes mechanical hygiene** on the branch — indexes, unambiguous links, frontmatter enums, `.base` guards, determinate dated-appendix folds. Deterministic, low-stakes.
 - **consolidate writes a missing rule into its working file** on the branch, when a decision entry's rule is absent there, and asks approve-or-revert for each. It never overwrites an existing claim (see Phase 3).
-- **contradict reconciles on the branch.** It rewrites stale and contradicting content to the operator's newer statement, and puts one question per change in *Needs your call* for the operator to approve or revert.
+- **contradict reconciles on the branch.** It rewrites stale and contradicting satellite content to the canon, and puts one question per change in *Needs your call* for the operator to approve or revert.
 
 Two hard rules across all phases:
 
-- **Canon is the source of truth *by declaration*** — the discovered canon set (config `vault.canon` plus each file's self-declared canon). Determinate fixes reconcile satellite → canon. **The operator's newer statement wins over the canon:** when a date written in the vault (a dated rule or note, a `log/` entry) shows the operator stated something after what the canon says, rewrite the canon to it. **Do NOT use git commit recency to decide which file is authoritative.** Recency measures when text churned, not when a claim was decided — a satellite touched yesterday for a typo is not "fresher truth," and a canon claim untouched for a month is not stale. When neither the canon's declared authority nor a written date settles which side is right, ask one question.
+- **Canon is the source of truth *by declaration*** — the discovered canon set (config `vault.canon` plus each file's self-declared canon). Determinate fixes reconcile satellite → canon. **`log/` is history and never decides what is true now:** a log entry, or a date in one, never outranks a working file. **Do NOT use git commit recency to decide which file is authoritative.** Recency measures when text churned, not when a claim was decided — a satellite touched yesterday for a typo is not "fresher truth," and a canon claim untouched for a month is not stale. When the canon's declared authority does not settle which side is right, ask one question.
 - **Never write dated appendices.** No `## Update`, `## Changelog`, `as of <date>` sections. Weave new truth into current-state prose; git is the history. Fold any *existing* dated appendix you encounter into current-state prose (lint).
 
 ## Phase 1 — lint (deterministic, auto-fix)
@@ -111,7 +111,7 @@ Report counts fixed per category; ambiguous breakage → *Needs your call*.
 Cross-read `knowledge/` + `initiatives/` for claims that disagree, have drifted from the canon, or gone stale. **Writes its reconciliations on the dream branch.** Classify every finding into exactly one of three buckets:
 
 - **Paraphrase-drift — determinate fix.** Same idea, stale wording the canon settles (e.g. "three pillars" → "three bets"). Apply it on the branch; record `file:line`, the old text and the new text in the report.
-- **Contradiction — judgment.** A satellite asserts something the canon *refuses* (e.g. a "build-new" claim when canon says "What's out: build-new"), or two files genuinely disagree on a decision. Rewrite the losing side to the operator's newer statement, cite both `file:line` in the report, and route a question to *Needs your call*.
+- **Contradiction — judgment.** A satellite asserts something the canon *refuses* (e.g. a "build-new" claim when canon says "What's out: build-new"), or two files genuinely disagree on a decision. When the canon settles it, rewrite the satellite to the canon; when it does not, change neither. Cite both `file:line` in the report and route a question to *Needs your call*.
 - **Staleness.** A `status: active` initiative with no git activity touching it in 3+ weeks. Flag in *Needs your call* (it may be live work happening off-git — the operator's call to pause).
 - **External-artifact drift is not a contradiction.** The vault is the truth; external repos implement what the vault states (vault-design principle 8). When an external artifact (site, blog repo) diverges from its vault file, the artifact is wrong: emit a *fix outward* chore (update the repo to match the vault), never rewrite the vault file to match the repo, and never classify the divergence as a vault contradiction.
 

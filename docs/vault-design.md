@@ -618,7 +618,6 @@ command, not authored content. They are exempt from the content-schema checks
 tags: [library]
 title: "The Real ROI of Warehouse Automation"
 url: "https://example.com/article"  # source URL, empty ("") for pasted text
-company: acme                  # multi-company vaults only: one of your own companies (list if shared)
 topics: []                     # required key, list type; may be empty ([])
 created: 2026-06-12
 ---
@@ -857,7 +856,7 @@ have changed or gone dead). "Raw means raw." Synthesis of that content belongs i
 `wiki.md`; the body stays untouched source.
 
 See the **Library item** frontmatter schema above
-(`tags: [library]`, `title`, `url`, `company`, `topics`, `created`).
+(`tags: [library]`, `title`, `url`, `topics`, `created`).
 
 ## Optional modules
 

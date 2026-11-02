@@ -20,8 +20,7 @@ warrants, and close with an `## In HQ` list of wikilinks to the company /
 initiative / library nodes they touch. The schema is in `docs/vault-design.md` →
 *Person*; the registry rule is the *`people/`* section. This skill is only the
 moves the spec and `using-hq` don't make obvious — everything else is **per
-`using-hq`** (creating a file, rewrite-don't-append, wikilink resolution, index
-hygiene).
+`using-hq`** (creating a file, rewrite-don't-append, index hygiene).
 
 ## `company:` is a company handle, not a node link — and usually absent
 
@@ -113,7 +112,7 @@ exception in `using-hq`).
 ## Related
 
 - **`using-hq`** — the always-on discipline this skill sits on: creating a file,
-  current-state-not-audit-trail, editing scope, wikilink resolution, index hygiene.
+  current-state-not-audit-trail, editing scope, index hygiene.
 - **`docs/vault-design.md`** → *Person* (the node frontmatter, incl. `handle` /
   `initials` and the multi-company `company` field), *`people/`* (the registry
   module), *CRM Contact* (the

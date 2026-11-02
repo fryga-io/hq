@@ -16,7 +16,7 @@ placing a file correctly, promoting an insight into canon, merging or splitting
 notes, and growing a subfolder. The frontmatter schema (`tags: [knowledge]`,
 `topics`, `company`, `source`) is **the spec** → *Knowledge*; read it before
 editing frontmatter. Everything always-on — current-state-not-audit-trail,
-editing scope, index hygiene, wikilink resolution — is **per using-hq** and
+editing scope, index hygiene — is **per using-hq** and
 already loaded this session. This skill carries only what is specific to
 knowledge.
 
@@ -72,8 +72,6 @@ signal or breaking inbound links:
    add an alias on the survivor if the old name still reads naturally in prose.
 3. Delete the absorbed file and remove its `knowledge/index.md` entry; keep the
    survivor's (the spec → *Index maintenance*).
-4. `/validate-vault` to confirm no dangling links (Test 3) and no orphans
-   (Test 4).
 
 ## Split a scope into a subfolder
 

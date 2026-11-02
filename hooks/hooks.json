@@ -11,18 +11,6 @@
           }
         ]
       }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "Read|Bash|Grep|Glob",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/run-hook.cmd\" history-read",
-            "async": false
-          }
-        ]
-      }
     ]
   }
 }

@@ -7,7 +7,7 @@ description: "Use when capturing something into an hq vault's log/ — recording
 
 The **log** is the core hq module that holds **history**: point-in-time records of decisions, meetings, reviews, and observations, one file per entry at `log/YYYY-MM-DD-<slug>.md`. It answers two questions the working files cannot: *why is it like this?* and *did we consider something else?* It never answers *what is true now* — that lives in the files agents work from (**per using-hq** → *`log/` is history, not state*).
 
-It does **not** restate the always-on vault discipline (index hygiene, editing-scope, wikilink resolution, when the log may be opened — all **per using-hq**) or the frontmatter schema (**see the spec** → *Log Entry*). Copy the per-type frontmatter block from the spec; everything below is the log-specific operating layer on top.
+It does **not** restate the always-on vault discipline (index hygiene, editing-scope, when the log may be opened — all **per using-hq**) or the frontmatter schema (**see the spec** → *Log Entry*). Copy the per-type frontmatter block from the spec; everything below is the log-specific operating layer on top.
 
 ## Working file first, log second
 
@@ -82,7 +82,7 @@ A new entry must appear in `log/index.md` (**per using-hq** → *End of work*). 
 
 ## Related
 
-- **`using-hq`** — the always-on discipline this skill sits on: *`log/` is history, not state*, index hygiene, editing-scope, wikilink resolution.
+- **`using-hq`** — the always-on discipline this skill sits on: *`log/` is history, not state*, index hygiene, editing-scope.
 - **`docs/vault-design.md`** → *Log Entry* (frontmatter, decision body, naming), *Signing dated entries*, *Current state with rationale*, and `log/weekly/` (output-only).
 - **`/dream`** consolidate phase — checks that every decision entry's rule stands in the working file it names.
 - **`validate-vault`** — the structural check (indexes current, wikilinks resolve, nothing links into history) this skill keeps green.

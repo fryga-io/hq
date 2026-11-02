@@ -46,10 +46,9 @@ claim.
 `log/` records what was decided, why, and what was rejected; it never says what
 is true now. The same holds for every folder listed under `vault.history`.
 
-- Open it only when the operator asks why something is so, whether something else
-  was considered, or when it changed, or when a command built to read it runs
-  (`/dream`, `/weekly`). Answer as dated history, then state the current rule from
-  its working file.
+- Neither `log/` nor `log/index.md` is read at startup. The log is read only when
+  looking for why something is so. Answer as dated history, then state the current
+  rule from its working file.
 - Nothing outside `log/` links into it; the README map's link to `log/index` is
   the one exception.
 - A transcript or other raw material handed over goes into `log/` at once, before
@@ -86,8 +85,7 @@ At a checkpoint:
    recording why follows in the same commit → `working-log`.
 3. New files get frontmatter copied from the spec's per-type block and a line in
    their `index.md`; an active initiative is listed in README *What's Active*.
-4. When files were created, moved or deleted, or frontmatter changed, run
-   `/validate-vault`. One commit.
+4. One commit. `/validate-vault` runs only when the operator asks for it.
 5. Hand back the parked list in one short message, most useful first. Other
    places in the vault that disagree with the new state are left for `/dream`.
 

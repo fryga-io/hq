@@ -49,7 +49,7 @@ Then operate the vault day to day with the agent and these commands:
   contradictions on a branch for you to approve or revert, checks that every
   decision in the log stands in its working file, and ranks what's hot.
 - `/weekly` — generate a structured weekly rollup for your team.
-- `/validate-vault` — re-run any time before a commit.
+- `/validate-vault` — run it whenever you want a health check.
 
 ## How it's organized
 
