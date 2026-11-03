@@ -1,5 +1,5 @@
 ---
-description: "Interactive onboarding for a fresh hq vault. Interviews the operator for identity (the company, who operates it, a one-line description), copies the content-free seed skeleton into the current directory (its empty index.md/wiki.md stubs and dashboards), and writes a personalized hq.config.yml, CLAUDE.md, and README.md. Produces a clean, empty, personalized vault that passes /validate-vault with zero errors. No example content."
+description: "Interactive onboarding for a fresh hq vault. Interviews the operator for identity (the company, who operates it, a one-line description), copies the content-free seed skeleton into the current directory (its empty index.md/wiki.md stubs and dashboards), and writes a personalized hq.config.yml, CLAUDE.md, and README.md. Produces a clean, empty, personalized vault. No example content."
 ---
 
 Onboard a new hq vault in the **current working directory**. This is an
@@ -249,6 +249,4 @@ Report:
 - The company (or companies) and operator(s) you scaffolded.
 - The resulting tree (the empty content folders, the dashboards, and the three
   identity files).
-- That every `index.md` (and `library/wiki.md`) is empty-but-valid (frontmatter
-  + intro, no dangling wikilinks).
 - That `/validate-vault` checks the vault whenever they want a health check.

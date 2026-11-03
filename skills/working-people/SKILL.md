@@ -74,7 +74,7 @@ they are, a CRM contact for the deal in flight — linked to each other.
    if the org warrants a registry entry). An org without a node stays plain prose —
    that is not a broken link.
 4. Add a one-line pointer to `people/index.md` under the right grouping (orbit,
-   team, prospects — whichever the index uses), per `using-hq`'s index hygiene.
+   team, prospects — whichever the index uses), per `using-hq` → *End of work*.
 
 ## Update a person who changed companies
 

@@ -7,8 +7,7 @@ signals (articles, reports, talks, transcripts, conversations) the company
 consumes. The user may provide a URL, a YouTube link, or paste raw text as an
 argument.
 
-This command is config-driven: it reads the `companies` list from
-`hq.config.yml` — nothing here is hardcoded to a particular company.
+Nothing here is hardcoded to a particular company.
 
 ## Step 0: Resolve the vault root
 

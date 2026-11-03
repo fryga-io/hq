@@ -1,5 +1,5 @@
 ---
-description: "Run a maintenance cycle over the vault — surface where it has drifted out of sync, heal mechanical hygiene, and rank what's hot. Three phases: lint (auto-fix mechanical hygiene), contradict (reconciles drift and contradictions on the branch), salience (rank what's hot). Never reads log/. Config-driven: discovers canon from hq.config.yml plus each file's self-declaration; Obsidian CLI optional. Cuts a dream/YYYY-MM-DD branch, never writes to main."
+description: "Run a maintenance cycle over the vault — surface where it has drifted out of sync, heal mechanical hygiene, and rank what's hot. Three phases: lint (auto-fix mechanical hygiene), contradict (reconciles drift and contradictions on the branch), salience (rank what's hot). Never takes anything from log/. Config-driven: discovers canon from hq.config.yml plus each file's self-declaration; Obsidian CLI optional. Cuts a dream/YYYY-MM-DD branch, never writes to main."
 ---
 
 Run a maintenance cycle over the vault — surface where it has drifted out
@@ -17,7 +17,7 @@ leaves the satellites that restate it lagging behind. So the dominant failure is
 **intra-knowledge drift** — a satellite file still says "three pillars" while the
 canon now says "three bets". The cycle's main job is to reconcile that drift on
 the dream branch and ask the operator to approve or revert each change. The log
-is history, not a source of knowledge: the cycle never reads it. Runs on demand;
+is history, not a source of knowledge: the cycle never uses what it says. Runs on demand;
 never unattended (v1).
 
 ## Step 0: Resolve the vault root and load config
@@ -176,12 +176,11 @@ filesystem (grep) for anything the diff touches.
 - Asking a question `dream/verdicts.md` already answers → wrong.
 - Using git commit recency to decide which file is authoritative → wrong. Recency is churn, not authority. Canon is authority by declaration; unclear cases get one question.
 - Assuming canon from a filename → wrong. Discover it from `vault.canon` plus self-declaration.
-- Reading `log/` → wrong. The log is history; the cycle never reads it.
+- Taking content from `log/` → wrong. The log is history; the cycle never uses what it says.
 - Writing a link from a working file into `log/` → wrong. Nothing links into history.
 - Writing a `## Update`/changelog/"as of" section → wrong. Weave into current-state prose.
 - Reading a prior `dream/` report as input → wrong. Self-consumption guard.
 - Adding `dream/` to an index → wrong. It is output-only, intentionally unindexed.
-- Bounding the first run to "recent" log → wrong. First run scans all history.
 - Skipping the `dream/YYYY-MM-DD.md` report → wrong. The report is the audit trail.
 </content>
 </invoke>

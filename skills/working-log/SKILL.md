@@ -48,7 +48,7 @@ Frontmatter `type` is one of `decision | meeting | review | observation` (**see 
 
 ## Answering "why" from the log
 
-The log is read only when looking for why something is so (**per using-hq**). Find the entry through `log/index.md`, through the entries whose *Lives in* names the file in question, or through `git log -S` on the rule's line. Answer as history — the date, the past tense, what was chosen, why, and what was rejected — then state the current rule from its working file. When the entry and the working file differ, the working file holds; say that they differ and leave it.
+When to read the log and how to answer is **per using-hq**. Find the entry through `log/index.md`, through the entries whose *Lives in* names the file in question, or through `git log -S` on the rule's line. When the entry and the working file differ, the working file holds; say that they differ and leave it.
 
 ## A transcript goes in raw, and stays
 

@@ -1,5 +1,5 @@
 ---
-description: "Generate the weekly rollup — a structured summary of the week's initiatives, their to-dos, decisions, addressed to the team named in hq.config.yml."
+description: "Generate the weekly rollup — a structured summary of the week's initiatives, their to-dos, and the rules that changed, addressed to the team named in hq.config.yml."
 ---
 
 Generate the weekly rollup for the vault.
@@ -78,7 +78,7 @@ date_end: <Sunday YYYY-MM-DD>
 Writing discipline:
 
 - **Short sentences, active voice, no filler.** Every sentence carries a
-  fact — a commit, a status change, a decision logged, a to-do checked off.
+  fact — a commit, a status change, a rule changed, a to-do checked off.
 - **Facts only, no editorializing.** Report what happened. Do not infer
   problems, blockers, or constraints from observations.
 - **Attribute by handle.** Reference team members by their `handle` from
@@ -101,8 +101,10 @@ Writing discipline:
   moved, what didn't, and which to-dos got checked off or are still open
   under it. Group by `company` if the vault covers multiple companies.
 - **Decisions:** From this week's commits, list the ones that changed a rule in
-  a working file: one line each, the rule and the commit hash. Never read `log/`
-  for this. If none, write "None this week."
+  a working file (`knowledge/`, `operations/`, an initiative, `CLAUDE.md`, a
+  command or skill prompt): read each such commit's diff (`git show <hash> --
+  <file>`), then one line each, the rule as it now stands and the commit hash.
+  Never read `log/` for this. If none, write "None this week."
 - **Next Week:** Draw from to-dos with upcoming `due` dates, initiative
   plans, and any explicitly queued work. List as bullets.
 - **Blockers:** List only to-dos or initiatives an author has explicitly
