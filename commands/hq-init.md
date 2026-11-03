@@ -1,5 +1,5 @@
 ---
-description: "Interactive onboarding for a fresh hq vault. Interviews the operator for identity (the company, who operates it, a one-line description), copies the content-free seed skeleton into the current directory (its empty index.md/wiki.md stubs and dashboards), and writes a personalized hq.config.yml, CLAUDE.md, and README.md. Produces a clean, empty, personalized vault that passes /validate-vault with zero errors. No example content."
+description: "Interactive onboarding for a fresh hq vault. Interviews the operator for identity (the company, who operates it, a one-line description), copies the content-free seed skeleton into the current directory (its empty index.md/wiki.md stubs and dashboards), and writes a personalized hq.config.yml, CLAUDE.md, and README.md. Produces a clean, empty, personalized vault. No example content."
 ---
 
 Onboard a new hq vault in the **current working directory**. This is an
@@ -196,7 +196,7 @@ For each scaffolded folder, use the one-line description from this reference tab
 |---|---|
 | `initiatives/` | `- [[initiatives/index\|Initiatives]] — efforts and standing lanes; each owns its to-dos` |
 | `knowledge/` | `- [[knowledge/index\|Knowledge]] — company-owned thinking and references` |
-| `log/` | `- [[log/index\|Log]] — decisions, meeting notes, observations` |
+| `log/` | `- [[log/index\|Log]] — decisions, meeting notes, reviews, observations` |
 | `library/` | `- [[library/index\|Library]] — external signals (raw content + synthesis wiki)` |
 | `crm/` | `- [[crm/index\|CRM]] — companies, contacts, pipeline data` |
 | `distillery/` | `- [[distillery/index\|Distillery]] — the content pipeline (channels + content)` |
@@ -242,17 +242,11 @@ hq itself. The generic rules stay in the plugin so they update centrally and
 never go stale.)
 ```
 
-## Step 7: Verify and report
+## Step 7: Report
 
-Confirm the scaffolded vault is valid. Run the checks from `/validate-vault`
-against the new vault (from the vault root — the current directory). All tests
-must PASS with zero errors. Report:
+Report:
 
 - The company (or companies) and operator(s) you scaffolded.
 - The resulting tree (the empty content folders, the dashboards, and the three
   identity files).
-- That every `index.md` (and `library/wiki.md`) is empty-but-valid (frontmatter
-  + intro, no dangling wikilinks).
-- The `validate-vault` result.
-
-If any check fails, fix the scaffold and re-verify before reporting done.
+- That `/validate-vault` checks the vault whenever they want a health check.

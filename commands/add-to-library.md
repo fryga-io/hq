@@ -1,5 +1,5 @@
 ---
-description: "Capture an external signal into the vault library. Takes a URL, a YouTube link, or pasted text; writes the raw content to library/<slug>.md, adds the synthesis entry to library/wiki.md, and adds the pointer to library/index.md — keeping index and wiki in sync. Config-driven: reads companies from hq.config.yml."
+description: "Capture an external signal into the vault library. Takes a URL, a YouTube link, or pasted text; writes the raw content to library/<slug>.md, adds the synthesis entry to library/wiki.md, and adds the pointer to library/index.md — keeping index and wiki in sync."
 ---
 
 Add a new item to the vault **library** — the module that captures external
@@ -7,21 +7,15 @@ signals (articles, reports, talks, transcripts, conversations) the company
 consumes. The user may provide a URL, a YouTube link, or paste raw text as an
 argument.
 
-This command is config-driven: it reads the `companies` list from
-`hq.config.yml` — nothing here is hardcoded to a particular company.
+Nothing here is hardcoded to a particular company.
 
-## Step 0: Resolve the vault root and load config
+## Step 0: Resolve the vault root
 
 Find the vault root by walking up from the working directory until you reach a
 directory that contains `hq.config.yml` (the way `git` finds `.git`). Work
 relative to that directory. If no `hq.config.yml` is found, stop and report:
 `No hq.config.yml found above the working directory; cannot locate the vault
 root.`
-
-Read `hq.config.yml` and, **if present**, extract `companies` — the allowed values
-for the `company` frontmatter field (present only in a multi-company vault; the
-first entry is the default). A single-company vault has no `companies`, and its
-library items carry no `company:`.
 
 If the vault has no `library/` folder yet, create it with an empty-but-valid
 `index.md` and `wiki.md` before proceeding (see the Library module in
@@ -68,18 +62,12 @@ tags:
   - library
 title: "<descriptive title>"
 url: "<source URL, or empty string for pasted text>"
-company: <multi-company vault only — see below; omit the line in a single-company vault>
 topics: []
 created: <today YYYY-MM-DD>
 ---
 ```
 
-- **`company`**: **multi-company vaults only.** If the vault declares no
-  `companies`, omit the field entirely. If it declares several, default to all of
-  them (a list) or ask the operator which apply — never invent a value outside the
-  declared list.
-- **`topics`**: ask the operator, or infer obvious tags from the content; an empty
-  list `[]` is valid.
+- **`topics`**: infer obvious tags from the content; an empty list `[]` is valid.
 
 Under `## Raw Content`, paste the FULL fetched or provided text VERBATIM.
 
@@ -114,12 +102,8 @@ Keep both files in sync — every item in the wiki must have a matching pointer 
 the index, and vice versa, both pointing at the `<slug>` that is the item's file
 basename. (`validate-vault` Test 7 enforces this.)
 
-## Step 4: Validate and commit
+## Step 4: Commit
 
-Run `validate-vault` (or at least its library checks) and confirm PASS — the new
-item must appear in both `index.md` and `wiki.md`, and its frontmatter must match
-the schema. Fix any FAIL before finishing.
-
-Then commit the new library file plus the updated `index.md` and `wiki.md`
+Commit the new library file plus the updated `index.md` and `wiki.md`
 together, with a message naming the item added. (Push only if the operator's vault
 tracks a remote and they want it pushed — the OS does not assume one.)

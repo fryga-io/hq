@@ -26,14 +26,14 @@ that *looks* finished but never passed the gate that makes it shippable.
 | Stage | What happens | Where it lives |
 |---|---|---|
 | Raw | Source material already captured | `library/<slug>.md`, `knowledge/` |
-| Draft | Bot shapes the piece in the channel's voice | `distillery/content/<channel_id>/YYYY-MM-DD-<slug>.md`, `status: draft` |
+| Draft | The agent shapes the piece in the channel's voice | `distillery/content/<channel_id>/YYYY-MM-DD-<slug>.md`, `status: draft` |
 | Review | The ring grades and iterates until it passes (below) | a `## Ring Review` block in the body |
 | Bank | A passed-but-unscheduled draft sits in the channel's buffer | `status: ready` (or a vault's `planned`/`scheduled` extra) |
 | Publish | The operator publishes manually; metrics ingest later | `status: published`, `published_date` set |
 
-Bot is the compiler, not the publisher. It reads context, follows the channel
+The agent is the compiler, not the publisher. It reads context, follows the channel
 file, drafts, and runs the ring. The operator approves and publishes by hand. A
-draft Bot has finished is **banked**, not "the next post" — see *Buffer
+draft the agent has finished is **banked**, not "the next post" — see *Buffer
 semantics* below.
 
 ## Read the channel file first — it is the spec for the piece
@@ -56,8 +56,8 @@ A channel declares **who originates the idea** and **how finished a draft is**.
 Get this from the channel file; do not assume. The two failure modes:
 
 - **Originator.** Some channels carry the company's published thinking (a blog,
-  a brand page) — Bot may compile those from `knowledge`/`library`. Others carry
-  **one person's own ideas only** — a personal feed where Bot *shapes a spark the
+  a brand page) — the agent may compile those from `knowledge`/`library`. Others carry
+  **one person's own ideas only** — a personal feed where the agent *shapes a spark the
   person supplied*, never invents their opinions wholesale. On an
   originate-from-the-person channel, if you have no spark, ask for one (or use the
   channel's dry-buffer protocol); do not manufacture the founder's take.
@@ -166,7 +166,7 @@ decisions.
 | Mistake | Why it is wrong |
 |---|---|
 | Drafting and stopping (or faking one pretend ring round) | The ring is iterative rounds gated on combined 8+ **and** operator approval — that gate is the module's whole point. |
-| Inventing the founder's opinions on an originate-from-the-person channel | Those channels shape a spark the person supplied; Bot does not manufacture their take. |
+| Inventing the founder's opinions on an originate-from-the-person channel | Those channels shape a spark the person supplied; the agent does not manufacture their take. |
 | Treating round one as publishable | A draft is a *shaped draft destined for the buffer*; the ring + approval is the gate to "ready." |
 | Retelling a thesis that already shipped elsewhere | "Nothing repurposed" — grep existing content first; cross-posting is explicit via `cross_posted_from`. |
 | Calling a banked draft "the next scheduled post" | An unscheduled passed draft is a buffer item, not a queued post; missed slots are skips, not debts. |

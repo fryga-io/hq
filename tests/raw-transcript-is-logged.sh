@@ -31,12 +31,14 @@
 #   ./tests/raw-transcript-is-logged.sh          # 2 cases x 3 runs
 #   RUNS=1 ./tests/raw-transcript-is-logged.sh   # quick
 #   MODEL=sonnet ./tests/raw-transcript-is-logged.sh
+#   EFFORT=high ./tests/raw-transcript-is-logged.sh   # default: medium
 
 set -uo pipefail
 
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 RUNS="${RUNS:-3}"
 MODEL_ARG=(); [ -n "${MODEL:-}" ] && MODEL_ARG=(--model "$MODEL")
+EFFORT="${EFFORT:-medium}"
 
 # Deliberately mundane lines: a prose summary reproduces the decision, never the
 # small talk. All of them must survive verbatim for the test to pass.
@@ -67,11 +69,14 @@ run_case() { # $1 = prompt; echoes "<verbatim-lines-found>/<total> <skill-fired:
     --plugin-dir "$REPO" \
     --output-format stream-json --verbose \
     --allowed-tools Skill Read Glob Grep Write Edit \
+    --effort "$EFFORT" \
     ${MODEL_ARG[@]+"${MODEL_ARG[@]}"} 2>/dev/null)"
 
   # Parse the stream properly: the JSON is emitted with and without spaces after
   # the colons depending on the event, so grepping a literal shape false-negatives.
-  printf '%s' "$out" | python3 -c '
+  # Fed by a here-string, not a pipe: the parser exits on the first hit, and under
+  # pipefail the writer's SIGPIPE on a large stream would read as "not fired".
+  python3 -c '
 import json, sys
 for line in sys.stdin:
     try: d = json.loads(line)
@@ -81,7 +86,7 @@ for line in sys.stdin:
             if "working-log" in json.dumps(c.get("input") or {}):
                 sys.exit(0)
 sys.exit(1)
-' && skill=1
+' <<< "$out" && skill=1
 
   # Everything written under log/, minus the pre-existing index stub.
   logged="$(find "$vault/log" -name '*.md' ! -name 'index.md' -exec cat {} + 2>/dev/null)"

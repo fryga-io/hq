@@ -11,7 +11,7 @@ Identity is carried by the vault itself; `hq.config.yml` holds only canon and an
 - [[knowledge/index|Knowledge]] — company-owned thinking and references
 - [[people/index|People]] — registry of people the vault refers to
 - [[companies/index|Companies]] — registry of organizations the vault refers to
-- [[log/index|Log]] — decisions, meeting notes, observations
+- [[log/index|Log]] — decisions, meeting notes, reviews, observations
 - [[library/index|Library]] — external signals (raw content + synthesis wiki)
 - [[crm/index|CRM]] — companies, contacts, pipeline data
 - [[distillery/index|Distillery]] — the content pipeline (channels + content)

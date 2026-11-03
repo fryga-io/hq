@@ -97,8 +97,8 @@ report series — it earns its **own subfolder** `library/<capture>/` with its
 
 The full subfolder rule — including index-*less* subfolders, which fold their
 items back up into the top-level sync — is in `docs/vault-design.md` → *Library
-subfolders*. Restructuring is a larger move; confirm with the operator before
-splitting a cluster out.
+subfolders*. Split a cluster out when the operator asks; otherwise offer it in
+the parked list at the end of work.
 
 ## Common mistakes
 

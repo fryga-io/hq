@@ -1,5 +1,5 @@
 ---
-description: "Validate the vault end-to-end. Checks structure, frontmatter enums, wikilinks, indexes, and dashboard guards against hq.config.yml. Reports PASS/FAIL per test with specifics."
+description: "Validate the vault end-to-end. Checks structure, frontmatter enums, wikilinks, indexes, dashboard guards, and that nothing links into history against hq.config.yml. Reports PASS/FAIL per test with specifics."
 ---
 
 Run a full validation of the vault and report results as PASS/FAIL with
@@ -33,6 +33,9 @@ Read `hq.config.yml` and extract:
   the CRM Company marker set; `contact_tags` extends the CRM Contact marker set. The
   effective company-tag set is `{company} ∪ vault.crm.company_tags`; the contact set
   is `{contact} ∪ vault.crm.contact_tags`. Absent = `{company}` / `{contact}` only.
+- `vault.history` (optional) — extra folders that hold history the way `log/`
+  does. Together with `log/` they form the **history set** for Test 8. Absent =
+  `log/` only.
 
 Every check below compares vault contents against these config values, never
 against a fixed list. The enum and CRM-tag extensions are documented in
@@ -76,8 +79,8 @@ frontmatter field**, not from its folder — `competitive/`, `sales/`, and most
   - **Company** (`tags` contains `company` but **not** `crm`): `tags`, `title`,
     `topics`, `created`. (`company` is optional; set only in a multi-company vault.)
   - **Log:** `tags`, `title`, `date`, `type`.
-  - **Library:** `tags`, `title`, `url`, `topics`, `created` — plus `company`
-    (multi-company). (`topics` is a required key of list type; an empty list `[]` is
+  - **Library:** `tags`, `title`, `url`, `topics`, `created`. Library items
+    carry no `company`. (`topics` is a required key of list type; an empty list `[]` is
     valid. `url` is required but may be an empty string `""` for pasted-text sources.)
   - **CRM Company** (`tags` contains `crm` **and any** of `{company} ∪
     vault.crm.company_tags`): `tags`, `title`, `pipeline`, `created`. (`grade`,
@@ -136,7 +139,7 @@ frontmatter field**, not from its folder — `competitive/`, `sales/`, and most
     body references. Flag only an item that has neither.
   - **Knowledge / Person / Company / Log:** no required body sections. Knowledge,
     person, and company bodies are free-form; a log entry's sections fit its `type`
-    — a decision, meeting, handoff, or observation each shape their own, so no
+    — a decision, meeting, review, or observation each shape their own, so no
     fixed set is required.
   - **CRM Company / CRM Contact / Channel / Content / Report / Plan:** no required
     body sections (bodies grow organically or are tool-generated).
@@ -299,6 +302,25 @@ basename), where the normal sync applies. This convention is documented in
 
 This check is decidable from plain markdown — collect basenames and wikilink
 targets, compare the sets. No Obsidian CLI required.
+
+## Test 8: History stays history
+
+`log/` (and every `vault.history` folder) is history, never current state
+(`docs/vault-design.md` → `log/`). Two checks:
+
+- **No path leads in.** Scan every `.md` file outside the history set — including
+  the root `CLAUDE.md` and hidden folders such as `.claude/` (command and skill
+  prompts) — except the output-only `dream/` folder. Any reference to a file inside
+  the history set is a FAIL: a wikilink or markdown link that resolves there, or a
+  plain path to a specific entry (`log/2026-06-05-slug`, with or without `.md`).
+  Report each as `file:line → target`. One exception: the README map may link
+  `log/index`. Naming the folder itself in prose ("nothing goes to `log/`") is not
+  a reference.
+- **No current state in an entry.** A log entry has no heading that frames it as
+  current state — `## As of <date>`, `## Current state`, `## State`, or the same
+  in the vault's own language. Report each as a FAIL with `file:line`.
+
+`log/weekly/` is skipped by both checks (output-only).
 
 ## Report
 

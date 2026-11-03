@@ -12,8 +12,8 @@ a registry*. Everything else defers:
 
 - **Frontmatter** (`tags: [company]`, `title`, `company`, `topics`, `created`) —
   see `docs/vault-design.md` → *Company*.
-- **Current-state-not-audit-trail, editing scope, index hygiene, wikilink
-  resolution, the create-a-file steps** — all **per `using-hq`**. Don't restate;
+- **Current-state-not-audit-trail, editing scope, index hygiene, the end-of-work
+  steps** — all **per `using-hq`**. Don't restate;
   follow it.
 
 If after those defers you have little to do here, that's expected — this module is
@@ -33,8 +33,8 @@ A new node is a registry file:
 | Field | Value | Source |
 |---|---|---|
 | filename | `<slug>.md`, lowercase-kebab | spec → *File naming* |
-| `company:` | **multi-company vaults only:** which of *your own* companies the node relates to (e.g. `company: [acme]`); usually empty for an external org, and omitted entirely in a single-company vault | `hq.config.yml` companies, per `using-hq` — **not** the company the node is *about* |
-| index entry | one line under the right heading in `companies/index.md` | per `using-hq` (create-a-file) |
+| `company:` | **multi-company vaults only:** which of *your own* companies the node relates to (e.g. `company: [acme]`); usually empty for an external org, and omitted entirely in a single-company vault | `hq.config.yml` companies — **not** the company the node is *about* |
+| index entry | one line under the right heading in `companies/index.md` | per `using-hq` (*End of work*) |
 
 The `company:` field is the easy trap, and in most vaults it simply isn't there: a
 single-company vault has no `company:` at all. In a **multi-company** vault it names
@@ -87,8 +87,7 @@ deal), linked to each other. Advancing the deal is `working-crm`.
 ## Related
 
 - **`using-hq`** — the always-on discipline this skill sits on: current-state,
-  editing scope, index hygiene, wikilinks, the create-a-file steps, reading
-  `company:` (multi-company vaults only) off `hq.config.yml`.
+  editing scope, index hygiene, the end-of-work steps.
 - **`docs/vault-design.md`** → *`companies/`* (the registry module) and *Company*
   (the frontmatter schema).
 - **`working-people`** — the sibling registry for individuals; same

@@ -20,8 +20,7 @@ warrants, and close with an `## In HQ` list of wikilinks to the company /
 initiative / library nodes they touch. The schema is in `docs/vault-design.md` →
 *Person*; the registry rule is the *`people/`* section. This skill is only the
 moves the spec and `using-hq` don't make obvious — everything else is **per
-`using-hq`** (creating a file, rewrite-don't-append, wikilink resolution, index
-hygiene).
+`using-hq`** (creating a file, rewrite-don't-append, index hygiene).
 
 ## `company:` is a company handle, not a node link — and usually absent
 
@@ -64,7 +63,7 @@ they are, a CRM contact for the deal in flight — linked to each other.
 ## Add a person node
 
 1. Create `people/<first-last>.md` with the *Person* frontmatter copied from the
-   spec (per `using-hq` → *Creating a file*). In a multi-company vault, set
+   spec (per `using-hq` → *End of work*). In a multi-company vault, set
    `company:` **only if** the person is on one of your own companies; otherwise
    leave it empty. In a single-company vault there is no `company:` field. Give a
    **team member** their `handle` and `initials`.
@@ -75,7 +74,7 @@ they are, a CRM contact for the deal in flight — linked to each other.
    if the org warrants a registry entry). An org without a node stays plain prose —
    that is not a broken link.
 4. Add a one-line pointer to `people/index.md` under the right grouping (orbit,
-   team, prospects — whichever the index uses), per `using-hq`'s index hygiene.
+   team, prospects — whichever the index uses), per `using-hq` → *End of work*.
 
 ## Update a person who changed companies
 
@@ -113,7 +112,7 @@ exception in `using-hq`).
 ## Related
 
 - **`using-hq`** — the always-on discipline this skill sits on: creating a file,
-  current-state-not-audit-trail, editing scope, wikilink resolution, index hygiene.
+  current-state-not-audit-trail, editing scope, index hygiene.
 - **`docs/vault-design.md`** → *Person* (the node frontmatter, incl. `handle` /
   `initials` and the multi-company `company` field), *`people/`* (the registry
   module), *CRM Contact* (the

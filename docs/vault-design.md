@@ -57,6 +57,9 @@ vault:
                           # enums" below.
   # crm: {}               # optional. Extra tags that mark a CRM Company or
                           # Contact. See "CRM motion typing" below.
+  # history: []           # optional. Extra folders that hold history the way
+                          # log/ does (e.g. design specs). Working files never
+                          # link into them; validate-vault Test 8 checks it.
 
 # companies:              # ONLY in a multi-company vault — names your own
 #   - acme                # companies (first is the default) so a file can say which
@@ -181,6 +184,10 @@ role, not a single instance.
    reads it. Lift a relationship into a frontmatter property only when a Bases
    dashboard must query or roll up on it (as a CRM contact does with its `company`
    wikilink). Don't add a property an agent would already get from the prose.
+10. **The log is history, not state.** A decision is written into the working
+    file agents act from; the log records why it was decided and what was
+    rejected. No working file links into `log/`; entries link out to the file
+    where their decision lives.
 
 ## Vault structure
 
@@ -207,7 +214,7 @@ role, not a single instance.
     (flat .md files, one per company)
 
   log/
-    index.md                   # decisions, meeting notes, observations
+    index.md                   # decisions, meeting notes, reviews, observations
     (flat .md files, YYYY-MM-DD-slug.md)
     weekly/                    # output-only: /weekly rollup reports
       YYYY-Wnn.md              # one report per ISO week
@@ -339,10 +346,16 @@ node.
 
 ### `log/`
 
-Point-in-time decision and event record. One file per entry,
-`YYYY-MM-DD-slug.md`, frontmatter `type: decision | meeting | review |
-observation`. Logs are not rewritten when reality changes — a new entry captures
-the new state.
+History: point-in-time records of decisions, meetings, reviews and
+observations. One file per entry, `YYYY-MM-DD-slug.md`, frontmatter
+`type: decision | meeting | review | observation`. An entry says why something
+was decided and what was considered and rejected; it never says what is true
+now. Entries are not rewritten when reality changes — the working file is
+rewritten and a new entry records the change and why.
+
+Links run one way: an entry links to the working file where its decision lives,
+and no file outside `log/` links into it (the README map's `[[log/index]]` is the
+one exception). The same holds for any folder listed under `vault.history`.
 
 ### `library/` (optional module)
 
@@ -550,9 +563,29 @@ type: decision                 # decision | meeting | review | observation
 ---
 ```
 
-No required body sections — a log entry's structure fits its `type` (a decision,
-meeting, handoff, or observation each shape their own sections). Filename
-`YYYY-MM-DD-slug.md`.
+A log entry's structure fits its `type`. Filename `YYYY-MM-DD-slug.md`.
+
+A `decision` entry carries these sections, in order:
+
+```markdown
+## Question
+## Chosen
+## Why
+## Considered and rejected
+## Replaces
+## Lives in
+```
+
+*Replaces* may be empty. *Lives in* wikilinks the working file(s) where the rule
+stands, or names a file outside the vault that holds it. For a decision that has
+since changed, it names the superseding entry, or says in one line that the rule
+no longer applies and which commit changed it. Meeting, review and observation entries have no required
+sections.
+
+No entry of any type describes how the system works now: no commands, file
+paths, step numbers, configuration, or "as of" / current-state sections. That
+belongs in the working file, and what one change did belongs in its commit
+message.
 
 **One exception**: an entry written from a transcript carries the **full raw
 transcript verbatim** under a `## Raw Transcript` section at the bottom of the
@@ -585,7 +618,6 @@ command, not authored content. They are exempt from the content-schema checks
 tags: [library]
 title: "The Real ROI of Warehouse Automation"
 url: "https://example.com/article"  # source URL, empty ("") for pasted text
-company: acme                  # multi-company vaults only: one of your own companies (list if shared)
 topics: []                     # required key, list type; may be empty ([])
 created: 2026-06-12
 ---
@@ -751,7 +783,8 @@ Inherently-dated records (log entries) include the operator's initials in their
 dated lines: `2026-06-05 (RV): decided X`. The `initials` come from the operator's
 `people/` note. Git is the source of truth for authorship; initials add
 Obsidian-readable attribution. Knowledge and initiative files do not use dated
-entries (see "Current state with rationale" below).
+entries, and a rule in a working file carries no author or date — those go into
+the log entry (see "Current state with rationale" below).
 
 ### Current state with rationale (not audit trail)
 
@@ -759,7 +792,8 @@ Knowledge and initiative files describe what is true now and the reasoning that
 supports it. When something changes, rewrite the body — do not stack dated
 "Updates" or "Changelog" sections inside the file. Git diff, log, and blame
 carry the history; commit messages name what changed and why. This rule does not
-apply to `log/` (a new log captures a new state).
+apply to `log/`: its entries are never rewritten, and a new entry records why the
+working file changed.
 
 ## Library module
 
@@ -822,7 +856,7 @@ have changed or gone dead). "Raw means raw." Synthesis of that content belongs i
 `wiki.md`; the body stays untouched source.
 
 See the **Library item** frontmatter schema above
-(`tags: [library]`, `title`, `url`, `company`, `topics`, `created`).
+(`tags: [library]`, `title`, `url`, `topics`, `created`).
 
 ## Optional modules
 
@@ -942,7 +976,10 @@ subfolder's `index.md`.
 2. **Work links to its rationale.** An initiative links to the knowledge/canon that
    motivates it, so "why are we doing this" is one hop away.
 3. **Knowledge cross-references** go in body text, not frontmatter.
-4. **An initiative's work lives in its own body.** Its to-dos are plain
+4. **Nothing links into history.** Working files never wikilink into `log/` or a
+   `vault.history` folder; a log entry links out to the working file its decision
+   lives in.
+5. **An initiative's work lives in its own body.** Its to-dos are plain
    markdown in the initiative file — there is no separate work file to link back,
    and nothing for a dashboard to roll up.
 
@@ -954,6 +991,8 @@ When a decision is made, a direction changes, or something is learned, rewrite
 the relevant knowledge or initiative file so the body reflects the new truth and
 the reasoning that supports it. Capture the WHY in the body prose, not in a dated
 appendix. Commit messages explain what changed.
+For a decision, the log entry recording why it was made and what was rejected
+follows in the same commit (see `log/`).
 
 ### Validation
 
