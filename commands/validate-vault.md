@@ -139,7 +139,7 @@ frontmatter field**, not from its folder — `competitive/`, `sales/`, and most
     body references. Flag only an item that has neither.
   - **Knowledge / Person / Company / Log:** no required body sections. Knowledge,
     person, and company bodies are free-form; a log entry's sections fit its `type`
-    — a decision, meeting, handoff, or observation each shape their own, so no
+    — a decision, meeting, review, or observation each shape their own, so no
     fixed set is required.
   - **CRM Company / CRM Contact / Channel / Content / Report / Plan:** no required
     body sections (bodies grow organically or are tool-generated).
@@ -306,7 +306,7 @@ targets, compare the sets. No Obsidian CLI required.
 ## Test 8: History stays history
 
 `log/` (and every `vault.history` folder) is history, never current state
-(`docs/vault-design.md` → `log/`). Three checks:
+(`docs/vault-design.md` → `log/`). Two checks:
 
 - **No path leads in.** Scan every `.md` file outside the history set — including
   the root `CLAUDE.md` and hidden folders such as `.claude/` (command and skill
@@ -319,14 +319,8 @@ targets, compare the sets. No Obsidian CLI required.
 - **No current state in an entry.** A log entry has no heading that frames it as
   current state — `## As of <date>`, `## Current state`, `## State`, or the same
   in the vault's own language. Report each as a FAIL with `file:line`.
-- **Decision entries are complete.** Every `type: decision` entry carries the
-  sections `Question`, `Chosen`, `Why`, `Considered and rejected`, `Replaces` and
-  `Lives in`, in that order, and `Lives in` is not empty. It names where the rule
-  stands: a wikilink to the working file, a file outside the vault (e.g. a plugin
-  skill), the superseding entry, or one line saying the rule no longer applies and
-  which commit changed it. A missing section or an empty `Lives in` is a FAIL.
 
-`log/weekly/` is skipped by all three checks (output-only).
+`log/weekly/` is skipped by both checks (output-only).
 
 ## Report
 

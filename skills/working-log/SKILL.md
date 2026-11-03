@@ -41,14 +41,14 @@ Frontmatter `type` is one of `decision | meeting | review | observation` (**see 
   - **Why** — the reasoning. A decision with the verdict but no *why* is half an entry; the reasoning is the part nobody can reconstruct later.
   - **Considered and rejected** — each alternative with the reason it lost. This is what stops the same option being proposed again. Write only alternatives that were actually raised; when none were recorded, say so.
   - **Replaces** — the earlier entry this supersedes, if any.
-  - **Lives in** — the working file(s) where the rule now stands. When the decision has since changed, the superseding entry, or one line saying it no longer applies and which commit changed it.
+  - **Lives in** — the working file(s) where the rule now stands, in the vault or outside it (e.g. a plugin skill). When the decision has since changed, the superseding entry, or one line saying it no longer applies and which commit changed it.
 - **`meeting`** — who, the substance discussed, what was validated or learned, and any next step.
 - **`review`** — what was assessed and the findings or verdict.
 - **`observation`** — the signal noticed and why it matters (the read), kept short.
 
 ## Answering "why" from the log
 
-Open the log only on the operator's request (**per using-hq**). Find the entry through `log/index.md`, through the entries whose *Lives in* names the file in question, or through `git log -S` on the rule's line. Answer as history — the date, the past tense, what was chosen, why, and what was rejected — then state the current rule from its working file. When the entry and the working file differ, the working file holds; say that they differ and leave it.
+The log is read only when looking for why something is so (**per using-hq**). Find the entry through `log/index.md`, through the entries whose *Lives in* names the file in question, or through `git log -S` on the rule's line. Answer as history — the date, the past tense, what was chosen, why, and what was rejected — then state the current rule from its working file. When the entry and the working file differ, the working file holds; say that they differ and leave it.
 
 ## A transcript goes in raw, and stays
 
@@ -64,7 +64,7 @@ Because log entries are inherently dated records, any dated line inside one carr
 
 ## Indexing
 
-A new entry must appear in `log/index.md` (**per using-hq** → *End of work*). The index groups by kind — Decisions, Meeting Notes, Reviews, Observations, Session Summaries — so file the pointer under the section matching the entry's `type`, newest first. The hook says what was decided that day, never how the system works now.
+A new entry must appear in `log/index.md` (**per using-hq** → *End of work*). The index groups by kind — Decisions, Meeting Notes, Reviews, Observations — so file the pointer under the section matching the entry's `type`, newest first. The hook says what was decided that day, never how the system works now.
 
 `log/weekly/` is **output-only and not indexed** — `/weekly` writes rollups there; they are generated summaries, not authored entries, so they never go in `log/index.md` (**see the spec** → `log/weekly/`).
 
@@ -84,5 +84,4 @@ A new entry must appear in `log/index.md` (**per using-hq** → *End of work*). 
 
 - **`using-hq`** — the always-on discipline this skill sits on: *`log/` is history, not state*, index hygiene, editing-scope.
 - **`docs/vault-design.md`** → *Log Entry* (frontmatter, decision body, naming), *Signing dated entries*, *Current state with rationale*, and `log/weekly/` (output-only).
-- **`/dream`** consolidate phase — checks that every decision entry's rule stands in the working file it names.
 - **`validate-vault`** — the structural check (indexes current, wikilinks resolve, nothing links into history) this skill keeps green.

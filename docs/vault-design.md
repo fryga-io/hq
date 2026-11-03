@@ -186,7 +186,8 @@ role, not a single instance.
    wikilink). Don't add a property an agent would already get from the prose.
 10. **The log is history, not state.** A decision is written into the working
     file agents act from; the log records why it was decided and what was
-    rejected. No working file links into `log/`; entries link out to the file
+    rejected. It is read only when looking for why something is so; no command
+    reads it. No working file links into `log/`; entries link out to the file
     where their decision lives.
 
 ## Vault structure
@@ -214,7 +215,7 @@ role, not a single instance.
     (flat .md files, one per company)
 
   log/
-    index.md                   # decisions, meeting notes, observations
+    index.md                   # decisions, meeting notes, reviews, observations
     (flat .md files, YYYY-MM-DD-slug.md)
     weekly/                    # output-only: /weekly rollup reports
       YYYY-Wnn.md              # one report per ISO week
@@ -351,7 +352,8 @@ observations. One file per entry, `YYYY-MM-DD-slug.md`, frontmatter
 `type: decision | meeting | review | observation`. An entry says why something
 was decided and what was considered and rejected; it never says what is true
 now. Entries are not rewritten when reality changes — the working file is
-rewritten and a new entry records the change and why.
+rewritten and a new entry records the change and why. The log is read only when
+looking for why something is so; no command reads it.
 
 Links run one way: an entry links to the working file where its decision lives,
 and no file outside `log/` links into it (the README map's `[[log/index]]` is the

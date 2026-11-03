@@ -196,7 +196,7 @@ For each scaffolded folder, use the one-line description from this reference tab
 |---|---|
 | `initiatives/` | `- [[initiatives/index\|Initiatives]] — efforts and standing lanes; each owns its to-dos` |
 | `knowledge/` | `- [[knowledge/index\|Knowledge]] — company-owned thinking and references` |
-| `log/` | `- [[log/index\|Log]] — decisions, meeting notes, observations` |
+| `log/` | `- [[log/index\|Log]] — decisions, meeting notes, reviews, observations` |
 | `library/` | `- [[library/index\|Library]] — external signals (raw content + synthesis wiki)` |
 | `crm/` | `- [[crm/index\|CRM]] — companies, contacts, pipeline data` |
 | `distillery/` | `- [[distillery/index\|Distillery]] — the content pipeline (channels + content)` |

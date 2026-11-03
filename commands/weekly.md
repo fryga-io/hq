@@ -1,5 +1,5 @@
 ---
-description: "Generate the weekly rollup — a structured summary of the week's initiatives, their to-dos, decisions, and log entries, addressed to the team named in hq.config.yml."
+description: "Generate the weekly rollup — a structured summary of the week's initiatives, their to-dos, decisions, addressed to the team named in hq.config.yml."
 ---
 
 Generate the weekly rollup for the vault.
@@ -42,8 +42,6 @@ Run these in parallel:
   `status`, `owner`, `company`, and any body changes since last week — including
   which `## To-dos` items got checked off (`- [x]`) or were newly added, plus
   any item carrying a `due` date or a flagged blocker.
-- Read all files in `log/` (skip `index.md` and the `weekly/` subfolder). Note
-  any new entries added since Monday — type, title, date.
 - If `knowledge/` has files newer than Monday (check `created` frontmatter or
   git history), note them.
 - If the vault has a `library/` folder, check for items added since Monday.
@@ -97,13 +95,14 @@ Writing discipline:
   plainly.
 - **Weather Report:** Three bulleted lists — going well, going sideways, needs
   attention. Each bullet cites the specific initiative, to-do, commit, or
-  log entry that grounds it. No speculation.
+  knowledge file that grounds it. No speculation.
 - **By Initiative:** One subsection per initiative (use the initiative `title`
   as the heading). Lead with the initiative's current status. Summarize what
   moved, what didn't, and which to-dos got checked off or are still open
   under it. Group by `company` if the vault covers multiple companies.
-- **Decisions:** List every new `log/` entry of `type: decision` from this
-  week. Wikilink to each entry. If none, write "None this week."
+- **Decisions:** From this week's commits, list the ones that changed a rule in
+  a working file: one line each, the rule and the commit hash. Never read `log/`
+  for this. If none, write "None this week."
 - **Next Week:** Draw from to-dos with upcoming `due` dates, initiative
   plans, and any explicitly queued work. List as bullets.
 - **Blockers:** List only to-dos or initiatives an author has explicitly
