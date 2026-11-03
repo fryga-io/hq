@@ -79,7 +79,8 @@ finished, the context is about to be compacted, or the session is handed over.
 At a checkpoint:
 
 1. Write the final state only, into the file that holds each fact, without
-   asking. When a canon file holds the fact, that is the canon. The back-and-forth inside the session is never written down.
+   asking. When a canon file holds the fact, that is the canon. The
+   back-and-forth inside the session is never written down.
 2. A decision goes first into the file agents work from for that task (a command
    or skill prompt, `knowledge/`, `operations/`, an initiative); the log entry
    recording why follows in the same commit → `working-log`.
